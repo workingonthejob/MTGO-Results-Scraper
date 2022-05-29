@@ -2,6 +2,7 @@ import requests
 from lxml import html
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from pprint import pprint
 
 
 class MTGOResultsScraper():
@@ -34,8 +35,13 @@ class MTGOResultsScraper():
         tree = html.fromstring(self.session.content)
         deck_containers = tree.xpath(self.x_deck_container)
         for deck in deck_containers:
-            player = deck.find(self.x_player).text
-            print("[{}]".format(player))
+            mainboard = {}
+            sideboard = {}
+            container = {"Mainboard": mainboard,
+                         "Sideboard": sideboard}
+            player = deck.find(self.x_player).text.split(" ")[0]
+            container["Player"] = player
+            # print("[{}]".format(player))
             main_card_names = deck.findall(self.x_main_card_names)
             main_card_counts = deck.findall(self.x_main_card_counts)
             side_card_names = deck.findall(self.x_side_card_names)
@@ -45,19 +51,21 @@ class MTGOResultsScraper():
             for i in range(len(main_card_counts)):
                 number_of_cards = int(main_card_counts[i].text)
                 card_name = main_card_names[i].text
-                print("{} {}".format(number_of_cards, card_name))
+                # print("{} {}".format(number_of_cards, card_name))
                 total_cards_main += number_of_cards
+                mainboard[card_name] = number_of_cards
 
-            print("{} total cards main deck.".format(total_cards_main))
-            print("----------------")
+            # print("{} total cards main deck.".format(total_cards_main))
+            # print("----------------")
             for i in range(len(side_card_counts)):
                 number_of_cards = int(side_card_counts[i].text)
                 card_name = side_card_names[i].text
-                print("{} {}".format(number_of_cards, card_name))
+                # print("{} {}".format(number_of_cards, card_name))
                 total_cards_side += number_of_cards
-
-            print("{} total cards in sideboard.".format(total_cards_side))
-            print("----------------")
+                sideboard[card_name] = number_of_cards
+            # print("{} total cards in sideboard.".format(total_cards_side))
+            # print("----------------")
+            pprint(container)
 
 
 if __name__ == "__main__":
