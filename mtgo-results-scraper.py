@@ -7,6 +7,7 @@ from requests.packages.urllib3.util.retry import Retry
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from pprint import pprint
 
@@ -124,7 +125,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(0)
-    parser.add_argument("-o","--output-dir", help="The directory to save content to.", default=r".\"")
+    parser.add_argument("-o","--output-dir", help="The directory to save content to.", default=".")
     parser.add_argument("-s","--take-screenshots", help="Take screenshots of the decks.", action='store_true')
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
     args = parser.parse_args()

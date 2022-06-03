@@ -3,7 +3,7 @@
 ## Description
 Scrape any of the results Wizards releases for MTGO.
 
-For reference here is what the page looks like and a single deck:
+For reference here is what the page looks like for a single deck:
 
 ![Screenshot](screenshot.PNG)
 
@@ -45,3 +45,5 @@ Here's the corresponding output:
                'Test of Talents': 1,
                'Unlicensed Hearse': 2}}
 ```
+
+For output examples of `-s/--take-screenshots` look [here](examples/take-screenshots). The corresponding MTGO results link for the screenshots can be found [here](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-06-02).
