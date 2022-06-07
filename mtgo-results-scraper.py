@@ -128,6 +128,8 @@ if __name__ == "__main__":
     parser.add_argument("-o","--output-dir", help="The directory to save content to.", default=".")
     parser.add_argument("-s","--take-screenshots", help="Take screenshots of the decks.", action='store_true')
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
+    parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.")
+    parser.add_argument("-e","--export-to-markdown", help="Export the deck images to markdown for reddit.")
     args = parser.parse_args()
 
     scraper = MTGOResultsScraper(args.url,
