@@ -32,6 +32,7 @@ class MTGOResultsScraper():
         self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
         self.x_side_card_counts = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-count"]'
         self.x_no_thanks_btn = '//button[@class="decline-button eu-cookie-compliance-default-button"]'
+        self.x_decklist_icons = './/span[@class="decklist-icons"]'
         self.headers = {'User-Agent':
                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
                         'AppleWebKit/537.36 (KHTML, like Gecko)'
@@ -109,6 +110,9 @@ class MTGOResultsScraper():
                 output_file = r"{}\{}-{}.png".format(self.output_dir, player_name, i)
                 print("{}[{}/{}]".format(player_name, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
+                print(dir(decks[i]))
+                driver.execute_script(
+                    'document.querySelectorAll("span.decklist-icons")[{}].style.display = "none"'.format(i))
                 decks[i].screenshot(output_file)
         except Exception as e:
             print(e)
