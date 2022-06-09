@@ -1,6 +1,7 @@
 import requests
 import argparse
 import sys
+import os
 from lxml import html
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -105,9 +106,10 @@ class MTGOResultsScraper():
 
             for i in range(number_of_decks):
                 player_name = names[i].text.split(" ")[0]
+                output_file = r"{}\{}-{}.png".format(self.output_dir, player_name, i)
                 print("{}[{}/{}]".format(player_name, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
-                decks[i].screenshot(r"{}\{}.png".format(self.output_dir, player_name))
+                decks[i].screenshot(output_file)
         except Exception as e:
             print(e)
         finally:
