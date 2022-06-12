@@ -12,6 +12,8 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from pprint import pprint
+from imgur import Imgur
+from IniParser import IniParser
 
 
 DESCRIPTION = """
@@ -29,6 +31,8 @@ class MTGOResultsScraper():
         self.take_screenshots = take_screenshots
         self.upload_to_imgur = upload_to_imgur
         self.export_to_markdown = export_to_markdown
+        self.imgur_album_name = None
+        self.screenshots = []
         self.x_deck_container = '//div[@class="deck-group"]'
         self.x_player = './/h4'
         self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
@@ -112,12 +116,18 @@ class MTGOResultsScraper():
 
             for i in range(number_of_decks):
                 player_name = names[i].text.split(" ")[0]
-                output_file = r"{}\{}-{}.png".format(self.output_dir, player_name, i)
+                output_file = r"{}\{}-{}.png".format(self.output_dir, i, player_name)
                 print("{}[{}/{}]".format(player_name, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
                 driver.execute_script(
                     'document.querySelectorAll("span.decklist-icons")[{}].style.display = "none"'.format(i))
                 decks[i].screenshot(output_file)
+                self.screenshots.append(output_file)
+
+            def natural_sort(x):
+                return int(re.search(r'([0-9]+)\-(.*)$', x).group(1))
+            self.screenshots.sort(key=natural_sort)
+
         except Exception as e:
             print(e)
         finally:
@@ -133,17 +143,51 @@ class MTGOResultsScraper():
         new_output_dir = "\\".join([self.output_dir, folder_name])
         os.makedirs(new_output_dir, exist_ok=True)
         self.output_dir = new_output_dir
+        self.imgur_album_name = folder_name
+
+    def upload(self):
+        ip = IniParser('imgur-config.ini')
+        client_id = ip.get_imgur_properties('CLIENT_ID')
+        client_secret = ip.get_imgur_properties('CLIENT_SECRET')
+        refresh_token = ip.get_imgur_properties('REFRESH_TOKEN')
+        access_token = ip.get_imgur_properties('ACCESS_TOKEN')
+        username = ip.get_imgur_properties('USERNAME')
+        imgur = Imgur(username,
+                      client_id,
+                      client_secret,
+                      refresh_token,
+                      access_token)
+        imgur.start_session()
+        imgur.test_and_update_access_token()
+        album = imgur.create_album(title=self.imgur_album_name)
+        album_id = album['data']['id']
+        for screenshot in self.screenshots:
+            name = screenshot.split('\\')[-1]
+            print("Uploading {}".format(name))
+            imgur.upload_image(image=screenshot, album=album_id)
+
+    def make_markdown(self):
+        tree = html.fromstring(self.session.content)
+        deck_containers = tree.xpath(self.x_deck_container)
+        for deck in deck_containers:
+            mainboard = {}
+            sideboard = {}
+            container = {"Mainboard": mainboard,
+                         "Sideboard": sideboard}
+            player = deck.find(self.x_player).text.split(" ")[0]
+            container["Player"] = player
+            print("* [DECK_NAME]({}): **{}**\n".format(self.url + '#' +  player.lower() + '_-', player))
 
     def run(self):
         self.start_session()
-        if self.take_screenshots:
-            self.create_folder_for_screenshots()
-            self.take_decklist_screenshots()
-        if self.take_screenshots and self.upload_to_imgur:
-            pass
+        # if self.take_screenshots:
+        #     self.create_folder_for_screenshots()
+        #     self.take_decklist_screenshots()
+        # if self.take_screenshots and self.upload_to_imgur:
+        #     self.upload()
         if self.export_to_markdown:
-            pass
-        self.print_decklists()
+            self.make_markdown()
+        # self.print_decklists()
 
 
 if __name__ == "__main__":
@@ -154,8 +198,8 @@ if __name__ == "__main__":
     parser.add_argument("-o","--output-dir", help="The directory to save content to.", default=".")
     parser.add_argument("-s","--take-screenshots", help="Take screenshots of the decks.", action='store_true')
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
-    parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.", action='store_false')
-    parser.add_argument("-e","--export-to-markdown", help="Export the deck images to markdown for reddit.", action='store_false')
+    parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.", action='store_true')
+    parser.add_argument("-e","--export-to-markdown", help="Export the deck images to markdown for reddit.", action='store_true')
     args = parser.parse_args()
 
     scraper = MTGOResultsScraper(args.url,
