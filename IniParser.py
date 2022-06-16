@@ -18,6 +18,9 @@ class IniParser():
         length = len(properties)
         return properties if length > 1 else properties[0]
 
+    def get_reddit_properties(self, property):
+        return self.get_properties("Reddit", property)
+
     def save_changes(self):
         with open(self.config_file, 'w') as file:
             self.config_parser.write(file)
