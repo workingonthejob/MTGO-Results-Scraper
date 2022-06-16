@@ -203,6 +203,14 @@ class MTGOResultsScraper():
                           .format(screenshot['imgur'], screenshot['player'].lower()))
             time.sleep(1)
 
+    def highlight_card(self, driver, card):
+        x_card_name = ".//span[@class='card-name']/a[text()='{}}']"
+        cards = driver.find_elements(
+            by=By.XPATH, value=x_card_name.format(x_card_name))
+        for card in cards:
+            driver.execute_script(
+                "arguments[0].style.background = 'Yellow'", card)
+
     def make_markdown(self):
         tree = html.fromstring(self.session.content)
         deck_containers = tree.xpath(self.x_deck_container)
