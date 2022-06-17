@@ -4,6 +4,7 @@ import sys
 import os
 import re
 import time
+from PIL import Image
 from lxml import html
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -42,8 +43,11 @@ class MTGOResultsScraper():
         self.imgur_album_name = None
         self.screenshots = []
         self.imgur = None
+        self.driver = None
+        self.x_header = '//header'
         self.x_deck_container = '//div[@class="deck-group"]'
         self.x_player = './/h4'
+        self.x_card_name = ".//span[@class='card-name']/a[text()='{}']"
         self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
         self.x_main_card_counts = './/div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-count"]'
         self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
@@ -90,16 +94,15 @@ class MTGOResultsScraper():
                 total_cards_main += number_of_cards
                 mainboard[card_name] = number_of_cards
 
-            # print("{} total cards main deck.".format(total_cards_main))
-            # print("----------------")
             for i in range(len(side_card_counts)):
                 number_of_cards = int(side_card_counts[i].text)
                 card_name = side_card_names[i].text
                 total_cards_side += number_of_cards
                 sideboard[card_name] = number_of_cards
-            # print("{} total cards in sideboard.".format(total_cards_side))
-            # print("----------------")
             pprint(container)
+
+    def find_elements_with_xpath(self, xpath):
+        return self.driver.find_elements(by=By.XPATH, value=xpath)
 
     def initialize_web_driver(self):
         # Define the options we want
@@ -110,55 +113,77 @@ class MTGOResultsScraper():
         # Starting maximized headless doesn't work correctly.
         options.add_argument("--window-size=1920x1080")
         self.driver = webdriver.Chrome(options=options)
+        self.driver.get(self.url)
 
     def take_decklist_screenshots(self):
-        # Define the options we want
-        # More options here:
-        # https://peter.sh/experiments/chromium-command-line-switches/
-        options = Options()
-        options.add_argument("--headless")
-        # Starting maximized headless doesn't work correctly.
-        options.add_argument("--window-size=1920x1080")
-        driver = webdriver.Chrome(options=options)
+
+        self.initialize_web_driver() if not self.driver else None
+        self.create_folder_for_screenshots()
+        hide = self.driver.execute_script
+        header = self.find_elements_with_xpath(self.x_header)[0]
+        js_display_none = "arguments[0].style.display = 'none'"
+        wait = WebDriverWait(self.driver, TIMEOUT)
 
         try:
-            self.create_folder_for_screenshots()
-            driver.get(self.url)
-            driver.execute_script(
-                'document.querySelector("header").style.display = "none"')
-            wait = WebDriverWait(driver, TIMEOUT)
+            hide(js_display_none, header)
             clickable = ec.element_to_be_clickable((By.XPATH, self.x_no_thanks_btn))
             no_thanks_btn_elm = wait.until(clickable)
             no_thanks_btn_elm.click()
-            decks = driver.find_elements(by=By.XPATH, value=self.x_deck_container)
-            names = driver.find_elements(by=By.XPATH, value=self.x_player)
+
+            decks = self.find_elements_with_xpath(self.x_deck_container)
+            names = self.find_elements_with_xpath(self.x_player)
+            icons = self.find_elements_with_xpath(self.x_decklist_icons)
             number_of_decks = len(decks)
+            inner_containers = self.find_elements_with_xpath('.//div[@class="deck-list-text"]')
 
             for i in range(number_of_decks):
-                player_name = names[i].text.split(" ")[0]
-                output_file = r"{}\{}-{}.png".format(self.output_dir, i + 1, player_name)
-                log.debug("{}[{}/{}]".format(player_name, i + 1, number_of_decks))
+                screenshot_info = {}
+                size = decks[i].size
+                # screenshot_info['location'] = decks[i].location
+                screenshot_info['width'] = int(size['width'])
+                screenshot_info['height'] = int(size['height'])
+                screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
+                player = names[i].get_attribute("textContent").split(" ")[0]
+                output_file = r"{}\{}-{}.png".format(self.output_dir, i + 1, player)
+                screenshot_info['file'] = output_file
+                log.debug("{}[{}/{}]".format(player, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
-                driver.execute_script(
-                    'document.querySelectorAll("span.decklist-icons")[{}].style.display = "none"'.format(i))
+                hide(js_display_none, icons[i])
                 decks[i].screenshot(output_file)
-                deck_info = {'player': player_name, 'screenshot': output_file}
+                deck_info = {'player': player, 'screenshot': screenshot_info}
                 self.screenshots.append(deck_info)
 
             def natural_sort(x):
-                return int(re.search(r'([0-9]+)\-(.*)$', x['screenshot']).group(1))
+                return int(re.search(r'([0-9]+)\-(.*)$', x['screenshot']['file']).group(1))
             self.screenshots.sort(key=natural_sort)
 
         except Exception as e:
             log.exception(e)
         finally:
-            driver.quit()
+            self.driver.quit()
+
+    def crop_images(self):
+        for root, dirs, files in os.walk(self.output_dir, topdown=False):
+            for name in files:
+                screenshot = [screenshot for screenshot in self.screenshots if name in screenshot['screenshot']['file']][0]
+                file = os.path.join(root, name)
+                im = Image.open(file)
+                width = screenshot['screenshot']['width']
+                height = screenshot['screenshot']['height']
+                crop_amount = screenshot['screenshot']['crop_amount']
+                # Setting the points for cropped image
+                left = 0
+                top = 0
+                right = width - crop_amount
+                bottom = height
+                im1 = im.crop((left, top, right, bottom))
+                im1.save(file)
 
     def create_folder_for_screenshots(self):
-        tree = html.fromstring(self.session.content)
-        league = tree.find(self.x_league_type).text_content()
-        posted_in = tree.find(self.x_posted_in)
-        text = posted_in.text_content().strip()
+        posted_in = self.find_elements_with_xpath(self.x_posted_in)[0]
+        league = self.find_elements_with_xpath(
+            self.x_league_type)[0].text.title()
+        text = posted_in.text.strip()
         date = re.search('\\w+\\s\\d{,2},\\s\\d{4}', text).group()
         folder_name = "MTGO {} Results ({})".format(league, date)
         new_output_dir = "\\".join([self.output_dir, folder_name])
@@ -187,7 +212,7 @@ class MTGOResultsScraper():
         album = self.imgur.create_album(title=self.imgur_album_name)
         album_id = album['data']['id']
         for screenshot in self.screenshots:
-            name = screenshot['screenshot'].split('\\')[-1]
+            name = screenshot['screenshot']['file'].split('\\')[-1]
             log.debug("Uploading {}".format(name))
             result = MAX_UPLOADS_PER_HOUR - self.screenshots.index(screenshot)
 
@@ -196,20 +221,20 @@ class MTGOResultsScraper():
                             .format(MAX_UPLOADS_PER_HOUR))
                 log.warning("Sleeping for an hour until resuming.")
                 time.sleep(3660)
-            r = self.imgur.upload_image(image=screenshot['screenshot'], album=album_id)
+            r = self.imgur.upload_image(
+                image=screenshot['screenshot']['file'], album=album_id)
             screenshot['imgur'] = r['data']['link']
             if self.export_to_markdown:
                 log.debug("* [DECK_NAME]({}): **{}**\n"
-                          .format(screenshot['imgur'], screenshot['player'].lower()))
+                          .format(screenshot['imgur'],screenshot['player'].lower()))
             time.sleep(1)
 
-    def highlight_card(self, driver, card):
-        x_card_name = ".//span[@class='card-name']/a[text()='{}}']"
-        cards = driver.find_elements(
-            by=By.XPATH, value=x_card_name.format(x_card_name))
-        for card in cards:
-            driver.execute_script(
-                "arguments[0].style.background = 'Yellow'", card)
+    def highlight_cards(self, card_name):
+        js_highlight = "arguments[0].style.background = 'Yellow'"
+        highlight = self.driver.execute_script
+        cards = self.find_elements_with_xpath(
+            self.x_card_name.format(card_name))
+        [highlight(js_highlight, card) for card in cards]
 
     def make_markdown(self):
         tree = html.fromstring(self.session.content)
@@ -226,11 +251,12 @@ class MTGOResultsScraper():
         self.start_session()
         if self.take_screenshots:
             self.take_decklist_screenshots()
+            self.crop_images()
         if self.take_screenshots and self.upload_to_imgur:
             self.upload()
         if self.export_to_markdown:
             self.make_markdown()
-        self.print_decklists()
+        # self.print_decklists()
 
 
 if __name__ == "__main__":
