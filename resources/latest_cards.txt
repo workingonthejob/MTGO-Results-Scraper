@@ -1,0 +1,261 @@
+Angelic Observer
+Backup Agent
+Ballroom Brawlers
+Boon of Safety
+Brokers Initiate
+Buy Your Silence
+Celebrity Fencer
+Citizen's Crowbar
+Dapper Shieldmate
+Depopulate
+Elspeth Resplendent
+Extraction Specialist
+Gathering Throng
+Giada, Font of Hope
+Halo Fountain
+Hold for Ransom
+Illuminator Virtuoso
+Inspiring Overseer
+Kill Shot
+Knockout Blow
+Mage's Attendant
+Mysterious Limousine
+Patch Up
+Rabble Rousing
+Raffine's Guidance
+Raffine's Informant
+Refuse to Yield
+Revelation of Power
+Rumor Gatherer
+Sanctuary Warden
+Sky Crier
+Speakeasy Server
+Swooping Protector
+All-Seeing Arbiter
+Backstreet Bruiser
+Brokers Veteran
+Case the Joint
+Cut Your Losses
+Disdainful Stroke
+Echo Inspector
+Errant, Street Artist
+Even the Score
+Expendable Lackey
+Faerie Vandal
+Hypnotic Grifter
+Ledger Shredder
+A Little Chat
+Majestic Metamorphosis
+Make Disappear
+Obscura Initiate
+An Offer You Can't Refuse
+Out of the Way
+Psionic Snoop
+Psychic Pickpocket
+Public Enemy
+Reservoir Kraken
+Rooftop Nuisance
+Run Out of Town
+Security Bypass
+Sewer Crocodile
+Sleep with the Fishes
+Slip Out the Back
+Undercover Operative
+Wingshield Agent
+Wiretapping
+Witness Protection
+Angel of Suffering
+Body Launderer
+Cemetery Tampering
+Corrupt Court Official
+Crooked Custodian
+Cut of the Profits
+Cutthroat Contender
+Deal Gone Bad
+Demon's Due
+Dig Up the Body
+Dusk Mangler
+Extract the Truth
+Fake Your Own Death
+Girder Goons
+Graveyard Shift
+Grisly Sigil
+Illicit Shipment
+Incriminate
+Join the Maestros
+Maestros Initiate
+Midnight Assassin
+Murder
+Night Clubber
+Raffine's Silencer
+Revel Ruiner
+Rogues' Gallery
+Sanguine Spy
+Shadow of Mortality
+Shakedown Heavy
+Tavern Swindler
+Tenacious Underdog
+Vampire Scrivener
+Whack
+Antagonize
+Arcane Bombardment
+Big Score
+Call In a Professional
+Daring Escape
+Devilish Valet
+Exhibition Magician
+Glittering Stockpile
+Goldhound
+Hoard Hauler
+Involuntary Employment
+Jackhammer
+Jaxis, the Troublemaker
+Light 'Em Up
+Mayhem Patrol
+Plasma Jockey
+Professional Face-Breaker
+Pugnacious Pugilist
+Pyre-Sledge Arsonist
+Ready to Rumble
+Riveteers Initiate
+Riveteers Requisitioner
+Rob the Archives
+Sizzling Soloist
+Sticky Fingers
+Strangle
+Structural Assault
+Torch Breath
+Unlucky Witness
+Urabrask, Heretic Praetor
+Widespread Thieving
+Witty Roastmaster
+Wrecking Crew
+Attended Socialite
+Bootleggers' Stash
+Bouncer's Beatdown
+Broken Wings
+Cabaretti Initiate
+Caldaia Strongarm
+Capenna Express
+Civic Gardener
+Cleanup Crew
+Courier's Briefcase
+Elegant Entourage
+Evolving Door
+Fight Rigging
+For the Family
+Freelance Muscle
+Gala Greeters
+Glittermonger
+High-Rise Sawjack
+Jewel Thief
+Luxurious Libation
+Most Wanted
+Prizefight
+Rhox Pummeler
+Riveteers Decoy
+Social Climber
+Take to the Streets
+Titan of Industry
+Topiary Stomper
+Venom Connoisseur
+Vivien on the Hunt
+Voice of the Vermin
+Warm Welcome
+Workshop Warchief
+Aven Heartstabber
+Black Market Tycoon
+Body Dropper
+Brazen Upstart
+Brokers Ascendancy
+Brokers Charm
+Cabaretti Ascendancy
+Cabaretti Charm
+Celestial Regulator
+Ceremonial Groundbreaker
+Civil Servant
+Cormela, Glamour Thief
+Corpse Appraiser
+Corpse Explosion
+Crew Captain
+Darling of the Masses
+Disciplined Duelist
+Endless Detour
+Evelyn, the Covetous
+Exotic Pets
+Falco Spara, Pactweaver
+Fatal Grudge
+Fleetfoot Dancer
+Forge Boss
+Glamorous Outlaw
+Hostile Takeover
+Incandescent Aria
+Jetmir, Nexus of Revels
+Jetmir's Fixer
+Jinnie Fay, Jetmir's Second
+Lagrella, the Magpie
+Lord Xander, the Collector
+Maestros Ascendancy
+Maestros Charm
+Maestros Diabolist
+Masked Bandits
+Meeting of the Five
+Metropolis Angel
+Mr. Orfeo, the Boulder
+Nimble Larcenist
+Ob Nixilis, the Adversary
+Obscura Ascendancy
+Obscura Charm
+Obscura Interceptor
+Ognis, the Dragon's Lash
+Park Heights Pegasus
+Queza, Augur of Agonies
+Raffine, Scheming Seer
+Rakish Revelers
+Rigo, Streetwise Mentor
+Riveteers Ascendancy
+Riveteers Charm
+Rocco, Cabaretti Caterer
+Scheming Fence
+Security Rhox
+Shattered Seraph
+Snooping Newsie
+Soul of Emancipation
+Spara's Adjudicators
+Stimulus Package
+Syndicate Infiltrator
+Tainted Indulgence
+Toluz, Clever Conductor
+Unleash the Inferno
+Void Rend
+Ziatora, the Incinerator
+Ziatora's Envoy
+Arc Spitter
+Brass Knuckles
+Cement Shoes
+Chrome Cat
+Getaway Car
+Gilded Pinions
+Halo Scarab
+Luxior, Giada's Gift
+Ominous Parcel
+Paragon of Modernity
+Quick-Draw Dagger
+Scuttling Butler
+Suspicious Bookcase
+Unlicensed Hearse
+Botanical Plaza
+Brokers Hideout
+Cabaretti Courtyard
+Jetmir's Garden
+Maestros Theater
+Obscura Storefront
+Racers' Ring
+Raffine's Tower
+Riveteers Overlook
+Skybridge Towers
+Spara's Headquarters
+Tramway Station
+Waterfront District
+Xander's Lounge
+Ziatora's Proving Ground
