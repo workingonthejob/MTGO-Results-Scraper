@@ -10,7 +10,6 @@ For reference here is what the page looks like for a single deck:
 Here's the corresponding output:
 
 ```
-
 {'Mainboard': {"Archmage's Charm": 3,
                'Brazen Borrower': 1,
                'Consider': 4,
