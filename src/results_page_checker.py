@@ -46,6 +46,16 @@ class Checker():
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
 
+    def record_date(self, link):
+        if link == PIONEER_LEAGUE_LINK:
+            LAST_CHECKED_DATE['pioneer_league'] = TODAY
+        elif link == PIONEER_CHALLENGE_LINK:
+            LAST_CHECKED_DATE['pioneer_challenge'] = TODAY
+        elif link == MODERN_LEAGUE_LINK:
+            LAST_CHECKED_DATE['modern_league'] = TODAY
+        elif link == MODERN_CHALLENGE_LINK:
+            LAST_CHECKED_DATE['modern_challenge'] = TODAY
+
     def run(self):
         self.start_session()
         while True:
@@ -56,22 +66,10 @@ class Checker():
                     tree = html.fromstring(s.content)
                     results = tree.find(X_NO_RESULT)
                     if results is None:
-                        if link == PIONEER_LEAGUE_LINK:
-                            print("PIONEER LEAGUE")
-                            LAST_CHECKED_DATE['pioneer_league'] = TODAY
-                        elif link == PIONEER_CHALLENGE_LINK:
-                            print("PIONEER CHALLENGE")
-                            LAST_CHECKED_DATE['pioneer_challenge'] = TODAY
-                        elif link == MODERN_LEAGUE_LINK:
-                            print("MODERN CHALLENGE")
-                            LAST_CHECKED_DATE['modern_league'] = TODAY
-                        elif link == MODERN_CHALLENGE_LINK:
-                            print("MODERN CHALLENGE")
-                            LAST_CHECKED_DATE['modern_challenge'] = TODAY
+                        self.record_date(link)
                 except AttributeError as e:
                     print(e)
                 time.sleep(5)
-            print(LAST_CHECKED_DATE)
 
 
 c = Checker()

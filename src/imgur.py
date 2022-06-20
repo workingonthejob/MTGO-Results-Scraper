@@ -4,6 +4,7 @@ from requests.packages.urllib3.util.retry import Retry
 import requests
 import json
 import base64
+import random
 
 
 MAX_UPLOADS_PER_DAY = 1250
@@ -112,6 +113,8 @@ class Imgur():
     def upload_image(self, **kwargs):
         url = "/".join([self.API_URL, "3", "image"])
         data = {}
+        import time
+        import traceback
 
         for k, v in kwargs.items():
             if k not in SUPPORTED_IMAGE_KEYS:
@@ -122,10 +125,29 @@ class Imgur():
                 data[k] = base64.b64encode(open(v, "rb").read())
             else:
                 data[k] = v
-        r = requests.post(url, data=data, headers=self.HEADERS)
+        if k == "proxy":
+            ip_addresses = ["12.151.56.30:80",
+                "165.225.38.30:10605",
+                "209.126.6.159:80"]
+
+            https_ip_addresses = ["140.227.25.56:5678",
+                                  "140.227.61.156:23456",
+                                  "103.160.201.47:8080",
+                                  "104.131.109.98:31287"]
+            while True:
+                https_proxy = random.randint(0, len(https_ip_addresses) - 1)
+                proxy = random.randint(0, len(ip_addresses) - 1)
+                proxies = {"http": 'http://209.126.6.159:80', "https": 'https://{}'.format(https_ip_addresses[https_proxy])}
+                print(proxies)
+                try:
+                    r = requests.post(url, data=data, headers=self.HEADERS, proxies=proxies, verify=False)
+                except requests.exceptions.RequestException as e:
+                    print(traceback.format_exc())
+                    time.sleep(5)
+        else:
+            r = requests.post(url, data=data, headers=self.HEADERS)
         if r.status_code != 200:
-            raise Exception("{} status code returned.".format(r.status_code))
-        print(r.headers)
+            raise Exception("{} status code returned with message {}.".format(r.status_code, r.text))
         return r.json()
 
     """

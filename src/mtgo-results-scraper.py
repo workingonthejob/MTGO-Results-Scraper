@@ -4,6 +4,7 @@ import sys
 import os
 import re
 import time
+import logging
 from PIL import Image
 from lxml import html
 from requests.adapters import HTTPAdapter
@@ -18,7 +19,6 @@ from imgur import Imgur
 from imgur import MAX_UPLOADS_PER_HOUR
 from IniParser import IniParser
 from logging.config import fileConfig
-import logging
 
 
 fileConfig('logging_config.ini')
@@ -243,7 +243,6 @@ class MTGOResultsScraper():
         path = os.path.join(my_path, latest_cards)
         with open(path, 'r') as f:
             for card in f:
-                log.debug("Highlighting {}".format(card.strip()))
                 try:
                     self.highlight_card(card.strip())
                 except Exception as e:
@@ -282,7 +281,7 @@ if __name__ == "__main__":
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
     parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.", action='store_true')
     parser.add_argument("-e","--export-to-markdown", help="Export the deck images to markdown for reddit.", action='store_true')
-    parser.add_argument("-r","--post-to-reddit", help="Post decklist to reddit.", action='store_true')
+    parser.add_argument("-r","--post-to-reddit", help="Post decklist to reddit. (Not Implemented)", action='store_true')
     args = parser.parse_args()
 
     scraper = MTGOResultsScraper(args.url,
