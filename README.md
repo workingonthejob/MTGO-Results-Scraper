@@ -48,6 +48,7 @@ Here's the corresponding output:
 For output examples of `-s/--take-screenshots` look [here](examples/take-screenshots). The corresponding MTGO results link for the screenshots can be found [here](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-06-02).
 
 Install the requirements:
+
 `pip install -r requirements.txt`
 
 Here is the help menu for the tool:
