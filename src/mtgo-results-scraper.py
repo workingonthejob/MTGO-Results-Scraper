@@ -238,7 +238,7 @@ class MTGOResultsScraper():
         [highlight(js_highlight, card) for card in cards]
 
     def highlight_latest_cards(self):
-        latest_cards = r'resources\latest_cards.txt'
+        latest_cards = r'..\resources\latest_cards.txt'
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, latest_cards)
         with open(path, 'r') as f:
