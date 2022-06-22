@@ -4,6 +4,7 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from datetime import datetime
 from lxml import html
+from mtgo_results_scraper import MTGOResultsScraper
 
 
 DATE_FORMAT = "%Y-%m-%d"
@@ -48,16 +49,25 @@ class Checker():
 
     def record_date(self, link):
         if link == PIONEER_LEAGUE_LINK:
+            print('Pioneer League')
             LAST_CHECKED_DATE['pioneer_league'] = TODAY
         elif link == PIONEER_CHALLENGE_LINK:
+            print('Pioneer Challenge')
             LAST_CHECKED_DATE['pioneer_challenge'] = TODAY
         elif link == MODERN_LEAGUE_LINK:
+            print('Modern League')
             LAST_CHECKED_DATE['modern_league'] = TODAY
         elif link == MODERN_CHALLENGE_LINK:
+            print('Modern Challenge')
             LAST_CHECKED_DATE['modern_challenge'] = TODAY
 
     def run(self):
         self.start_session()
+        output_dir = r'.'
+        take_screenshots = True
+        upload_to_imgur = False
+        export_to_markdown = False
+
         while True:
             for link in LINKS:
                 try:
@@ -67,7 +77,13 @@ class Checker():
                     results = tree.find(X_NO_RESULT)
                     if results is None:
                         self.record_date(link)
-                except AttributeError as e:
+                        mrs = MTGOResultsScraper(link,
+                                                 output_dir,
+                                                 take_screenshots,
+                                                 upload_to_imgur,
+                                                 export_to_markdown)
+                        mrs.run()
+                except KeyboardInterrupt as e:
                     print(e)
                 time.sleep(5)
 
