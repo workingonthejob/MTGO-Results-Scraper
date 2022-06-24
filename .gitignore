@@ -1,3 +1,5 @@
 *.ini
 *.log
-**/src/__pycache__
+**/__pycache__
+**.sublime-workspace
+**/MTGO*/**

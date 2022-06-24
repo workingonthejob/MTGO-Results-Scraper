@@ -1,0 +1,30 @@
+{
+    "build_systems":
+    [
+        {
+          "name": "mtg-scraper",
+          "encoding": "utf-8",
+          "selector": "source.python",
+          "cmd": ["$project_path\\virtualenv\\Scripts\\python", "-u", "$file"],
+        },
+        {
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"python\" -u \"$file\""
+		},
+    ],
+
+    "settings":
+    {
+        "tab_size": 4,
+    },
+
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_exclude_patterns": ["__pycache__", "virtualenv", "MTGO*"],
+        }
+    ],
+}
