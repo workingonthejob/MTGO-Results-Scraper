@@ -31,18 +31,22 @@ Scrape and/or screenshot the Magic: The Gathering match results.
 """
 TIMEOUT = 10
 REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
+MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
 
 
 class MTGOResultsScraper():
 
-    def __init__(self, url, output_dir, take_screenshots,
-        upload_to_imgur, export_to_markdown):
+    def __init__(self, url, output_dir, take_screenshots, upload_to_imgur, crop_screenshots):
         self.url = url
         self.output_dir = output_dir
         self.take_screenshots = take_screenshots
         self.upload_to_imgur = upload_to_imgur
-        self.export_to_markdown = export_to_markdown
-        self.imgur_album_name = None
+        self.crop_screenshots = crop_screenshots
+        self.mtgo_output_folder_dir = None
+        self.folder_name = None
+        self.folder_name_template = "MTGO {} Results ({})"
+        self.league = None
+        self.date = None
         self.screenshots = []
         self.imgur = None
         self.driver = None
@@ -64,6 +68,18 @@ class MTGOResultsScraper():
                         'Chrome/102.0.0.0 Safari/537.36',
                         'accept': 'application/json'}
         self.session = None
+
+    def get_output_dir(self):
+        return self.output_dir
+
+    def get_mtgo_output_folder_dir(self):
+        return self.mtgo_output_folder_dir
+
+    def get_folder_name(self):
+        return self.folder_name
+
+    def get_screenshots(self):
+        return self.screenshots
 
     def start_session(self):
         session = requests.Session()
@@ -107,6 +123,7 @@ class MTGOResultsScraper():
         return self.driver.find_elements(by=By.XPATH, value=xpath)
 
     def initialize_web_driver(self):
+        log.debug("Starting web driver.")
         # Define the options we want
         # More options here:
         # https://peter.sh/experiments/chromium-command-line-switches/
@@ -121,7 +138,15 @@ class MTGOResultsScraper():
     def take_decklist_screenshots(self):
 
         self.initialize_web_driver() if not self.driver else None
-        self.create_folder_for_screenshots()
+
+        # Get the League type and the date to create the folder.
+        posted_in = self.find_elements_with_xpath(self.x_posted_in)[0]
+        self.league = self.find_elements_with_xpath(
+            self.x_league_type)[0].text.title()
+        text = posted_in.text.strip()
+        self.date = re.search(MTGO_RESULTS_PAGE_DATE_RE, text).group()
+
+        self.create_folder_for_screenshots(self.league, self.date)
         hide = self.driver.execute_script
         header = self.find_elements_with_xpath(self.x_header)[0]
         js_display_none = "arguments[0].style.display = 'none'"
@@ -148,7 +173,7 @@ class MTGOResultsScraper():
                 screenshot_info['height'] = int(size['height'])
                 screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
                 player = names[i].get_attribute("textContent").split(" ")[0]
-                output_file = r"{}\{}-{}.png".format(self.output_dir, i + 1, player)
+                output_file = r"{}\{}-{}.png".format(self.mtgo_output_folder_dir, i + 1, player)
                 screenshot_info['file'] = output_file
                 log.debug("{}[{}/{}]".format(player, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
@@ -167,7 +192,7 @@ class MTGOResultsScraper():
             self.driver.quit()
 
     def crop_images(self):
-        for root, dirs, files in os.walk(self.output_dir, topdown=False):
+        for root, dirs, files in os.walk(self.mtgo_output_folder_dir, topdown=False):
             for name in files:
                 screenshot = [screenshot for screenshot in self.screenshots if name in screenshot['screenshot']['file']][0]
                 file = os.path.join(root, name)
@@ -183,17 +208,10 @@ class MTGOResultsScraper():
                 im1 = im.crop((left, top, right, bottom))
                 im1.save(file)
 
-    def create_folder_for_screenshots(self):
-        posted_in = self.find_elements_with_xpath(self.x_posted_in)[0]
-        league = self.find_elements_with_xpath(
-            self.x_league_type)[0].text.title()
-        text = posted_in.text.strip()
-        date = re.search('\\w+\\s\\d{,2},\\s\\d{4}', text).group()
-        folder_name = "MTGO {} Results ({})".format(league, date)
-        new_output_dir = "\\".join([self.output_dir, folder_name])
-        os.makedirs(new_output_dir, exist_ok=True)
-        self.output_dir = new_output_dir
-        self.imgur_album_name = folder_name
+    def create_folder_for_screenshots(self, league, date):
+        self.folder_name = self.folder_name_template.format(league, date)
+        self.mtgo_output_folder_dir = os.path.join(self.output_dir, self.folder_name)
+        os.makedirs(self.mtgo_output_folder_dir, exist_ok=True)
 
     def load_imgur_credentials(self):
         log.debug("Loading imgur credentials...")
@@ -213,7 +231,7 @@ class MTGOResultsScraper():
 
     def upload(self):
         self.load_imgur_credentials()
-        album = self.imgur.create_album(title=self.imgur_album_name)
+        album = self.imgur.create_album(title=self.folder_name)
         album_id = album['data']['id']
         for screenshot in self.screenshots:
             name = screenshot['screenshot']['file'].split('\\')[-1]
@@ -228,9 +246,6 @@ class MTGOResultsScraper():
             r = self.imgur.upload_image(
                 image=screenshot['screenshot']['file'], album=album_id)
             screenshot['imgur'] = r['data']['link']
-            if self.export_to_markdown:
-                log.debug("* [DECK_NAME]({}): **{}**\n"
-                          .format(screenshot['imgur'],screenshot['player'].lower()))
             time.sleep(1)
 
     def highlight_card(self, card_name):
@@ -251,26 +266,14 @@ class MTGOResultsScraper():
                 except Exception as e:
                     log.exception(e)
 
-    def make_markdown(self):
-        tree = html.fromstring(self.session.content)
-        deck_containers = tree.xpath(self.x_deck_container)
-        for deck in deck_containers:
-            mainboard = {}
-            sideboard = {}
-            container = {"Mainboard": mainboard,
-                         "Sideboard": sideboard}
-            player = deck.find(self.x_player).text.split(" ")[0]
-            container["Player"] = player
-
     def run(self):
         self.start_session()
         if self.take_screenshots:
             self.take_decklist_screenshots()
-            self.crop_images()
+            if self.crop_screenshots:
+                self.crop_images()
         if self.take_screenshots and self.upload_to_imgur:
             self.upload()
-        if self.export_to_markdown:
-            self.make_markdown()
         # self.print_decklists()
 
 
@@ -280,16 +283,15 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit(0)
     parser.add_argument("-o","--output-dir", help="The directory to save content to.", default=".")
+    parser.add_argument("-c","--crop-screenshots", help="Crop the screenshots of the card preview.", action='store_true')
     parser.add_argument("-s","--take-screenshots", help="Take screenshots of the decks.", action='store_true')
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
     parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.", action='store_true')
-    parser.add_argument("-e","--export-to-markdown", help="Export the deck images to markdown for reddit.", action='store_true')
-    parser.add_argument("-r","--post-to-reddit", help="Post decklist to reddit. (Not Implemented)", action='store_true')
     args = parser.parse_args()
 
     scraper = MTGOResultsScraper(args.url,
                                  r"{}".format(args.output_dir),
                                  args.take_screenshots,
                                  args.upload_to_imgur,
-                                 args.export_to_markdown)
+                                 args.crop_screenshots)
     scraper.run()

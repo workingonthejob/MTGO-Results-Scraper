@@ -22,6 +22,9 @@ SUPPORTED_IMAGE_KEYS = ("image",
                         "name",
                         "title",
                         "description")
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'\
+             'AppleWebKit/537.36 (KHTML, like Gecko)'\
+             'Chrome/101.0.4951.67 Safari/537.36'
 
 
 class Imgur():
@@ -37,13 +40,26 @@ class Imgur():
         self.REFRESH_TOKEN = refresh_token
         self.API_URL = 'https://api.imgur.com'
         self.CURRENT_ACCESS_TOKEN = access_token
-        self.HEADERS = {'User-Agent':
-                        'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-                        'AppleWebKit/537.36 (KHTML, like Gecko)'
-                        'Chrome/101.0.4951.67 Safari/537.36',
+        self.HEADERS = {'User-Agent': USER_AGENT,
                         'accept': 'application/json',
                         'Authorization': "Bearer {}".format(
                             self.CURRENT_ACCESS_TOKEN)}
+
+    def __init__(self):
+        print("Using the default imgur-config.ini file.")
+        ip = IniParser('imgur-config.ini')
+        self.API_URL = 'https://api.imgur.com'
+        self.CLIENT_ID = ip.get_imgur_properties('CLIENT_ID')
+        self.CLIENT_SECRET = ip.get_imgur_properties('CLIENT_SECRET')
+        self.REFRESH_TOKEN = ip.get_imgur_properties('REFRESH_TOKEN')
+        self.CURRENT_ACCESS_TOKEN = ip.get_imgur_properties('ACCESS_TOKEN')
+        self.USERNAME = ip.get_imgur_properties('USERNAME')
+        self.HEADERS = {'User-Agent': USER_AGENT,
+                        'accept': 'application/json',
+                        'Authorization': "Bearer {}".format(
+                            self.CURRENT_ACCESS_TOKEN)}
+        self.start_session()
+        self.test_and_update_access_token()
 
     def start_session(self):
         self.SESSION = requests.Session()
@@ -113,8 +129,6 @@ class Imgur():
     def upload_image(self, **kwargs):
         url = "/".join([self.API_URL, "3", "image"])
         data = {}
-        import time
-        import traceback
 
         for k, v in kwargs.items():
             if k not in SUPPORTED_IMAGE_KEYS:
@@ -125,27 +139,7 @@ class Imgur():
                 data[k] = base64.b64encode(open(v, "rb").read())
             else:
                 data[k] = v
-        if k == "proxy":
-            ip_addresses = ["12.151.56.30:80",
-                "165.225.38.30:10605",
-                "209.126.6.159:80"]
-
-            https_ip_addresses = ["140.227.25.56:5678",
-                                  "140.227.61.156:23456",
-                                  "103.160.201.47:8080",
-                                  "104.131.109.98:31287"]
-            while True:
-                https_proxy = random.randint(0, len(https_ip_addresses) - 1)
-                proxy = random.randint(0, len(ip_addresses) - 1)
-                proxies = {"http": 'http://209.126.6.159:80', "https": 'https://{}'.format(https_ip_addresses[https_proxy])}
-                print(proxies)
-                try:
-                    r = requests.post(url, data=data, headers=self.HEADERS, proxies=proxies, verify=False)
-                except requests.exceptions.RequestException as e:
-                    print(traceback.format_exc())
-                    time.sleep(5)
-        else:
-            r = requests.post(url, data=data, headers=self.HEADERS)
+        r = requests.post(url, data=data, headers=self.HEADERS)
         if r.status_code != 200:
             raise Exception("{} status code returned with message {}.".format(r.status_code, r.text))
         return r.json()
