@@ -131,6 +131,8 @@ class MTGOResultsScraper():
         options.add_argument("--headless")
         # Starting maximized headless doesn't work correctly.
         options.add_argument("--window-size=1920x1080")
+        # Ubuntu chrome will throw errors if this is not included.
+        options.add_argument("--no-sandbox")
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options)
         self.driver.get(self.url)
@@ -173,7 +175,7 @@ class MTGOResultsScraper():
                 screenshot_info['height'] = int(size['height'])
                 screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
                 player = names[i].get_attribute("textContent").split(" ")[0]
-                output_file = r"{}\{}-{}.png".format(self.mtgo_output_folder_dir, i + 1, player)
+                output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
                 screenshot_info['file'] = output_file
                 log.debug("{}[{}/{}]".format(player, i + 1, number_of_decks))
                 decks[i].location_once_scrolled_into_view
@@ -256,7 +258,7 @@ class MTGOResultsScraper():
         [highlight(js_highlight, card) for card in cards]
 
     def highlight_latest_cards(self):
-        latest_cards = r'..\resources\latest_cards.txt'
+        latest_cards = os.path.join('..', 'resources', 'latest_cards.txt')
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, latest_cards)
         with open(path, 'r') as f:
