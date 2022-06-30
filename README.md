@@ -54,7 +54,7 @@ Install the requirements:
 Here is the help menu for the tool:
 
 ```
-usage: mtgo-results-scraper.py [-h] [-o OUTPUT_DIR] [-s] -u URL [-i] [-e] [-r]
+usage: mtgo_results_scraper.py [-h] [-o OUTPUT_DIR] [-c] [-s] -u URL [-i]
 
 Scrape and/or screenshot the Magic: The Gathering match results.
 
@@ -62,12 +62,11 @@ optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         The directory to save content to.
+  -c, --crop-screenshots
+                        Crop the screenshots of the card preview.
   -s, --take-screenshots
                         Take screenshots of the decks.
   -u URL, --url URL     The page to start at or create screenshots of.
   -i, --upload-to-imgur
                         Create an Imgur album and upload deck images to it.
-  -e, --export-to-markdown
-                        Export the deck images to markdown for reddit.
-  -r, --post-to-reddit  Post decklist to reddit.
   ```
