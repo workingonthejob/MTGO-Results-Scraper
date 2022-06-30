@@ -74,22 +74,24 @@ class Checker():
                         mrs.crop_images()
                         folder_name = mrs.get_folder_name()
                         im = Imgur()
+                        album_id = im.create_album(
+                            title=folder_name)['data']['id']
                         for screenshot in mrs.get_screenshots():
                             screenshot_file = screenshot['screenshot']['file']
-                            log.info("Uploading screenshot {}".format(
-                                screenshot_file))
+                            log.info(f'Uploading {screenshot_file}')
                             # For every 50 screenshot uploads sleep for an hour
                             if not screenshot_count % 50 and screenshot_count > 0:
                                 time_elapsed = 0
                                 log.info('Imgur API upload limit reached.')
                                 # Update user every minute
                                 while time_elapsed <= 3660:
-                                    time_elapsed_min = int(time_elapsed)/60
-                                    log.info('Slept for {} minutes so far.'.format(time_elapsed_min))
+                                    time_elapsed_min = int(time_elapsed) / 60
+                                    log.info(
+                                        f'Slept for {time_elapsed_min} min.')
                                     time.sleep(60)
                                     time_elapsed += 60
-                            album_id = im.create_album(title=folder_name)['data']['id']
-                            im.upload_image(image=screenshot_file, album=album_id)
+                            im.upload_image(image=screenshot_file,
+                                            album=album_id)
                             screenshot_count += 1
                         ALREADY_PROCESSED_LINKS.append(link)
                 except KeyboardInterrupt as e:
