@@ -14,6 +14,15 @@ from IniParser import IniParser
 USER_AGENT = "Archives data to local storage."
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
 PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
+DATE_FORMAT = "%Y-%m-%d"
+TODAY = datetime.today().strftime(DATE_FORMAT)
+BASE_URL = "https://magic.wizards.com/en/articles/archive/mtgo-standings/"
+PIONEER_LEAGUE_LINK = BASE_URL + "pioneer-league-{}".format(TODAY)
+PIONEER_CHALLENGE_LINK = BASE_URL + "pioneer-challenge-{}".format(TODAY)
+MODERN_LEAGUE_LINK = BASE_URL + "modern-league-{}".format(TODAY)
+MODERN_CHALLENGE_LINK = BASE_URL + "modern-challenge-{}".format(TODAY)
+LINKS = [PIONEER_LEAGUE_LINK,
+         PIONEER_CHALLENGE_LINK]
 
 RECOVERABLE_EXC = (
     APIException,
@@ -51,10 +60,8 @@ class MTGOResultsPostFinder:
             raise Exception("{} not ready yet!").format(self.username)
         subreddit = self.reddit.subreddit('PioneerMTG')
 
-        url = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-'
-
-        # for submission in subreddit.new(limit=100):
-        for submission in subreddit.top(time_filter="hour"):
+        for submission in subreddit.new(limit=10):
+        # for submission in subreddit.top(time_filter="hour"):
             submission_title = submission.title
             submission_url = submission.url
             submission_author = submission.author
@@ -63,21 +70,30 @@ class MTGOResultsPostFinder:
             submission_creation_time_readable = datetime.fromtimestamp(
                 submission_creation_time_utc)
 
-            if submission.is_self:
-                if url in submission.selftext:
-                    log.debug(submission_title)
-                    matches = re.findall(PATTERN, submission.selftext)
-                    with open('reddit-markdown.md', 'w+') as f:
-                        blob = []
+            for link in LINKS:
+                if submission.is_self:
+                    if link in submission.selftext:
+                        log.debug(submission_title)
+                        new_list = []
+                        matches = re.findall(PATTERN, submission.selftext)
+                        # Remove duplicates but order is lost.
+                        # matches = list(set(matches)) if matches else None
+                        # Do not include duplicates but preserve order.
                         for match in matches:
-                            archetype = match[0]
-                            player = match.replace('\\', 1) if r'\\' in match[1] else match[1]
-                            line = f'* [{archetype}]({{}}): **{player}**'
-                            log.debug(line)
-                            blob.append(line)
-                        o = '\n'.join(blob)
-                        f.write(o)
-                    sys.exit(0)
+                            if match not in new_list:
+                                new_list.append(match)
+
+                        with open('reddit-markdown.md', 'w+') as f:
+                            blob = []
+                            for match in new_list:
+                                archetype = match[0]
+                                player = match.replace('\\', 1) if r'\\' in match[1] else match[1]
+                                line = f'* [{archetype}]({{}}): **{player}**'
+                                log.debug(line)
+                                blob.append(line)
+                            o = '\n'.join(blob)
+                            f.write(o)
+                        sys.exit(0)
 
     def setup(self):
         """

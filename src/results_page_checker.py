@@ -28,10 +28,12 @@ MODERN_LEAGUE_LINK = BASE_URL + "modern-league-{}".format(TODAY)
 MODERN_CHALLENGE_LINK = BASE_URL + "modern-challenge-{}".format(TODAY)
 TEST_LINK = BASE_URL + "modern-league-{}".format('2022-06-17')
 LINKS = [PIONEER_LEAGUE_LINK,
-         PIONEER_CHALLENGE_LINK]
+         PIONEER_CHALLENGE_LINK,
+         MODERN_LEAGUE_LINK,
+         MODERN_CHALLENGE_LINK]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
-ALREADY_PROCESSED_LINKS = []
+ALREADY_PROCESSED_LINKS = ['https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-06-30']
 
 
 class Checker():
@@ -52,14 +54,24 @@ class Checker():
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
 
-    def run(self):
-        self.start_session()
+    def sleep_for_imgur(self):
+        time_elapsed = 0
+        log.info('Imgur API upload limit reached.')
+        # Update user every minute
+        while time_elapsed <= 3660:
+            time_elapsed_min = int(time_elapsed) / 60
+            log.info(
+                f'Slept for {time_elapsed_min} min.')
+            time.sleep(60)
+            time_elapsed += 60
 
+    def run(self):
         while True:
             for link in LINKS:
                 try:
                     log.info(link)
                     screenshot_count = 0
+                    self.start_session()
                     s = self.session.get(link, headers=self.headers)
                     tree = html.fromstring(s.content)
                     results = tree.find(X_NO_RESULT)
@@ -81,15 +93,7 @@ class Checker():
                             log.info(f'Uploading {screenshot_file}')
                             # For every 50 screenshot uploads sleep for an hour
                             if not screenshot_count % 50 and screenshot_count > 0:
-                                time_elapsed = 0
-                                log.info('Imgur API upload limit reached.')
-                                # Update user every minute
-                                while time_elapsed <= 3660:
-                                    time_elapsed_min = int(time_elapsed) / 60
-                                    log.info(
-                                        f'Slept for {time_elapsed_min} min.')
-                                    time.sleep(60)
-                                    time_elapsed += 60
+                                self.sleep_for_imgur()
                             im.upload_image(image=screenshot_file,
                                             album=album_id)
                             screenshot_count += 1
