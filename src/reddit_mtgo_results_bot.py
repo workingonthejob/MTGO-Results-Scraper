@@ -16,13 +16,15 @@ USER_AGENT = "Archives data to local storage."
 PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = datetime.today().strftime(DATE_FORMAT)
-BASE_URL = "https://magic.wizards.com/en/articles/archive/mtgo-standings/"
-PIONEER_LEAGUE_LINK = BASE_URL + "pioneer-league-{}".format(TODAY)
-PIONEER_CHALLENGE_LINK = BASE_URL + "pioneer-challenge-{}".format(TODAY)
-MODERN_LEAGUE_LINK = BASE_URL + "modern-league-{}".format(TODAY)
-MODERN_CHALLENGE_LINK = BASE_URL + "modern-challenge-{}".format(TODAY)
+BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
+PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-'
+PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-'
+PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-'
+MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{TODAY}'
+MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{TODAY}'
 LINKS = [PIONEER_LEAGUE_LINK,
-         PIONEER_CHALLENGE_LINK]
+         PIONEER_CHALLENGE_LINK,
+         PIONEER_SUPER_QUALIFIER]
 
 RECOVERABLE_EXC = (
     APIException,
@@ -71,9 +73,9 @@ class MTGOResultsPostFinder:
                 submission_creation_time_utc)
 
             for link in LINKS:
-                if submission.is_self:
-                    if link in submission.selftext:
+                if submission.is_self and link in submission.selftext:
                         log.debug(submission_title)
+                        log.debug(submission_url)
                         new_list = []
                         matches = re.findall(PATTERN, submission.selftext)
                         # Remove duplicates but order is lost.

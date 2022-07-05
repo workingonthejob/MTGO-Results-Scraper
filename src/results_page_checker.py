@@ -23,17 +23,19 @@ DATE_FORMAT = "%Y-%m-%d"
 TODAY = datetime.today().strftime(DATE_FORMAT)
 BASE_URL = "https://magic.wizards.com/en/articles/archive/mtgo-standings/"
 PIONEER_LEAGUE_LINK = BASE_URL + "pioneer-league-{}".format(TODAY)
-PIONEER_CHALLENGE_LINK = BASE_URL + "pioneer-challenge-{}".format(TODAY)
+PIONEER_CHALLENGE_LINK = BASE_URL + "pioneer-challenge-{}?r".format(TODAY)
+PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{TODAY}?r'
 MODERN_LEAGUE_LINK = BASE_URL + "modern-league-{}".format(TODAY)
 MODERN_CHALLENGE_LINK = BASE_URL + "modern-challenge-{}".format(TODAY)
 TEST_LINK = BASE_URL + "modern-league-{}".format('2022-06-17')
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
          MODERN_LEAGUE_LINK,
-         MODERN_CHALLENGE_LINK]
+         MODERN_CHALLENGE_LINK,
+         PIONEER_SUPER_QUALIFIER]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
-ALREADY_PROCESSED_LINKS = ['https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-06-30']
+ALREADY_PROCESSED_LINKS = []
 
 
 class Checker():

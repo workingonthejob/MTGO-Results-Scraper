@@ -135,6 +135,7 @@ class MTGOResultsScraper():
         options.add_argument("--no-sandbox")
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options)
+        # self.driver = webdriver.Chrome(options=options)
         self.driver.get(self.url)
 
     def take_decklist_screenshots(self):
