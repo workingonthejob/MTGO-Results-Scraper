@@ -30,8 +30,6 @@ MODERN_CHALLENGE_LINK = BASE_URL + "modern-challenge-{}".format(TODAY)
 TEST_LINK = BASE_URL + "modern-league-{}".format('2022-06-17')
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
-         MODERN_LEAGUE_LINK,
-         MODERN_CHALLENGE_LINK,
          PIONEER_SUPER_QUALIFIER]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'

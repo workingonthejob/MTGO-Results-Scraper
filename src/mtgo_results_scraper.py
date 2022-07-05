@@ -131,10 +131,13 @@ class MTGOResultsScraper():
         options.add_argument("--headless")
         # Starting maximized headless doesn't work correctly.
         options.add_argument("--window-size=1920x1080")
-        # Ubuntu chrome will throw errors if this is not included.
+        # Ubuntu chrome will throw errors if these is not included.
         options.add_argument("--no-sandbox")
+        options.add_argument('--disable-dev-shm-usage')
+        # This downloads the correct one.
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options)
+        # This will use the Chromedriver in the current directory.
         # self.driver = webdriver.Chrome(options=options)
         self.driver.get(self.url)
 
