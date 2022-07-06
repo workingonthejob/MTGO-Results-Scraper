@@ -10,6 +10,8 @@ from praw.exceptions import APIException, ClientException, PRAWException
 from prawcore.exceptions import PrawcoreException
 from requests.exceptions import ConnectionError
 from IniParser import IniParser
+from database import Database
+
 
 USER_AGENT = "Archives data to local storage."
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
@@ -17,9 +19,9 @@ PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = datetime.today().strftime(DATE_FORMAT)
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
-PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-'
-PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-'
-PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-'
+PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league{TODAY}'
+PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{TODAY}'
+PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{TODAY}'
 MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{TODAY}'
 MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{TODAY}'
 LINKS = [PIONEER_LEAGUE_LINK,
@@ -53,6 +55,7 @@ class MTGOResultsPostFinder:
         self.headers = {}
         self._setup = False
         self.reddit = None
+        self.db = Database('scraper')
 
     def run(self):
         """
@@ -62,7 +65,7 @@ class MTGOResultsPostFinder:
             raise Exception("{} not ready yet!").format(self.username)
         subreddit = self.reddit.subreddit('PioneerMTG')
 
-        for submission in subreddit.new(limit=10):
+        for submission in subreddit.new(limit=20):
         # for submission in subreddit.top(time_filter="hour"):
             submission_title = submission.title
             submission_url = submission.url
@@ -74,8 +77,14 @@ class MTGOResultsPostFinder:
 
             for link in LINKS:
                 if submission.is_self and link in submission.selftext:
+                    seen_url = self.db.reddit_url_in_table(submission_url)
+                    if not seen_url:
                         log.debug(submission_title)
-                        log.debug(submission_url)
+                        log.debug(f'Adding {submission_url} to DB.')
+                        self.db.add_reddit_row(
+                            submission_url,
+                            submission.selftext,
+                            link)
                         new_list = []
                         matches = re.findall(PATTERN, submission.selftext)
                         # Remove duplicates but order is lost.
