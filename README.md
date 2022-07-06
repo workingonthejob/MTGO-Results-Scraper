@@ -51,6 +51,12 @@ Install the requirements:
 
 `pip install -r requirements.txt`
 
+Other Dependencies:
+
+```
+Chrome
+```
+
 Here is the help menu for the tool:
 
 ```
