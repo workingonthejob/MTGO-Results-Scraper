@@ -19,7 +19,7 @@ PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = datetime.today().strftime(DATE_FORMAT)
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
-PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league{TODAY}'
+PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{TODAY}'
 PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{TODAY}'
 PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{TODAY}'
 MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{TODAY}'
@@ -76,6 +76,7 @@ class MTGOResultsPostFinder:
                 submission_creation_time_utc)
 
             for link in LINKS:
+                log.debug(link)
                 if submission.is_self and link in submission.selftext:
                     seen_url = self.db.reddit_url_in_table(submission_url)
                     if not seen_url:
