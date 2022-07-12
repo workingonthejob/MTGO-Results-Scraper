@@ -57,6 +57,13 @@ class MTGOResultsPostFinder:
         self.reddit = None
         self.db = Database('scraper')
 
+    """
+    Call from the controller class
+    """
+
+    def post_results_to_reddit(self):
+        pass
+
     def run(self):
         """
         Checks through the submissions and archives and posts comments.

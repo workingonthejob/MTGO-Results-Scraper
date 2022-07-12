@@ -1,6 +1,7 @@
 import requests
 import time
 import logging
+import string
 from imgur import Imgur
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -8,6 +9,7 @@ from datetime import datetime
 from lxml import html
 from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
+from database import Database
 
 
 fileConfig('logging_config.ini')
@@ -23,8 +25,8 @@ DATE_FORMAT = "%Y-%m-%d"
 TODAY = None
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
 PIONEER_LEAGUE_LINK = BASE_URL + 'pioneer-league-{}'
-PIONEER_CHALLENGE_LINK = BASE_URL + 'pioneer-challenge-{}?r'
-PIONEER_SUPER_QUALIFIER = BASE_URL + 'pioneer-super-qualifier-{}?r'
+PIONEER_CHALLENGE_LINK = BASE_URL + 'pioneer-challenge-{}'
+PIONEER_SUPER_QUALIFIER = BASE_URL + 'pioneer-super-qualifier-{}'
 MODERN_LEAGUE_LINK = BASE_URL + 'modern-league-{}'
 MODERN_CHALLENGE_LINK = BASE_URL + 'modern-challenge-{}'
 TEST_LINK = BASE_URL + 'modern-league-{}'.format('2022-06-17')
@@ -46,6 +48,7 @@ class Checker():
                         'AppleWebKit/537.36 (KHTML, like Gecko) '
                         'Chrome/102.0.0.0 Safari/537.36',
                         'accept': 'application/json'}
+        self.db = Database('scraper')
 
     def start_session(self):
         self.session = requests.Session()
@@ -66,39 +69,56 @@ class Checker():
             time_elapsed += 60
 
     def run(self):
+        log.info('Starting...')
         while True:
             for link in LINKS:
                 try:
                     TODAY = datetime.today().strftime(DATE_FORMAT)
                     today_link = link.format(TODAY)
-                    log.info(today_link)
+                    secret_link = None
                     screenshot_count = 0
-                    self.start_session()
-                    s = self.session.get(today_link, headers=self.headers)
-                    tree = html.fromstring(s.content)
-                    results = tree.find(X_NO_RESULT)
-                    if results is None and today_link not in ALREADY_PROCESSED_LINKS:
-                        mrs = MTGOResultsScraper(today_link,
-                                                 OUTPUT_DIRECTORY,
-                                                 TAKE_SCREENSHOTS,
-                                                 UPLOAD_TO_IMGUR,
-                                                 CROP_SCREENSHOTS)
-                        mrs.take_decklist_screenshots()
-                        mrs.crop_images()
-                        folder_name = mrs.get_folder_name()
-                        im = Imgur()
-                        album_id = im.create_album(
-                            title=folder_name)['data']['id']
-                        for screenshot in mrs.get_screenshots():
-                            screenshot_file = screenshot['screenshot']['file']
-                            log.info(f'Uploading {screenshot_file}')
-                            # For every 50 screenshot uploads sleep for an hour
-                            if not screenshot_count % 50 and screenshot_count > 0:
-                                self.sleep_for_imgur()
-                            im.upload_image(image=screenshot_file,
-                                            album=album_id)
-                            screenshot_count += 1
-                        ALREADY_PROCESSED_LINKS.append(today_link)
+                    letters = list(string.ascii_lowercase)
+                    letters.remove('q')
+
+                    for letter in letters:
+                        secret_link = today_link + f'?{letter}'
+                        self.start_session()
+                        s = self.session.get(secret_link, headers=self.headers)
+                        tree = html.fromstring(s.content)
+                        results = tree.find(X_NO_RESULT)
+
+                        if results is None and today_link not in ALREADY_PROCESSED_LINKS:
+                            try:
+                                mrs = MTGOResultsScraper(secret_link,
+                                                         OUTPUT_DIRECTORY,
+                                                         TAKE_SCREENSHOTS,
+                                                         UPLOAD_TO_IMGUR,
+                                                         CROP_SCREENSHOTS)
+                                mrs.take_decklist_screenshots()
+                                mrs.crop_images()
+                                folder_name = mrs.get_folder_name()
+                                im = Imgur()
+                                album_id = im.create_album(
+                                    title=folder_name)['data']['id']
+                                for screenshot in mrs.get_screenshots():
+                                    screenshot_file = screenshot['screenshot']['file']
+                                    player = screenshot['player']
+                                    log.info(f'Uploading {screenshot_file}')
+                                    # For every 50 screenshot uploads sleep for an hour
+                                    # if not screenshot_count % 50 and screenshot_count > 0:
+                                    #     self.sleep_for_imgur()
+                                    response = im.upload_image(image=screenshot_file,
+                                                               album=album_id,
+                                                               sleep=True)
+                                    imgur_link = response['data']['link']
+                                    self.db.add_imgur_row(screenshot_file,
+                                                          album_id,
+                                                          player,
+                                                          imgur_link)
+                                    screenshot_count += 1
+                                ALREADY_PROCESSED_LINKS.append(today_link)
+                            except IndexError as e:
+                                log.exception(e)
                 except KeyboardInterrupt as e:
                     log.exception(e)
             # 10 minutes

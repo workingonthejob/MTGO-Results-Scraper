@@ -1,14 +1,20 @@
 from IniParser import IniParser
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from logging.config import fileConfig
 import requests
 import json
 import base64
-import random
+import logging
+import time
 
 
+fileConfig('logging_config.ini')
+log = logging.getLogger()
+
+RATE_LIMITING_ERROR = 429
 MAX_UPLOADS_PER_DAY = 1250
-MAX_UPLOADS_PER_HOUR = 50
+MAX_UPLOADS_PER_HOUR = 1250
 SUPPORTED_ALBUM_KEYS = ("ids",
                         "deletehashes",
                         "title",
@@ -40,11 +46,20 @@ class Imgur():
         self.REFRESH_TOKEN = refresh_token
         self.API_URL = 'https://api.imgur.com'
         self.CURRENT_ACCESS_TOKEN = access_token
+        self.RATE_LIMIT_USER_LIMIT = None
+        self.RATE_LIMIT_USER_REMAINING = None
+        self.RATE_LIMIT_USER_REST = None
+        self.RATE_LIMIT_CLIENT_LIMIT = None
+        self.RATE_LIMIT_CLIENT_REMAINING = None
+        self.POST_RATE_LIMIT_LIMIT = None
+        self.POST_RATE_LIMIT_REMAINING = None
+        self.POST_RATE_LIMIT_RESET = None
         self.HEADERS = {'User-Agent': USER_AGENT,
                         'accept': 'application/json',
-                        'Authorization': "Bearer {}".format(
-                            self.CURRENT_ACCESS_TOKEN)}
+                        'Authorization': f'Bearer {self.CURRENT_ACCESS_TOKEN}'}
 
+    # Python doesn't support multiple constructors it will always use the latest
+    # i.e. this one since it's the latest one.
     def __init__(self):
         print("Using the default imgur-config.ini file.")
         ip = IniParser('imgur-config.ini')
@@ -61,13 +76,32 @@ class Imgur():
         self.start_session()
         self.test_and_update_access_token()
 
+    def _post(self, url, data, headers, sleep=False):
+
+        if sleep and self.POST_RATE_LIMIT_REMAINING <= 0:
+            time_elapsed = 0
+            log.info('Imgur API upload limit reached.')
+            # Update user every minute
+            while time_elapsed <= self.POST_RATE_LIMIT_RESET:
+                time_elapsed_min = int(time_elapsed) / 60
+                log.info(
+                    f'Slept for {time_elapsed_min} min.')
+                time.sleep(60)
+                time_elapsed += 60
+
+        response = requests.post(url, data=data, headers=headers)
+        headers = response.headers
+        self.POST_RATE_LIMIT_LIMIT = headers['X-Post-Rate-Limit-Limit']
+        self.POST_RATE_LIMIT_REMAINING = headers['X-Post-Rate-Limit-Remaining']
+        self.POST_RATE_LIMIT_RESET = headers['X-Post-Rate-Limit-Reset']
+        return response
+
     def start_session(self):
         self.SESSION = requests.Session()
         retry = Retry(connect=3, backoff_factor=0.5)
         adapter = HTTPAdapter(max_retries=retry)
         self.SESSION.mount('http://', adapter)
         self.SESSION.mount('https://', adapter)
-        # self.SESSION = session.get(self.URL, headers=self.HEADERS)
 
     def refresh(self):
         data = {
@@ -78,7 +112,6 @@ class Imgur():
         }
 
         url = "/".join([self.API_URL, "oauth2", "token"])
-
         response = requests.post(url, data=data)
 
         if response.status_code != 200:
@@ -129,19 +162,23 @@ class Imgur():
     def upload_image(self, **kwargs):
         url = "/".join([self.API_URL, "3", "image"])
         data = {}
+        will_sleep = False
 
         for k, v in kwargs.items():
             if k not in SUPPORTED_IMAGE_KEYS:
-                print("[WARN] - '{}' not a supported API option.".format(k))
+                log.debug("'{}' not a supported API option.".format(k))
             if "image" not in kwargs:
                 raise Exception("'image' key is required.")
             if k == "image":
                 data[k] = base64.b64encode(open(v, "rb").read())
             else:
                 data[k] = v
-        r = requests.post(url, data=data, headers=self.HEADERS)
-        if r.status_code != 200:
-            raise Exception("{} status code returned with message {}.".format(r.status_code, r.text))
+            if k == "sleep":
+                will_sleep = v
+
+        r = self._post(url, data, self.HEADERS, will_sleep)
+        if r.status_code != 200 and r.json()["success"] == "true":
+            raise Exception("{} status code returned.".format(r.status_code))
         return r.json()
 
     """
@@ -173,15 +210,16 @@ class Imgur():
         data = {}
         for k, v in kwargs.items():
             if k not in SUPPORTED_ALBUM_KEYS:
-                print("[WARN] - '{}' not a supported API option.".format(k))
+                log.debug("'{}' not a supported API option.".format(k))
             if k == "ids" or k == "deletehashes":
                 if not isinstance(v, list):
                     raise Exception("'{}' provided is not a list.".format(k))
             data[k] = v
-        r = requests.post(url, data=data, headers=self.HEADERS)
-        if r.status_code != 200:
+        r = self._post(url, data, self.HEADERS)
+        # r = requests.post(url, data=data, headers=self.HEADERS)
+        if r.status_code != 200 and r.json()["success"] == "true":
             raise Exception("{} status code returned.".format(r.status_code))
-        return r.json()
+        return json.dumps(r.json(), indent=4, sort_keys=True)
 
     """
     Returns: A list of the album hashes.
@@ -191,7 +229,7 @@ class Imgur():
         url = "/".join([self.API_URL, "3", "account",
                         self.USERNAME, "albums", "ids", str(page)])
         r = requests.get(url, headers=self.HEADERS)
-        if r.status_code != 200:
+        if r.status_code != 200 and r.json()["success"] == "true":
             raise Exception("{} status code returned.".format(r.status_code))
         return r.json()["data"]
 
@@ -210,22 +248,28 @@ class Imgur():
         # Putting this here instead of creating a wrapper method
         # for requests methods means the token could expire after
         # this was run. This is just easier now.
-        print("Checking access_token is still valid.")
+        log.debug("Checking access_token is still valid.")
         url = "/".join([self.API_URL, "3", "account", self.USERNAME])
         r = requests.get(url, headers=self.HEADERS)
         if r.status_code == 401:
-            print("access_token was invalid. Updating it.")
+            log.debug("access_token was invalid. Updating it.")
             self.refresh()
         else:
-            print("access_token is still valid.")
+            log.debug("access_token is still valid.")
+
+    def get_credits(self):
+        url = "/".join([self.API_URL, "3", "credits"])
+        r = requests.get(url, headers=self.HEADERS)
+        return r.json()
 
     def run(self):
         self.start_session()
         self.test_and_update_access_token()
+        self.get_credits()
         # self.refresh()
         # self.download_album()
         # self.create_album(title="MyFancyAlbum")
-        # print(self.get_albums())
+        # log.debug(self.get_albums())
 
 
 if __name__ == "__main__":
