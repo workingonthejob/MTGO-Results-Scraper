@@ -78,6 +78,7 @@ class Checker():
                     secret_link = None
                     screenshot_count = 0
                     letters = list(string.ascii_lowercase)
+                    # Always seems to be a page with no results
                     letters.remove('q')
 
                     for letter in letters:
@@ -114,7 +115,8 @@ class Checker():
                                     self.db.add_imgur_row(screenshot_file,
                                                           album_id,
                                                           player,
-                                                          imgur_link)
+                                                          imgur_link,
+                                                          link)
                                     screenshot_count += 1
                                 ALREADY_PROCESSED_LINKS.append(today_link)
                             except IndexError as e:

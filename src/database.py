@@ -26,7 +26,8 @@ class Database():
                             "file text,"
                             "album_id text,"
                             "player text,"
-                            "url text)"
+                            "url text,"
+                            "result_url text)"
                             .format(self.imgur_table))
 
     def _create_reddit_table(self):
@@ -48,8 +49,9 @@ class Database():
                             "file,"
                             "album_id,"
                             "player,"
-                            "url) "
-                            "VALUES (?, ?, ?, ?)"
+                            "url,"
+                            "result_url) "
+                            "VALUES (?, ?, ?, ?, ?)"
                             .format(self.imgur_table),
                             (file,
                              album_id,
