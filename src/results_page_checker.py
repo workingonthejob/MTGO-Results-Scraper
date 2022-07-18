@@ -87,6 +87,7 @@ class Checker():
                         s = self.session.get(secret_link, headers=self.headers)
                         tree = html.fromstring(s.content)
                         results = tree.find(X_NO_RESULT)
+                        log.info(secret_link)
 
                         if results is None and today_link not in ALREADY_PROCESSED_LINKS:
                             try:
@@ -105,9 +106,6 @@ class Checker():
                                     screenshot_file = screenshot['screenshot']['file']
                                     player = screenshot['player']
                                     log.info(f'Uploading {screenshot_file}')
-                                    # For every 50 screenshot uploads sleep for an hour
-                                    # if not screenshot_count % 50 and screenshot_count > 0:
-                                    #     self.sleep_for_imgur()
                                     response = im.upload_image(image=screenshot_file,
                                                                album=album_id,
                                                                sleep=True)
@@ -116,7 +114,7 @@ class Checker():
                                                           album_id,
                                                           player,
                                                           imgur_link,
-                                                          link)
+                                                          today_link)
                                     screenshot_count += 1
                                 ALREADY_PROCESSED_LINKS.append(today_link)
                             except IndexError as e:

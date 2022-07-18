@@ -43,7 +43,7 @@ class Database():
         # https://www.sqlitetutorial.net/sqlite-update/
         pass
 
-    def add_imgur_row(self, file, album_id, player, url):
+    def add_imgur_row(self, file, album_id, player, url, result_url):
         self.cursor.execute("INSERT INTO "
                             "{}("
                             "file,"
@@ -56,7 +56,8 @@ class Database():
                             (file,
                              album_id,
                              player,
-                             url))
+                             url,
+                             result_url))
         self.commit()
 
     def add_reddit_row(self, url, submission_text, result_url):

@@ -91,9 +91,9 @@ class Imgur():
 
         response = requests.post(url, data=data, headers=headers)
         headers = response.headers
-        self.POST_RATE_LIMIT_LIMIT = headers['X-Post-Rate-Limit-Limit']
-        self.POST_RATE_LIMIT_REMAINING = headers['X-Post-Rate-Limit-Remaining']
-        self.POST_RATE_LIMIT_RESET = headers['X-Post-Rate-Limit-Reset']
+        self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
+        self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
+        self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])
         return response
 
     def start_session(self):
@@ -219,7 +219,8 @@ class Imgur():
         # r = requests.post(url, data=data, headers=self.HEADERS)
         if r.status_code != 200 and r.json()["success"] == "true":
             raise Exception("{} status code returned.".format(r.status_code))
-        return json.dumps(r.json(), indent=4, sort_keys=True)
+        # return json.dumps(r.json(), indent=4, sort_keys=True)
+        return r.json()
 
     """
     Returns: A list of the album hashes.
