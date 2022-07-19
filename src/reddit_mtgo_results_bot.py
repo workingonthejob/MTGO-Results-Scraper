@@ -11,13 +11,16 @@ from prawcore.exceptions import PrawcoreException
 from requests.exceptions import ConnectionError
 from IniParser import IniParser
 from database import Database
+from zoneinfo import ZoneInfo
 
 
+TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
 PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
 DATE_FORMAT = "%Y-%m-%d"
-TODAY = datetime.today().strftime(DATE_FORMAT)
+# TODAY = datetime.today().strftime(DATE_FORMAT)
+TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
 PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{TODAY}'
 PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{TODAY}'

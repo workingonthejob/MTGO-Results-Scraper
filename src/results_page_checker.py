@@ -10,6 +10,7 @@ from lxml import html
 from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
 from database import Database
+from zoneinfo import ZoneInfo
 
 
 fileConfig('logging_config.ini')
@@ -21,6 +22,8 @@ UPLOAD_TO_IMGUR = False
 EXPORT_TO_MARKDOWN = False
 CROP_SCREENSHOTS = True
 
+# Wizards is west coast
+TIME_ZONE = ZoneInfo('America/Los_Angeles')
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = None
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
@@ -57,23 +60,13 @@ class Checker():
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
 
-    def sleep_for_imgur(self):
-        time_elapsed = 0
-        log.info('Imgur API upload limit reached.')
-        # Update user every minute
-        while time_elapsed <= 3660:
-            time_elapsed_min = int(time_elapsed) / 60
-            log.info(
-                f'Slept for {time_elapsed_min} min.')
-            time.sleep(60)
-            time_elapsed += 60
-
     def run(self):
         log.info('Starting...')
         while True:
             for link in LINKS:
                 try:
-                    TODAY = datetime.today().strftime(DATE_FORMAT)
+                    # TODAY = datetime.today().strftime(DATE_FORMAT)
+                    TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
                     today_link = link.format(TODAY)
                     secret_link = None
                     screenshot_count = 0

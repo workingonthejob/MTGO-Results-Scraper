@@ -68,6 +68,14 @@ class Imgur():
         self.CLIENT_SECRET = ip.get_imgur_properties('CLIENT_SECRET')
         self.REFRESH_TOKEN = ip.get_imgur_properties('REFRESH_TOKEN')
         self.CURRENT_ACCESS_TOKEN = ip.get_imgur_properties('ACCESS_TOKEN')
+        self.RATE_LIMIT_USER_LIMIT = None
+        self.RATE_LIMIT_USER_REMAINING = None
+        self.RATE_LIMIT_USER_REST = None
+        self.RATE_LIMIT_CLIENT_LIMIT = None
+        self.RATE_LIMIT_CLIENT_REMAINING = None
+        self.POST_RATE_LIMIT_LIMIT = None
+        self.POST_RATE_LIMIT_REMAINING = None
+        self.POST_RATE_LIMIT_RESET = None
         self.USERNAME = ip.get_imgur_properties('USERNAME')
         self.HEADERS = {'User-Agent': USER_AGENT,
                         'accept': 'application/json',
@@ -77,23 +85,23 @@ class Imgur():
         self.test_and_update_access_token()
 
     def _post(self, url, data, headers, sleep=False):
-
-        if sleep and self.POST_RATE_LIMIT_REMAINING <= 0:
-            time_elapsed = 0
-            log.info('Imgur API upload limit reached.')
-            # Update user every minute
-            while time_elapsed <= self.POST_RATE_LIMIT_RESET:
-                time_elapsed_min = int(time_elapsed) / 60
-                log.info(
-                    f'Slept for {time_elapsed_min} min.')
-                time.sleep(60)
-                time_elapsed += 60
-
         response = requests.post(url, data=data, headers=headers)
         headers = response.headers
+
         self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
         self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
         self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])
+
+        if sleep and int(response.status_code) == 400:
+            if response['data']['error']['code'] == RATE_LIMITING_ERROR:
+                log.info('Imgur API upload limit reached.')
+                # Update user every minute
+                while time_elapsed <= self.POST_RATE_LIMIT_RESET:
+                    time_elapsed_min = int(time_elapsed) / 60
+                    log.info(
+                        f'Slept for {time_elapsed_min} min.')
+                    time.sleep(60)
+                    time_elapsed += 60
         return response
 
     def start_session(self):
@@ -177,6 +185,8 @@ class Imgur():
                 will_sleep = v
 
         r = self._post(url, data, self.HEADERS, will_sleep)
+        log.debug(r.json())
+
         if r.status_code != 200 and r.json()["success"] == "true":
             raise Exception("{} status code returned.".format(r.status_code))
         return r.json()
@@ -266,7 +276,7 @@ class Imgur():
     def run(self):
         self.start_session()
         self.test_and_update_access_token()
-        self.get_credits()
+        print(self.get_credits())
         # self.refresh()
         # self.download_album()
         # self.create_album(title="MyFancyAlbum")
