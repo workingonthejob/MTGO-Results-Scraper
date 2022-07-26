@@ -24,12 +24,14 @@ TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
 PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{TODAY}'
 PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{TODAY}'
+PIONEER_SHOWCASE_CHALLENGE = BASE_URL + f'pioneer-showcase-challenge-{TODAY}'
 PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{TODAY}'
 MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{TODAY}'
 MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{TODAY}'
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
-         PIONEER_SUPER_QUALIFIER]
+         PIONEER_SUPER_QUALIFIER,
+         PIONEER_SHOWCASE_CHALLENGE]
 
 RECOVERABLE_EXC = (
     APIException,
@@ -60,11 +62,13 @@ class MTGOResultsPostFinder:
         self.reddit = None
         self.db = Database('scraper')
 
-    """
-    Call from the controller class
-    """
+    def trigger_check(self):
+        '''
+        Go through the database and for each not posted link
+        check to see if it's in the imgur db.
+        '''
 
-    def post_results_to_reddit(self):
+    def post_results_to_reddit(self, markdown, url):
         pass
 
     def run(self):
@@ -95,7 +99,8 @@ class MTGOResultsPostFinder:
                         self.db.add_reddit_row(
                             submission_url,
                             submission.selftext,
-                            link)
+                            link,
+                            0)
                         new_list = []
                         matches = re.findall(PATTERN, submission.selftext)
                         # Remove duplicates but order is lost.

@@ -36,7 +36,8 @@ class Database():
                             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "url text,"
                             "submission_text text,"
-                            "result_url text)"
+                            "result_url text,"
+                            "posted_screenshots integer)"
                             .format(self.reddit_table))
 
     def update_row(self):
@@ -60,17 +61,19 @@ class Database():
                              result_url))
         self.commit()
 
-    def add_reddit_row(self, url, submission_text, result_url):
+    def add_reddit_row(self, url, submission_text, result_url, posted_screenshots):
         self.cursor.execute("INSERT INTO "
                             "{}("
                             "url,"
                             "submission_text,"
-                            "result_url) "
-                            "VALUES (?, ?, ?)"
+                            "result_url,"
+                            "posted_screenshots) "
+                            "VALUES (?, ?, ?, ?)"
                             .format(self.reddit_table),
                             (url,
                              submission_text,
-                             result_url))
+                             result_url,
+                             posted_screenshots))
         self.commit()
 
     def delete_file(self, file):
@@ -82,6 +85,9 @@ class Database():
 
     def reddit_url_in_table(self, value):
         return self.column_contains(self.reddit_table, 'url', value)
+
+    def is_result_link_in_imgur_table(self, value):
+        return self.column_contains(self.imgur_table, "result_url", value)
 
     def column_contains(self, table, column, value):
         sql = "\

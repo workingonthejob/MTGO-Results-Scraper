@@ -11,6 +11,7 @@ from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
 from database import Database
 from zoneinfo import ZoneInfo
+from requests.exceptions import ChunkedEncodingError
 
 
 fileConfig('logging_config.ini')
@@ -30,12 +31,14 @@ BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
 PIONEER_LEAGUE_LINK = BASE_URL + 'pioneer-league-{}'
 PIONEER_CHALLENGE_LINK = BASE_URL + 'pioneer-challenge-{}'
 PIONEER_SUPER_QUALIFIER = BASE_URL + 'pioneer-super-qualifier-{}'
+PIONEER_SHOWCASE_CHALLENGE = BASE_URL + 'pioneer-showcase-challenge-{}'
 MODERN_LEAGUE_LINK = BASE_URL + 'modern-league-{}'
 MODERN_CHALLENGE_LINK = BASE_URL + 'modern-challenge-{}'
 TEST_LINK = BASE_URL + 'modern-league-{}'.format('2022-06-17')
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
-         PIONEER_SUPER_QUALIFIER]
+         PIONEER_SUPER_QUALIFIER,
+         PIONEER_SHOWCASE_CHALLENGE]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
 ALREADY_PROCESSED_LINKS = []
@@ -80,10 +83,11 @@ class Checker():
                         s = self.session.get(secret_link, headers=self.headers)
                         tree = html.fromstring(s.content)
                         results = tree.find(X_NO_RESULT)
-                        log.info(secret_link)
+                        result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link)
 
-                        if results is None and today_link not in ALREADY_PROCESSED_LINKS:
+                        if results is None and not result_link_in_imgur_table:
                             try:
+                                log.info(secret_link)
                                 mrs = MTGOResultsScraper(secret_link,
                                                          OUTPUT_DIRECTORY,
                                                          TAKE_SCREENSHOTS,
@@ -109,12 +113,14 @@ class Checker():
                                                           imgur_link,
                                                           today_link)
                                     screenshot_count += 1
-                                ALREADY_PROCESSED_LINKS.append(today_link)
                             except IndexError as e:
                                 log.exception(e)
                 except KeyboardInterrupt as e:
                     log.exception(e)
+                except ChunkedEncodingError as e:
+                    log.exception(e)
             # 10 minutes
+            log.debug('Sleeping for 10 minutes.')
             time.sleep(600)
 
 
