@@ -7,6 +7,7 @@ import json
 import base64
 import logging
 import time
+import math
 
 
 fileConfig('logging_config.ini')
@@ -85,6 +86,7 @@ class Imgur():
         self.test_and_update_access_token()
 
     def _post(self, url, data, headers, sleep=False):
+        time_elapsed = 0
         response = requests.post(url, data=data, headers=headers)
         headers = response.headers
 
@@ -93,15 +95,18 @@ class Imgur():
         self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])
 
         if sleep and int(response.status_code) == 400:
-            if response['data']['error']['code'] == RATE_LIMITING_ERROR:
+            if response.json()['data']['error']['code'] == RATE_LIMITING_ERROR:
                 log.info('Imgur API upload limit reached.')
                 # Update user every minute
                 while time_elapsed <= self.POST_RATE_LIMIT_RESET:
-                    time_elapsed_min = int(time_elapsed) / 60
+                    time_elapsed_min = int(time_elapsed / 60)
+                    minutes_remaining = math.ceil(self.POST_RATE_LIMIT_RESET / 60)
                     log.info(
-                        f'Slept for {time_elapsed_min} min.')
+                        f'Slept for {time_elapsed_min}/{minutes_remaining} min.')
                     time.sleep(60)
                     time_elapsed += 60
+                # Retry after waiting
+                response = requests.post(url, data=data, headers=headers)
         return response
 
     def start_session(self):
