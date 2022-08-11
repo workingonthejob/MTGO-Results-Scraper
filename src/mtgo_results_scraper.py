@@ -50,6 +50,7 @@ class MTGOResultsScraper():
         self.screenshots = []
         self.imgur = None
         self.driver = None
+        self.number_of_decks = None
         self.x_header = '//header'
         self.x_deck_container = '//div[@class="deck-group"]'
         self.x_player = './/h4'
@@ -80,6 +81,9 @@ class MTGOResultsScraper():
 
     def get_screenshots(self):
         return self.screenshots
+
+    def get_number_of_decks(self):
+        return self.number_of_decks
 
     def start_session(self):
         session = requests.Session()
@@ -168,10 +172,10 @@ class MTGOResultsScraper():
             decks = self.find_elements_with_xpath(self.x_deck_container)
             names = self.find_elements_with_xpath(self.x_player)
             icons = self.find_elements_with_xpath(self.x_decklist_icons)
-            number_of_decks = len(decks)
+            self.number_of_decks = len(decks)
             inner_containers = self.find_elements_with_xpath('.//div[@class="deck-list-text"]')
 
-            for i in range(number_of_decks):
+            for i in range(self.number_of_decks):
                 screenshot_info = {}
                 size = decks[i].size
                 # screenshot_info['location'] = decks[i].location
@@ -181,7 +185,7 @@ class MTGOResultsScraper():
                 player = names[i].get_attribute("textContent").split(" ")[0]
                 output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
                 screenshot_info['file'] = output_file
-                log.debug("{}[{}/{}]".format(player, i + 1, number_of_decks))
+                log.debug("{}[{}/{}]".format(player, i + 1, self.number_of_decks))
                 decks[i].location_once_scrolled_into_view
                 hide(js_display_none, icons[i])
                 decks[i].screenshot(output_file)

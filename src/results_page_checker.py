@@ -95,7 +95,10 @@ class Checker():
                                                          CROP_SCREENSHOTS)
                                 mrs.take_decklist_screenshots()
                                 mrs.crop_images()
+                                number_of_decks = mrs.get_number_of_decks()
                                 folder_name = mrs.get_folder_name()
+
+                                self.db.add_wizards_row(today_link, number_of_decks)
                                 im = Imgur()
                                 album_id = im.create_album(
                                     title=folder_name)['data']['id']

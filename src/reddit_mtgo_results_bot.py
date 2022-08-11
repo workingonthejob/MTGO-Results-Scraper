@@ -67,6 +67,11 @@ class MTGOResultsPostFinder:
         Go through the database and for each not posted link
         check to see if it's in the imgur db.
         '''
+        rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
+        for row in rows_not_posted:
+            url = row[1]
+            submission_text = row[2]
+            results_url = row[3]
 
     def post_results_to_reddit(self, markdown, url):
         pass

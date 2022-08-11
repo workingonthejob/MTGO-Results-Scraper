@@ -15,9 +15,11 @@ class Database():
         self.tables = ['imgur_uploads', 'reddit']
         self.imgur_table = 'imgur_uploads'
         self.reddit_table = 'reddit'
+        self.wizards_table = 'wizards'
         self.cursor = self.db.cursor()
         self._create_imgur_table()
         self._create_reddit_table()
+        self._create_wizards_table()
 
     def _create_imgur_table(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS "
@@ -39,6 +41,19 @@ class Database():
                             "result_url text,"
                             "posted_screenshots integer)"
                             .format(self.reddit_table))
+
+    """
+        Create a table for the url and total deck numbers
+        the other tables can use as reference.
+    """
+
+    def _create_wizards_table(self):
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS "
+                            "{}("
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "url text,"
+                            "total_decks integer)"
+                            .format(self.wizards_table))
 
     def update_row(self):
         # https://www.sqlitetutorial.net/sqlite-update/
@@ -76,6 +91,17 @@ class Database():
                              posted_screenshots))
         self.commit()
 
+    def add_wizards_row(self, url, total_decks):
+        self.cursor.execute("INSERT INTO "
+                            "{}("
+                            "url,"
+                            "total_decks) "
+                            "VALUES (?, ?)"
+                            .format(self.wizards_table),
+                            (url,
+                             total_decks))
+        self.commit()
+
     def delete_file(self, file):
         self.cursor.execute(f'DELETE FROM {self.imgur_table} WHERE file = \'{file}\'')
         self.commit()
@@ -85,6 +111,9 @@ class Database():
 
     def reddit_url_in_table(self, value):
         return self.column_contains(self.reddit_table, 'url', value)
+
+    def reddit_result_url_in_table(self, value):
+        return self.column_contains(self.reddit_table, 'result_url', value)
 
     def is_result_link_in_imgur_table(self, value):
         return self.column_contains(self.imgur_table, "result_url", value)
@@ -103,6 +132,15 @@ class Database():
         for row in self.cursor.execute(sql):
             return True if row[0] == 1 else False
 
+    def reddit_get_all_rows_that_didnt_post(self):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+          WHERE posted_screenshots = '{value}'\
+        ".format(table=self.reddit_table, value=0)
+        response = self.cursor.execute(sql).fetchall()
+        return [row for row in response]
+
     def commit(self):
         self.db.commit()
 
@@ -114,8 +152,9 @@ class Database():
 if __name__ == "__main__":
     db = None
     try:
-        db = Database("Uploads")
-        db.add_imgur_row(r'C:\foo\smthing.png', 'xYfk29', 'Player_Name', 'https://something.com')
+        db_file = f""
+        db = Database(db_file)
+        # db.add_imgur_row(r'C:\foo\smthing.png', 'xYfk29', 'Player_Name', 'https://something.com')
         # db.delete_file(r'C:\foo\smthing.png')
     except Exception as e:
         log.exception(e)

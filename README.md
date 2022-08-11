@@ -52,8 +52,6 @@ For output examples of `-s/--take-screenshots` look [here](examples/take-screens
 
 The application can be broken down into these key pieces: A controller, scraper/screenshotter, reddit tracker and uploader. The controllers primary job is to orchestrate the individual components in one file. While the secondary job is to query the results page at a pre-defined interval to see when the results are posted. When results are posted screenshots are taken of the deck lists, cropped, and then uploaded to Imgur. Independent of the screenshotter and uploader is the reddit tracker which runs at its own interval to see when a user has posted the results and stores the reddit thread in a DB. The primary reason for keeping these two things separate is because of the Imgur API. Imgur only allows 50 uploads per hour. It will take time for whoever is posting the thread on reddit to classify the decks so the faster we can detect when the results are posted the faster we can upload and wait before the reddit thread is created.
 
----
-
 Install the requirements:
 
 `pip install -r requirements.txt`
