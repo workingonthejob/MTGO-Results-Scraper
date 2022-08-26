@@ -47,6 +47,7 @@ class Imgur():
         self.REFRESH_TOKEN = refresh_token
         self.API_URL = 'https://api.imgur.com'
         self.CURRENT_ACCESS_TOKEN = access_token
+        self.SESSION = None
         self.RATE_LIMIT_USER_LIMIT = None
         self.RATE_LIMIT_USER_REMAINING = None
         self.RATE_LIMIT_USER_REST = None
@@ -69,6 +70,7 @@ class Imgur():
         self.CLIENT_SECRET = ip.get_imgur_properties('CLIENT_SECRET')
         self.REFRESH_TOKEN = ip.get_imgur_properties('REFRESH_TOKEN')
         self.CURRENT_ACCESS_TOKEN = ip.get_imgur_properties('ACCESS_TOKEN')
+        self.SESSION = None
         self.RATE_LIMIT_USER_LIMIT = None
         self.RATE_LIMIT_USER_REMAINING = None
         self.RATE_LIMIT_USER_REST = None
@@ -87,31 +89,44 @@ class Imgur():
 
     def _post(self, url, data, headers, sleep=False):
         time_elapsed = 0
-        response = requests.post(url, data=data, headers=headers)
-        headers = response.headers
+        r = self.SESSION.post(url, data=data, headers=headers)
+        headers = r.headers
+
+        if r.status_code != 200:
+            r.raise_for_status()
+            # raise Exception(f'{r.status_code} status code returned.')
 
         self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
         self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
         self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])
 
-        if sleep and int(response.status_code) == 400:
-            if response.json()['data']['error']['code'] == RATE_LIMITING_ERROR:
+        if sleep and int(r.status_code) == 400:
+            if r.json()['data']['error']['code'] == RATE_LIMITING_ERROR:
                 log.info('Imgur API upload limit reached.')
                 # Update user every minute
                 while time_elapsed <= self.POST_RATE_LIMIT_RESET:
+                    time.sleep(60)
+                    time_elapsed += 60
                     time_elapsed_min = int(time_elapsed / 60)
                     minutes_remaining = math.ceil(self.POST_RATE_LIMIT_RESET / 60)
                     log.info(
                         f'Slept for {time_elapsed_min}/{minutes_remaining} min.')
-                    time.sleep(60)
-                    time_elapsed += 60
                 # Retry after waiting
-                response = requests.post(url, data=data, headers=headers)
-        return response
+                r = self.SESSION.post(url, data=data, headers=headers)
+
+                if r.status_code != 200:
+                    log.debug(r.status_code)
+                    r.raise_for_status()
+                    # raise Exception(f'{r.status_code} status code returned.')
+        return r
 
     def start_session(self):
+        # https://findwork.dev/blog/advanced-usage-python-requests-timeouts-retries-hooks/#request-hooks
         self.SESSION = requests.Session()
-        retry = Retry(connect=3, backoff_factor=0.5)
+        retry = Retry(connect=3,
+                      backoff_factor=0.5,
+                      status_forcelist=[502],
+                      allowed_methods=['POST'])
         adapter = HTTPAdapter(max_retries=retry)
         self.SESSION.mount('http://', adapter)
         self.SESSION.mount('https://', adapter)
@@ -125,7 +140,7 @@ class Imgur():
         }
 
         url = "/".join([self.API_URL, "oauth2", "token"])
-        response = requests.post(url, data=data)
+        response = self.SESSION.post(url, data=data)
 
         if response.status_code != 200:
             raise Exception('Error refreshing access token!',
@@ -178,22 +193,22 @@ class Imgur():
         will_sleep = False
 
         for k, v in kwargs.items():
+            if k == "sleep":
+                will_sleep = v
+                continue
             if k not in SUPPORTED_IMAGE_KEYS:
-                log.debug("'{}' not a supported API option.".format(k))
+                log.debug(f'"{k}" not a supported API option.')
             if "image" not in kwargs:
                 raise Exception("'image' key is required.")
             if k == "image":
                 data[k] = base64.b64encode(open(v, "rb").read())
             else:
                 data[k] = v
-            if k == "sleep":
-                will_sleep = v
 
         r = self._post(url, data, self.HEADERS, will_sleep)
-        log.debug(r.json())
 
-        if r.status_code != 200 and r.json()["success"] == "true":
-            raise Exception("{} status code returned.".format(r.status_code))
+        # if r.status_code != 200 and r.json()["success"] == "true":
+        #     raise Exception("{} status code returned.".format(r.status_code))
         return r.json()
 
     """
@@ -237,6 +252,26 @@ class Imgur():
         # return json.dumps(r.json(), indent=4, sort_keys=True)
         return r.json()
 
+    def get_key_from_image_album(self, id, key):
+        '''
+            Return a list of values of the given key
+            from an image object.
+        '''
+        data = self.get_images_from_album(id)
+        return [image[key] for image in data if key in image]
+
+    def get_images_from_album(self, id):
+        '''
+           Using the album_id return all the images associated
+           to the album.
+        '''
+        url = "/".join([self.API_URL, "3", "account",
+                        self.USERNAME, "album", id, 'images'])
+        r = self.SESSION.get(url, headers=self.HEADERS)
+        if r.status_code != 200:
+            r.raise_for_status()
+        return r.json()['data']
+
     """
     Returns: A list of the album hashes.
     """
@@ -244,9 +279,9 @@ class Imgur():
     def get_albums(self, page=0):
         url = "/".join([self.API_URL, "3", "account",
                         self.USERNAME, "albums", "ids", str(page)])
-        r = requests.get(url, headers=self.HEADERS)
-        if r.status_code != 200 and r.json()["success"] == "true":
-            raise Exception("{} status code returned.".format(r.status_code))
+        r = self.SESSION.get(url, headers=self.HEADERS)
+        if r.status_code != 200:
+            r.raise_for_status()
         return r.json()["data"]
 
     def download_album(self, directory="."):
@@ -254,7 +289,7 @@ class Imgur():
             self.SESSION.json(), indent=4, sort_keys=True)
         actual_json = json.loads(pretty_json_string)
         for image in actual_json['data']['images']:
-            r = requests.get(image['link'], allow_redirects=True)
+            r = self.SESSION.get(image['link'], allow_redirects=True)
             file_name = image['link'].split("/")[-1]
             absolute_path = "\\".join([directory, file_name])
             with open(absolute_path, 'wb') as f:
@@ -266,7 +301,7 @@ class Imgur():
         # this was run. This is just easier now.
         log.debug("Checking access_token is still valid.")
         url = "/".join([self.API_URL, "3", "account", self.USERNAME])
-        r = requests.get(url, headers=self.HEADERS)
+        r = self.SESSION.get(url, headers=self.HEADERS)
         if r.status_code == 401:
             log.debug("access_token was invalid. Updating it.")
             self.refresh()
@@ -275,13 +310,13 @@ class Imgur():
 
     def get_credits(self):
         url = "/".join([self.API_URL, "3", "credits"])
-        r = requests.get(url, headers=self.HEADERS)
+        r = self.SESSION.get(url, headers=self.HEADERS)
         return r.json()
 
     def run(self):
         self.start_session()
         self.test_and_update_access_token()
-        print(self.get_credits())
+        # self.get_credits()
         # self.refresh()
         # self.download_album()
         # self.create_album(title="MyFancyAlbum")
