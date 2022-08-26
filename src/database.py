@@ -118,6 +118,33 @@ class Database():
     def is_result_link_in_imgur_table(self, value):
         return self.column_contains(self.imgur_table, "result_url", value)
 
+    def wizards_get_total_decklist_for_link(self, link):
+        sql = "\
+          SELECT {column}\
+          FROM {table}\
+          WHERE url = '{link}'\
+        ".format(table=self.wizards_table, column='total_decks', link=link)
+        response = self.cursor.execute(sql).fetchall()
+        return int(response[0][0])
+
+    def imgur_get_total_decklist_for_link(self, link):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+          WHERE result_url = '{link}'\
+        ".format(table=self.imgur_table, link=link)
+        response = self.cursor.execute(sql).fetchall()
+        return int(len(response))
+
+    def imgur_find_rows_matching_link(self, link, player):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+          WHERE result_url = '{link}' and player = '{player}'\
+        ".format(table=self.imgur_table, link=link, player=player)
+        response = self.cursor.execute(sql).fetchall()
+        return response
+
     def column_contains(self, table, column, value):
         sql = "\
         SELECT CASE WHEN EXISTS(\
