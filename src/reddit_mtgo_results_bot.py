@@ -62,19 +62,62 @@ class MTGOResultsPostFinder:
         self.reddit = None
         self.db = Database('scraper')
 
-    def trigger_check(self):
-        '''
-        Go through the database and for each not posted link
-        check to see if it's in the imgur db.
-        '''
+    def sanitize_for_markdown(self, text):
+        s = text.replace('\\', 1) if r'\\' in text else text
+        return s
+
+    def write_line_to_markdown(self, line, event):
+        output_file = f'reddit-markdown-{event}.md'
+        with open(output_file, 'a') as f:
+            f.write(line + '\n')
+
+    def build_markdown(self, submission_text, link):
+        markdown = ""
+        matches = re.findall(PATTERN, submission_text)
+        # Remove duplicates but order is lost.
+        # matches = list(set(matches)) if matches else None
+        # Do not include duplicates but preserve order.
         rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
         for row in rows_not_posted:
-            url = row[1]
-            submission_text = row[2]
             results_url = row[3]
+            if link == results_url:
+                for match in matches:
+                    archetype = match[0]
+                    escaped_player = match[1]
+                    player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
+                    r = self.db.imgur_find_rows_matching_link(results_url, player)
+                    imgur_link = r[0][4]
+                    line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
+                    markdown += line
+        return markdown
 
-    def post_results_to_reddit(self, markdown, url):
+    def write_to_markdown(self, submission_text, event, link):
+        output_file = f'reddit-markdown-{event}.md'
+        markdown = self.build_markdown(submission_text, link)
+        with open(output_file, 'a') as f:
+            f.write(markdown)
+
+    def create_markdown_based_on_current_state(self):
+        '''
+        Create the markdown based on reddit links not submitted
+        yet and only use what's currently in the DB.
+        '''
         pass
+
+    def _decklists_are_same_size(self):
+        rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
+        for row in rows_not_posted:
+            results_url = row[3]
+            expected_total_decklist = self.db.wizards_get_total_decklist_for_link(results_url)
+            actual_total_decklist = self.db.imgur_get_total_decklist_for_link(results_url)
+            return True if expected_total_decklist == actual_total_decklist else False
+
+    def check_before_posting(self):
+        '''
+            Perform checks that the data that is being posted
+            is correct.
+        '''
+        self._decklists_are_same_size() is True
 
     def run(self):
         """
@@ -99,32 +142,20 @@ class MTGOResultsPostFinder:
                 if submission.is_self and link in submission.selftext:
                     seen_url = self.db.reddit_url_in_table(submission_url)
                     if not seen_url:
-                        log.debug(submission_title)
                         log.debug(f'Adding {submission_url} to DB.')
-                        self.db.add_reddit_row(
-                            submission_url,
-                            submission.selftext,
-                            link,
-                            0)
-                        new_list = []
-                        matches = re.findall(PATTERN, submission.selftext)
-                        # Remove duplicates but order is lost.
-                        # matches = list(set(matches)) if matches else None
-                        # Do not include duplicates but preserve order.
-                        for match in matches:
-                            if match not in new_list:
-                                new_list.append(match)
-
-                        with open('reddit-markdown.md', 'w+') as f:
-                            blob = []
-                            for match in new_list:
-                                archetype = match[0]
-                                player = match.replace('\\', 1) if r'\\' in match[1] else match[1]
-                                line = f'* [{archetype}]({{}}): **{player}**'
-                                log.debug(line)
-                                blob.append(line)
-                            o = '\n'.join(blob)
-                            f.write(o)
+                        try:
+                            self.db.add_reddit_row(
+                                submission_url,
+                                submission.selftext,
+                                link,
+                                0)
+                            markdown = self.build_markdown(submission.selftext, link)
+                            self.write_to_markdown(
+                                submission.selftext, submission.title, link)
+                            log.debug(markdown)
+                            # submission.reply(markdown)
+                        except Exception as e:
+                            log.exception(e)
                         sys.exit(0)
 
     def setup(self):
