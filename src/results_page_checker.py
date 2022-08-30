@@ -11,7 +11,7 @@ from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
 from database import Database
 from zoneinfo import ZoneInfo
-from requests.exceptions import ChunkedEncodingError
+from requests.exceptions import ChunkedEncodingError, JSONDecodeError, HTTPError
 
 
 fileConfig('logging_config.ini')
@@ -63,6 +63,13 @@ class Checker():
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
 
+    def clean_url(self, url):
+        '''
+            Clean the link of parameters (?oe etc.) before
+            committing to the database.
+        '''
+        return url.split('?')[0]
+
     def run(self):
         log.info('Starting...')
         while True:
@@ -71,6 +78,7 @@ class Checker():
                     # TODAY = datetime.today().strftime(DATE_FORMAT)
                     TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
                     today_link = link.format(TODAY)
+                    today_link_clean = self.clean_url(today_link)
                     secret_link = None
                     screenshot_count = 0
                     letters = list(string.ascii_lowercase)
@@ -83,29 +91,29 @@ class Checker():
                         s = self.session.get(secret_link, headers=self.headers)
                         tree = html.fromstring(s.content)
                         results = tree.find(X_NO_RESULT)
-                        result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link)
+                        result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link_clean)
 
                         if results is None and not result_link_in_imgur_table:
-                            try:
-                                log.info(secret_link)
-                                mrs = MTGOResultsScraper(secret_link,
-                                                         OUTPUT_DIRECTORY,
-                                                         TAKE_SCREENSHOTS,
-                                                         UPLOAD_TO_IMGUR,
-                                                         CROP_SCREENSHOTS)
-                                mrs.take_decklist_screenshots()
-                                mrs.crop_images()
-                                number_of_decks = mrs.get_number_of_decks()
-                                folder_name = mrs.get_folder_name()
+                            log.info(secret_link)
+                            mrs = MTGOResultsScraper(secret_link,
+                                                     OUTPUT_DIRECTORY,
+                                                     TAKE_SCREENSHOTS,
+                                                     UPLOAD_TO_IMGUR,
+                                                     CROP_SCREENSHOTS)
+                            mrs.take_decklist_screenshots()
+                            mrs.crop_images()
+                            number_of_decks = mrs.get_number_of_decks()
+                            folder_name = mrs.get_folder_name()
 
-                                self.db.add_wizards_row(today_link, number_of_decks)
-                                im = Imgur()
-                                album_id = im.create_album(
-                                    title=folder_name)['data']['id']
-                                for screenshot in mrs.get_screenshots():
-                                    screenshot_file = screenshot['screenshot']['file']
-                                    player = screenshot['player']
-                                    log.info(f'Uploading {screenshot_file}')
+                            self.db.add_wizards_row(today_link_clean, number_of_decks)
+                            im = Imgur()
+                            album_id = im.create_album(
+                                title=folder_name)['data']['id']
+                            for screenshot in mrs.get_screenshots():
+                                screenshot_file = screenshot['screenshot']['file']
+                                player = screenshot['player']
+                                log.info(f'Uploading {screenshot_file}')
+                                try:
                                     response = im.upload_image(image=screenshot_file,
                                                                album=album_id,
                                                                sleep=True)
@@ -114,10 +122,10 @@ class Checker():
                                                           album_id,
                                                           player,
                                                           imgur_link,
-                                                          today_link)
+                                                          today_link_clean)
                                     screenshot_count += 1
-                            except IndexError as e:
-                                log.exception(e)
+                                except HTTPError as e:
+                                    log.exception(e)
                 except KeyboardInterrupt as e:
                     log.exception(e)
                 except ChunkedEncodingError as e:
