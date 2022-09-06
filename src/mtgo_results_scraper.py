@@ -54,7 +54,7 @@ class MTGOResultsScraper():
         self.x_header = '//header'
         self.x_deck_container = '//div[@class="deck-group"]'
         self.x_player = './/h4'
-        self.x_card_name = './/span[@class="card-name"]/a[text()="{}"]'
+        self.x_card_name = './/span[@class="card-name"]/a[text()="{card}"] | .//div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name" and text()="{card}"]'
         self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
         self.x_main_card_counts = './/div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-count"]'
         self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
@@ -262,7 +262,7 @@ class MTGOResultsScraper():
         js_highlight = "arguments[0].style.background = 'Yellow'"
         highlight = self.driver.execute_script
         cards = self.find_elements_with_xpath(
-            self.x_card_name.format(card_name))
+            self.x_card_name.format(card=card_name))
         [highlight(js_highlight, card) for card in cards]
 
     def highlight_latest_cards(self):
