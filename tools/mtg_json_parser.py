@@ -1,7 +1,7 @@
 import json
 import glob
 
-exclude = ("Plains", "Swamp", "Island", "Forest", "Mountain", "Disdainful Stroke")
+exclude = ("Plains", "Swamp", "Island", "Forest", "Mountain", "Disdainful Stroke", "Negate")
 
 
 def parse_mtg_json_for_latest_cards():

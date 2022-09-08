@@ -118,6 +118,11 @@ class Database():
     def is_result_link_in_imgur_table(self, value):
         return self.column_contains(self.imgur_table, "result_url", value)
 
+    def total_decks_match_for_link(self, link):
+        wizards = self.wizards_get_total_decklist_for_link(link)
+        imgur = self.imgur_get_total_decklist_for_link(link)
+        return True if wizards == imgur else False
+
     def wizards_get_total_decklist_for_link(self, link):
         sql = "\
           SELECT {column}\
@@ -168,12 +173,28 @@ class Database():
         response = self.cursor.execute(sql).fetchall()
         return [row for row in response]
 
+    def reddit_update_posted_screenshot(self, oneOrZero, result_url):
+        sql = "\
+          UPDATE {table}\
+          SET posted_screenshots = '{value}'\
+          WHERE result_url = '{result_url}'\
+        ".format(table=self.reddit_table, value=oneOrZero, result_url=result_url)
+        self.cursor.execute(sql).fetchall()
+        self.db.commit()
+
     def commit(self):
         self.db.commit()
 
     def close(self):
         log.debug("Closing database connection.")
         self.db.close()
+
+    def output_all(self):
+        sql = "\
+          SELECT *\
+          FROM {table}".format(table=self.imgur_table)
+        response = self.cursor.execute(sql).fetchall()
+        return response[len(response) - 1]
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ from database import Database
 from zoneinfo import ZoneInfo
 
 
+SUBREDDIT = 'PioneerMTG'
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
@@ -72,7 +73,28 @@ class MTGOResultsPostFinder:
             f.write(line + '\n')
 
     def build_markdown(self, submission_text, link):
-        markdown = ""
+        markdown = '''Here are the screenshots for the deck lists. Highlighted are DMU cards.\n\n'''
+        total_decks = self.db.wizards_get_total_decklist_for_link(link)
+        counter = 0
+
+        for line in submission_text:
+            if counter >= total_decks:
+                break
+            matches = re.findall(PATTERN, line)
+            if matches:
+                counter += 1
+                for match in matches:
+                    archetype = match[0]
+                    escaped_player = match[1]
+                    player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
+                    r = self.db.imgur_find_rows_matching_link(link, player)
+                    imgur_link = r[0][4]
+                    line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
+                    markdown += line
+        return markdown
+
+    def build_markdown2(self, submission_text, link):
+        markdown = "Here are the screenshots for the deck lists. Highlighted are DMU cards.\n\n"
         matches = re.findall(PATTERN, submission_text)
         # Remove duplicates but order is lost.
         # matches = list(set(matches)) if matches else None
@@ -119,44 +141,50 @@ class MTGOResultsPostFinder:
         '''
         self._decklists_are_same_size() is True
 
+    def find_new_results(self):
+        subreddit = self.reddit.subreddit(SUBREDDIT)
+        for link in LINKS:
+            for submission in subreddit.new(limit=20):
+            # for submission in subreddit.top(time_filter="hour"):
+                seen_url = self.db.reddit_url_in_table(submission.url)
+                if submission.is_self and link in submission.selftext and not seen_url:
+                    log.debug(f'Adding {submission.url} to DB.')
+                    self.db.add_reddit_row(
+                        submission.url,
+                        submission.selftext,
+                        link,
+                        0)
+
+    def test_build_markdown(self, results_url):
+        with open('reddit_test_input.txt', 'r') as f:
+            submission_text = f.readlines()
+            return self.build_markdown(submission_text, results_url)
+
     def run(self):
         """
         Checks through the submissions and archives and posts comments.
         """
-        if not self._setup:
-            raise Exception("{} not ready yet!").format(self.username)
-        subreddit = self.reddit.subreddit('PioneerMTG')
-
-        for submission in subreddit.new(limit=20):
-        # for submission in subreddit.top(time_filter="hour"):
-            submission_title = submission.title
-            submission_url = submission.url
-            submission_author = submission.author
-            submission_id = submission.id
-            submission_creation_time_utc = submission.created_utc
-            submission_creation_time_readable = datetime.fromtimestamp(
-                submission_creation_time_utc)
-
-            for link in LINKS:
-                log.debug(link)
-                if submission.is_self and link in submission.selftext:
-                    seen_url = self.db.reddit_url_in_table(submission_url)
-                    if not seen_url:
-                        log.debug(f'Adding {submission_url} to DB.')
-                        try:
-                            self.db.add_reddit_row(
-                                submission_url,
-                                submission.selftext,
-                                link,
-                                0)
-                            markdown = self.build_markdown(submission.selftext, link)
-                            self.write_to_markdown(
-                                submission.selftext, submission.title, link)
-                            log.debug(markdown)
-                            # submission.reply(markdown)
-                        except Exception as e:
-                            log.exception(e)
-                        sys.exit(0)
+        try:
+            self.find_new_results()
+            rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
+            for row in rows_not_posted:
+                reddit_url = row[1]
+                submission_text = row[2]
+                results_url = row[3]
+                submission = self.reddit.submission(url=reddit_url)
+                if self.db.total_decks_match_for_link(results_url):
+                    markdown = self.build_markdown(submission_text,
+                                                   results_url)
+                    self.write_to_markdown(
+                        submission_text,
+                        submission.title,
+                        results_url)
+                    log.debug(markdown)
+                    self.db.reddit_update_posted_screenshot(1, results_url)
+                    # self.check_before_posting()
+                    # submission.reply(markdown)
+        except Exception as e:
+            log.exception(e)
 
     def setup(self):
         """
@@ -192,27 +220,18 @@ if __name__ == "__main__":
 
     log.info("Starting...")
     try:
-        cycles = 0
-        while True:
-            try:
-                cycles += 1
-                log.info("Running")
-                bot = MTGOResultsPostFinder(
-                    username,
-                    password,
-                    client_id,
-                    client_secret)
-                bot.setup() if not setup_has_been_run else None
-                bot.run()
-                log.info("Done")
-                # This will refresh by default
-                # around ~30 minutes (depending
-                # on delays).
-                if cycles > (refresh / wait) / 2:
-                    log.info("Reloading header text and ignore list...")
-                    cycles = 0
-            except RECOVERABLE_EXC as e:
-                log.exception(e)
+        try:
+            log.info("Running")
+            bot = MTGOResultsPostFinder(
+                username,
+                password,
+                client_id,
+                client_secret)
+            bot.setup() if not setup_has_been_run else None
+            bot.run()
+            log.info("Done")
+        except RECOVERABLE_EXC as e:
+            log.exception(e)
 
             time.sleep(wait)
     except KeyboardInterrupt:

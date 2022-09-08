@@ -63,7 +63,6 @@ class Imgur():
     # Python doesn't support multiple constructors it will always use the latest
     # i.e. this one since it's the latest one.
     def __init__(self):
-        print("Using the default imgur-config.ini file.")
         ip = IniParser('imgur-config.ini')
         self.API_URL = 'https://api.imgur.com'
         self.CLIENT_ID = ip.get_imgur_properties('CLIENT_ID')
