@@ -54,7 +54,7 @@ class MTGOResultsScraper():
         self.x_header = '//header'
         self.x_deck_container = '//div[@class="deck-group"]'
         self.x_player = './/h4'
-        self.x_card_name = './/span[@class="card-name"]/a[text()="{card}"] | .//div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name" and text()="{card}"]'
+        self.x_card_name = './/span[@class="card-name"]/a[text()="{card}"] | .//span[@class="card-name" and text()="{card}"]'
         self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
         self.x_main_card_counts = './/div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-count"]'
         self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
