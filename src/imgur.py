@@ -91,10 +91,6 @@ class Imgur():
         r = self.SESSION.post(url, data=data, headers=headers)
         headers = r.headers
 
-        if r.status_code != 200:
-            r.raise_for_status()
-            # raise Exception(f'{r.status_code} status code returned.')
-
         self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
         self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
         self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])

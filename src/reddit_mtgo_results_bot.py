@@ -19,6 +19,7 @@ TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
 PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
+# PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*(.+?)(\s\(.+?\))?\*'
 DATE_FORMAT = "%Y-%m-%d"
 # TODAY = datetime.today().strftime(DATE_FORMAT)
 TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
@@ -73,44 +74,33 @@ class MTGOResultsPostFinder:
             f.write(line + '\n')
 
     def build_markdown(self, submission_text, link):
-        markdown = '''Here are the screenshots for the deck lists. Highlighted are DMU cards.\n\n'''
+        imgur_album_id = self.db.imgur_get_album_with_link(link)
+        markdown = (f'Here are the screenshots for the deck lists.'
+                    f'Highlighted are DMU cards.\n\n'
+                    f'[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
         total_decks = self.db.wizards_get_total_decklist_for_link(link)
         counter = 0
+        lines = submission_text.split('\n')
 
-        for line in submission_text:
+        for line in lines:
             if counter >= total_decks:
                 break
             matches = re.findall(PATTERN, line)
             if matches:
                 counter += 1
                 for match in matches:
-                    archetype = match[0]
-                    escaped_player = match[1]
-                    player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
-                    r = self.db.imgur_find_rows_matching_link(link, player)
-                    imgur_link = r[0][4]
-                    line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
-                    markdown += line
-        return markdown
-
-    def build_markdown2(self, submission_text, link):
-        markdown = "Here are the screenshots for the deck lists. Highlighted are DMU cards.\n\n"
-        matches = re.findall(PATTERN, submission_text)
-        # Remove duplicates but order is lost.
-        # matches = list(set(matches)) if matches else None
-        # Do not include duplicates but preserve order.
-        rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
-        for row in rows_not_posted:
-            results_url = row[3]
-            if link == results_url:
-                for match in matches:
-                    archetype = match[0]
-                    escaped_player = match[1]
-                    player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
-                    r = self.db.imgur_find_rows_matching_link(results_url, player)
-                    imgur_link = r[0][4]
-                    line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
-                    markdown += line
+                    try:
+                        archetype = match[0]
+                        escaped_player = match[1]
+                        player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
+                        r = self.db.imgur_find_rows_matching_link(link, player)
+                        # This assumes there are no duplicate players
+                        imgur_link = r[0][4]
+                        line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
+                        markdown += line
+                    except IndexError:
+                        line = f'* [{archetype}](): **{escaped_player}**\n'
+                        markdown += line
         return markdown
 
     def write_to_markdown(self, submission_text, event, link):
@@ -126,20 +116,13 @@ class MTGOResultsPostFinder:
         '''
         pass
 
-    def _decklists_are_same_size(self):
-        rows_not_posted = self.db.reddit_get_all_rows_that_didnt_post()
-        for row in rows_not_posted:
-            results_url = row[3]
-            expected_total_decklist = self.db.wizards_get_total_decklist_for_link(results_url)
-            actual_total_decklist = self.db.imgur_get_total_decklist_for_link(results_url)
-            return True if expected_total_decklist == actual_total_decklist else False
-
     def check_before_posting(self):
         '''
             Perform checks that the data that is being posted
             is correct.
         '''
-        self._decklists_are_same_size() is True
+        # self._decklists_are_same_size() is True
+        pass
 
     def find_new_results(self):
         subreddit = self.reddit.subreddit(SUBREDDIT)
@@ -173,13 +156,10 @@ class MTGOResultsPostFinder:
                 results_url = row[3]
                 submission = self.reddit.submission(url=reddit_url)
                 if self.db.total_decks_match_for_link(results_url):
-                    markdown = self.build_markdown(submission_text,
-                                                   results_url)
                     self.write_to_markdown(
                         submission_text,
                         submission.title,
                         results_url)
-                    log.debug(markdown)
                     self.db.reddit_update_posted_screenshot(1, results_url)
                     # self.check_before_posting()
                     # submission.reply(markdown)
