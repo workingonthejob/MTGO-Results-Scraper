@@ -3,8 +3,8 @@ import argparse
 import sys
 import os
 import re
-import time
 import logging
+import json
 from PIL import Image
 from lxml import html
 from requests.adapters import HTTPAdapter
@@ -16,10 +16,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
-from pprint import pprint
-from imgur import Imgur
-from imgur import MAX_UPLOADS_PER_HOUR
-from IniParser import IniParser
 from logging.config import fileConfig
 
 
@@ -36,11 +32,10 @@ MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
 
 class MTGOResultsScraper():
 
-    def __init__(self, url, output_dir, take_screenshots, upload_to_imgur, crop_screenshots):
+    def __init__(self, url, output_dir, take_screenshots, crop_screenshots):
         self.url = url
         self.output_dir = output_dir
         self.take_screenshots = take_screenshots
-        self.upload_to_imgur = upload_to_imgur
         self.crop_screenshots = crop_screenshots
         self.mtgo_output_folder_dir = None
         self.folder_name = None
@@ -48,7 +43,6 @@ class MTGOResultsScraper():
         self.league = None
         self.date = None
         self.screenshots = []
-        self.imgur = None
         self.driver = None
         self.number_of_decks = None
         self.x_header = '//header'
@@ -103,7 +97,6 @@ class MTGOResultsScraper():
                          "Sideboard": sideboard}
             player = deck.find(self.x_player).text.split(" ")[0]
             container["Player"] = player
-            # print("[{}]".format(player))
             main_card_names = deck.findall(self.x_main_card_names)
             main_card_counts = deck.findall(self.x_main_card_counts)
             side_card_names = deck.findall(self.x_side_card_names)
@@ -121,7 +114,7 @@ class MTGOResultsScraper():
                 card_name = side_card_names[i].text
                 total_cards_side += number_of_cards
                 sideboard[card_name] = number_of_cards
-            pprint(container)
+            print(json.dumps(container))
 
     def find_elements_with_xpath(self, xpath):
         return self.driver.find_elements(by=By.XPATH, value=xpath)
@@ -185,7 +178,7 @@ class MTGOResultsScraper():
                 player = names[i].get_attribute("textContent").split(" ")[0]
                 output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
                 screenshot_info['file'] = output_file
-                log.debug("{}[{}/{}]".format(player, i + 1, self.number_of_decks))
+                log.debug(f"[{i + 1}/{self.number_of_decks}] {player}")
                 decks[i].location_once_scrolled_into_view
                 hide(js_display_none, icons[i])
                 decks[i].screenshot(output_file)
@@ -223,41 +216,6 @@ class MTGOResultsScraper():
         self.mtgo_output_folder_dir = os.path.join(self.output_dir, self.folder_name)
         os.makedirs(self.mtgo_output_folder_dir, exist_ok=True)
 
-    def load_imgur_credentials(self):
-        log.debug("Loading imgur credentials...")
-        ip = IniParser('imgur-config.ini')
-        client_id = ip.get_imgur_properties('CLIENT_ID')
-        client_secret = ip.get_imgur_properties('CLIENT_SECRET')
-        refresh_token = ip.get_imgur_properties('REFRESH_TOKEN')
-        access_token = ip.get_imgur_properties('ACCESS_TOKEN')
-        username = ip.get_imgur_properties('USERNAME')
-        self.imgur = Imgur(username,
-                           client_id,
-                           client_secret,
-                           refresh_token,
-                           access_token)
-        self.imgur.start_session()
-        self.imgur.test_and_update_access_token()
-
-    def upload(self):
-        self.load_imgur_credentials()
-        album = self.imgur.create_album(title=self.folder_name)
-        album_id = album['data']['id']
-        for screenshot in self.screenshots:
-            name = screenshot['screenshot']['file'].split('\\')[-1]
-            log.debug("Uploading {}".format(name))
-            result = MAX_UPLOADS_PER_HOUR - self.screenshots.index(screenshot)
-
-            if result == 0:
-                log.warning("Reached {} upload limit on Imgur."
-                            .format(MAX_UPLOADS_PER_HOUR))
-                log.warning("Sleeping for an hour until resuming.")
-                time.sleep(3660)
-            r = self.imgur.upload_image(
-                image=screenshot['screenshot']['file'], album=album_id)
-            screenshot['imgur'] = r['data']['link']
-            time.sleep(1)
-
     def highlight_card(self, card_name):
         js_highlight = "arguments[0].style.background = 'Yellow'"
         highlight = self.driver.execute_script
@@ -282,9 +240,7 @@ class MTGOResultsScraper():
             self.take_decklist_screenshots()
             if self.crop_screenshots:
                 self.crop_images()
-        if self.take_screenshots and self.upload_to_imgur:
-            self.upload()
-        # self.print_decklists()
+        self.print_decklists()
 
 
 if __name__ == "__main__":
@@ -296,12 +252,10 @@ if __name__ == "__main__":
     parser.add_argument("-c","--crop-screenshots", help="Crop the screenshots of the card preview.", action='store_true')
     parser.add_argument("-s","--take-screenshots", help="Take screenshots of the decks.", action='store_true')
     parser.add_argument("-u","--url", help="The page to start at or create screenshots of.", required=True)
-    parser.add_argument("-i","--upload-to-imgur", help="Create an Imgur album and upload deck images to it.", action='store_true')
     args = parser.parse_args()
 
     scraper = MTGOResultsScraper(args.url,
                                  r"{}".format(args.output_dir),
                                  args.take_screenshots,
-                                 args.upload_to_imgur,
                                  args.crop_screenshots)
     scraper.run()
