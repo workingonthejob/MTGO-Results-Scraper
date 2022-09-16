@@ -11,7 +11,7 @@ from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
 from database import Database
 from zoneinfo import ZoneInfo
-from requests.exceptions import ChunkedEncodingError, JSONDecodeError, HTTPError
+from requests.exceptions import ChunkedEncodingError, HTTPError
 
 
 fileConfig('logging_config.ini')
@@ -19,7 +19,6 @@ log = logging.getLogger()
 
 OUTPUT_DIRECTORY = r'.'
 TAKE_SCREENSHOTS = True
-UPLOAD_TO_IMGUR = False
 EXPORT_TO_MARKDOWN = False
 CROP_SCREENSHOTS = True
 
@@ -41,7 +40,6 @@ LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_SHOWCASE_CHALLENGE]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
-ALREADY_PROCESSED_LINKS = []
 
 
 class Checker():
@@ -98,7 +96,6 @@ class Checker():
                             mrs = MTGOResultsScraper(secret_link,
                                                      OUTPUT_DIRECTORY,
                                                      TAKE_SCREENSHOTS,
-                                                     UPLOAD_TO_IMGUR,
                                                      CROP_SCREENSHOTS)
                             mrs.take_decklist_screenshots()
                             mrs.crop_images()
