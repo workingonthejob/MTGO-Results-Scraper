@@ -30,6 +30,7 @@ REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
 MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
 WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\sPlace\)))$'
 
+
 class MTGOResultsScraper():
 
     def __init__(self, url, output_dir, take_screenshots, crop_screenshots):
@@ -95,7 +96,8 @@ class MTGOResultsScraper():
             sideboard = {}
             container = {"Mainboard": mainboard,
                          "Sideboard": sideboard}
-            player = re.search(WIZARDS_NAME_PATTERN, names[i].get_attribute("textContent")).group(1)
+            raw_name = deck.find(self.x_player).text
+            player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
             container["Player"] = player
             main_card_names = deck.findall(self.x_main_card_names)
             main_card_counts = deck.findall(self.x_main_card_counts)
