@@ -65,7 +65,7 @@ Chrome
 Here is the help menu for the tool:
 
 ```
-usage: mtgo_results_scraper.py [-h] [-o OUTPUT_DIR] [-c] [-s] -u URL [-i]
+usage: mtgo_results_scraper.py [-h] [-o OUTPUT_DIR] [-c] [-s] -u URL
 
 Scrape and/or screenshot the Magic: The Gathering match results.
 
@@ -78,6 +78,4 @@ optional arguments:
   -s, --take-screenshots
                         Take screenshots of the decks.
   -u URL, --url URL     The page to start at or create screenshots of.
-  -i, --upload-to-imgur
-                        Create an Imgur album and upload deck images to it.
   ```
