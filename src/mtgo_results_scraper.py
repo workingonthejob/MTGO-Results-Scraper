@@ -177,7 +177,8 @@ class MTGOResultsScraper():
                 screenshot_info['width'] = int(size['width'])
                 screenshot_info['height'] = int(size['height'])
                 screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
-                player = re.search(WIZARDS_NAME_PATTERN, names[i].get_attribute("textContent")).group(1)
+                raw_name = names[i].get_attribute("textContent")
+                player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
                 output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
                 screenshot_info['file'] = output_file
                 log.debug(f"[{i + 1}/{self.number_of_decks}] {player}")
