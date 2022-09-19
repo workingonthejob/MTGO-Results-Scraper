@@ -28,7 +28,7 @@ Scrape and/or screenshot the Magic: The Gathering match results.
 TIMEOUT = 10
 REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
 MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
-
+WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\sPlace\)))$'
 
 class MTGOResultsScraper():
 
@@ -95,7 +95,7 @@ class MTGOResultsScraper():
             sideboard = {}
             container = {"Mainboard": mainboard,
                          "Sideboard": sideboard}
-            player = deck.find(self.x_player).text.split(" ")[0]
+            player = re.search(WIZARDS_NAME_PATTERN, names[i].get_attribute("textContent")).group(1)
             container["Player"] = player
             main_card_names = deck.findall(self.x_main_card_names)
             main_card_counts = deck.findall(self.x_main_card_counts)
@@ -175,7 +175,7 @@ class MTGOResultsScraper():
                 screenshot_info['width'] = int(size['width'])
                 screenshot_info['height'] = int(size['height'])
                 screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
-                player = names[i].get_attribute("textContent").split(" ")[0]
+                player = re.search(WIZARDS_NAME_PATTERN, names[i].get_attribute("textContent")).group(1)
                 output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
                 screenshot_info['file'] = output_file
                 log.debug(f"[{i + 1}/{self.number_of_decks}] {player}")
