@@ -50,7 +50,13 @@ For output examples of `-s/--take-screenshots` look [here](examples/take-screens
 ---
 ## How it works
 
-The application can be broken down into these key pieces: A controller, scraper/screenshotter, reddit tracker and uploader. The controllers primary job is to orchestrate the individual components in one file. While the secondary job is to query the results page at a pre-defined interval to see when the results are posted. When results are posted screenshots are taken of the deck lists, cropped, and then uploaded to Imgur. Independent of the screenshotter and uploader is the reddit tracker which runs at its own interval to see when a user has posted the results and stores the reddit thread in a DB. The primary reason for keeping these two things separate is because of the Imgur API. Imgur only allows 50 uploads per hour. It will take time for whoever is posting the thread on reddit to classify the decks so the faster we can detect when the results are posted the faster we can upload and wait before the reddit thread is created.
+The application can be broken down into these pieces:
+
+**Reddit Results Post Finder**:
+Scheduled as a cron job that is run at a set interval that searches Reddit for a post containing a link to deck dump for a league, challenge, or showcase. If the result URL is not in the database then record that the post has been made. Thereafter check whether the application has already processed and uploaded the decklist screenshots and if so generate the markdown and post the markdown to the Reddit post.
+
+**Screenshot Taker**:
+Scheduled as a cron job that is run at a set interval. Since the format of the decklist dumps is in a known format the application checks these end points until it sees the results posted where it then highlights the latest Standard released cards and takes screenshots of the decklist. Once the screenshots are taken then they are cropped to omit the card preview on the decklist page and then uploaded to imgur. 
 
 Install the requirements:
 
