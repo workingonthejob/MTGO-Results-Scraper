@@ -52,11 +52,13 @@ For output examples of `-s/--take-screenshots` look [here](examples/take-screens
 
 The application can be broken down into these pieces:
 
-**Reddit Results Post Finder**:
-Scheduled as a cron job that is run at a set interval that searches Reddit for a post containing a link to deck dump for a league, challenge, or showcase. If the result URL is not in the database then record that the post has been made. Thereafter check whether the application has already processed and uploaded the decklist screenshots and if so generate the markdown and post the markdown to the Reddit post.
-
 **Screenshot Taker**:
-Scheduled as a cron job that is run at a set interval. Since the format of the decklist dumps is in a known format the application checks these end points until it sees the results posted where it then highlights the latest Standard released cards and takes screenshots of the decklist. Once the screenshots are taken then they are cropped to omit the card preview on the decklist page and then uploaded to imgur. 
+
+Scheduled as a cron job that is run at a set interval. Since the format of the decklist dumps is in a known format the application checks these end points until it sees the results posted where it then highlights the latest Standard released cards and takes screenshots of the decklist. Once the screenshots are taken then they are cropped to omit the card preview on the decklist page and then uploaded to imgur.
+
+**Reddit Results Post Finder**:
+
+Scheduled as a cron job that is run at a set interval that searches Reddit for a post containing a link to deck dump for a league, challenge, or showcase. If the result URL is not in the database then record that the post has been made. Thereafter check whether the application has already processed and uploaded the decklist screenshots and if so generate the markdown and post the markdown to the Reddit post.
 
 Install the requirements:
 
