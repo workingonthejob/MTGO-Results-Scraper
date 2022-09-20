@@ -28,6 +28,11 @@ Scrape and/or screenshot the Magic: The Gathering match results.
 TIMEOUT = 10
 REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
 MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
+
+# Example Matches
+# The Chicken Cow (32nd Place)
+# Tree_for_all (31st Place)
+# UnstableVuDoo (5-0)
 WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\sPlace\)))$'
 
 
@@ -173,13 +178,15 @@ class MTGOResultsScraper():
             for i in range(self.number_of_decks):
                 screenshot_info = {}
                 size = decks[i].size
-                # screenshot_info['location'] = decks[i].location
                 screenshot_info['width'] = int(size['width'])
                 screenshot_info['height'] = int(size['height'])
                 screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
                 raw_name = names[i].get_attribute("textContent")
                 player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
-                output_file = os.path.join(self.mtgo_output_folder_dir, str(i + 1) + '-' + player) + '.png'
+                screenshot_format = f'png'
+                index = str(i + 1)
+                file = f'{index}-{player}.{screenshot_format}'
+                output_file = os.path.join(self.mtgo_output_folder_dir, file)
                 screenshot_info['file'] = output_file
                 log.debug(f"[{i + 1}/{self.number_of_decks}] {player}")
                 decks[i].location_once_scrolled_into_view
@@ -198,6 +205,10 @@ class MTGOResultsScraper():
             self.driver.quit()
 
     def crop_images(self):
+        '''
+        Crop the images on disk removing the card preview on the
+        right hand side.
+        '''
         for root, dirs, files in os.walk(self.mtgo_output_folder_dir, topdown=False):
             for name in files:
                 screenshot = [screenshot for screenshot in self.screenshots if name in screenshot['screenshot']['file']][0]
@@ -220,6 +231,10 @@ class MTGOResultsScraper():
         os.makedirs(self.mtgo_output_folder_dir, exist_ok=True)
 
     def highlight_card(self, card_name):
+        '''
+        For every instance of card_name within a decklist
+        highlight it.
+        '''
         js_highlight = "arguments[0].style.background = 'Yellow'"
         highlight = self.driver.execute_script
         cards = self.find_elements_with_xpath(
@@ -227,6 +242,10 @@ class MTGOResultsScraper():
         [highlight(js_highlight, card) for card in cards]
 
     def highlight_latest_cards(self):
+        '''
+        Go through a pre-defined list of cards from the latest Standard
+        released set and highlight them.
+        '''
         latest_cards = os.path.join('..', 'resources', 'latest_cards.txt')
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, latest_cards)
