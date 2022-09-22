@@ -1,6 +1,5 @@
 import praw
 import re
-import sys
 import time
 import warnings
 import logging
@@ -69,7 +68,7 @@ class MTGOResultsPostFinder:
         return s
 
     def write_line_to_markdown(self, line, event):
-        output_file = f'reddit-markdown-{event}.md'
+        output_file = f'{event}.md'
         with open(output_file, 'a') as f:
             f.write(line + '\n')
 
@@ -104,7 +103,7 @@ class MTGOResultsPostFinder:
         return markdown
 
     def write_to_markdown(self, submission_text, event, link):
-        output_file = f'reddit-markdown-{event}.md'
+        output_file = f'{event}.md'
         markdown = self.build_markdown(submission_text, link)
         with open(output_file, 'a') as f:
             f.write(markdown)
@@ -116,26 +115,43 @@ class MTGOResultsPostFinder:
         '''
         pass
 
-    def check_before_posting(self):
+    def all_checks_passed(self, results_url, markdown):
         '''
             Perform checks that the data that is being posted
             is correct.
         '''
-        # self._decklists_are_same_size() is True
-        pass
+        is_true = False
+        is_true = self.db.total_decks_match_for_link(results_url)
+        is_true = self._check_imgur_links_appear_only_once(results_url,
+                                                           markdown)
+        return is_true
+
+    def _check_imgur_links_appear_only_once(self, results_url, markdown):
+        '''
+        Check that all links from the imgur table appear
+        only once inside the markdown.
+        '''
+        rows = self.db.imgur_all_rows_with_link(results_url)
+        for row in rows:
+            imgur_url = row[4]
+            count = markdown.count(imgur_url)
+            if count > 1:
+                log.debug(f'{imgur_url} showed up twice!')
+                return False
+        return True
 
     def find_new_results(self):
-        subreddit = self.reddit.subreddit(SUBREDDIT)
         for link in LINKS:
+            parsed_link = link.split('?')[0]
             for submission in subreddit.new(limit=20):
             # for submission in subreddit.top(time_filter="hour"):
                 seen_url = self.db.reddit_url_in_table(submission.url)
-                if submission.is_self and link in submission.selftext and not seen_url:
+                if submission.is_self and parsed_link in submission.selftext and not seen_url:
                     log.debug(f'Adding {submission.url} to DB.')
                     self.db.add_reddit_row(
                         submission.url,
                         submission.selftext,
-                        link,
+                        parsed_link,
                         0)
 
     def test_build_markdown(self, results_url):
@@ -154,15 +170,18 @@ class MTGOResultsPostFinder:
                 reddit_url = row[1]
                 submission_text = row[2]
                 results_url = row[3]
+                log.debug(results_url)
                 submission = self.reddit.submission(url=reddit_url)
                 if self.db.total_decks_match_for_link(results_url):
+                    markdown = self.build_markdown(submission_text, results_url)
                     self.write_to_markdown(
                         submission_text,
                         submission.title,
                         results_url)
                     self.db.reddit_update_posted_screenshot(1, results_url)
-                    # self.check_before_posting()
-                    # submission.reply(markdown)
+                    if self.all_checks_passed(results_url, markdown):
+                        # submission.reply(markdown)
+                        pass
         except Exception as e:
             log.exception(e)
 
@@ -188,7 +207,7 @@ class MTGOResultsPostFinder:
 
 
 if __name__ == "__main__":
-    ip = IniParser("reddit-config.ini")
+    ip = IniParser("pioneer-mtg-bot.ini")
     username = ip.get_reddit_properties('REDDIT_USER')
     password = ip.get_reddit_properties('REDDIT_PASS')
     client_id = ip.get_reddit_properties('REDDIT_CLIENT_ID')

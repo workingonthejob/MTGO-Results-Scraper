@@ -102,7 +102,8 @@ class Checker():
                             number_of_decks = mrs.get_number_of_decks()
                             folder_name = mrs.get_folder_name()
 
-                            self.db.add_wizards_row(today_link_clean, number_of_decks)
+                            self.db.add_wizards_row(today_link_clean,
+                                                    number_of_decks)
                             im = Imgur()
                             album_id = im.create_album(
                                 title=folder_name)['data']['id']
@@ -123,8 +124,8 @@ class Checker():
                                     screenshot_count += 1
                                 except HTTPError as e:
                                     log.exception(e)
-                except KeyboardInterrupt as e:
-                    log.exception(e)
+                except KeyboardInterrupt:
+                    pass
                 except ChunkedEncodingError as e:
                     log.exception(e)
             # 10 minutes

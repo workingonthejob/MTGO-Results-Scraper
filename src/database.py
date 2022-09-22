@@ -129,8 +129,20 @@ class Database():
           FROM {table}\
           WHERE url = '{link}'\
         ".format(table=self.wizards_table, column='total_decks', link=link)
+        try:
+            response = self.cursor.execute(sql).fetchall()
+            return int(response[0][0])
+        except IndexError:
+            pass
+
+    def imgur_all_rows_with_link(self, link):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+          WHERE result_url = '{link}'\
+        ".format(table=self.imgur_table, link=link)
         response = self.cursor.execute(sql).fetchall()
-        return int(response[0][0])
+        return response
 
     def imgur_get_total_decklist_for_link(self, link):
         sql = "\
@@ -149,6 +161,15 @@ class Database():
         ".format(table=self.imgur_table, link=link, player=player)
         response = self.cursor.execute(sql).fetchall()
         return response
+
+    def imgur_get_album_with_link(self, link):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+          WHERE result_url = '{link}'\
+        ".format(table=self.imgur_table, link=link)
+        response = self.cursor.execute(sql).fetchall()
+        return response[0][2]
 
     def column_contains(self, table, column, value):
         sql = "\
