@@ -93,7 +93,7 @@ class Imgur():
 
         self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
         self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
-        self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset'])
+        self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset']) + 60
 
         if sleep and int(r.status_code) == 400:
             if r.json()['data']['error']['code'] == RATE_LIMITING_ERROR:
