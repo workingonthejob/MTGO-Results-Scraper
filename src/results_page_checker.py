@@ -6,6 +6,7 @@ from imgur import Imgur
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from datetime import datetime
+from datetime import timedelta
 from lxml import html
 from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
@@ -26,6 +27,7 @@ CROP_SCREENSHOTS = True
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = None
+YESTERDAY = None
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
 PIONEER_LEAGUE_LINK = BASE_URL + 'pioneer-league-{}'
 PIONEER_CHALLENGE_LINK = BASE_URL + 'pioneer-challenge-{}'
@@ -73,57 +75,65 @@ class Checker():
         while True:
             for link in LINKS:
                 try:
-                    # TODAY = datetime.today().strftime(DATE_FORMAT)
                     TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
+                    YESTERDAY = (datetime.now(TIME_ZONE) - timedelta(days=1)).strftime(DATE_FORMAT)
                     today_link = link.format(TODAY)
                     today_link_clean = self.clean_url(today_link)
+                    yesterday_link = link.format(YESTERDAY)
+                    yesterday_link_clean = self.clean_url(yesterday_link)
                     secret_link = None
                     screenshot_count = 0
                     letters = list(string.ascii_lowercase)
                     # Always seems to be a page with no results
                     letters.remove('q')
 
-                    for letter in letters:
-                        secret_link = today_link + f'?{letter}'
-                        self.start_session()
-                        s = self.session.get(secret_link, headers=self.headers)
-                        tree = html.fromstring(s.content)
-                        results = tree.find(X_NO_RESULT)
-                        result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link_clean)
+                    yesterday_in_table = self.db.is_result_link_in_imgur_table(yesterday_link_clean)
+                    today_in_table = self.db.is_result_link_in_imgur_table(today_link_clean)
+                    log.debug(today_link_clean)
 
-                        if results is None and not result_link_in_imgur_table:
-                            log.info(secret_link)
-                            mrs = MTGOResultsScraper(secret_link,
-                                                     OUTPUT_DIRECTORY,
-                                                     TAKE_SCREENSHOTS,
-                                                     CROP_SCREENSHOTS)
-                            mrs.take_decklist_screenshots()
-                            mrs.crop_images()
-                            number_of_decks = mrs.get_number_of_decks()
-                            folder_name = mrs.get_folder_name()
+                    if not yesterday_in_table and not today_in_table:
 
-                            self.db.add_wizards_row(today_link_clean,
-                                                    number_of_decks)
-                            im = Imgur()
-                            album_id = im.create_album(
-                                title=folder_name)['data']['id']
-                            for screenshot in mrs.get_screenshots():
-                                screenshot_file = screenshot['screenshot']['file']
-                                player = screenshot['player']
-                                log.info(f'Uploading {screenshot_file}')
-                                try:
-                                    response = im.upload_image(image=screenshot_file,
-                                                               album=album_id,
-                                                               sleep=True)
-                                    imgur_link = response['data']['link']
-                                    self.db.add_imgur_row(screenshot_file,
-                                                          album_id,
-                                                          player,
-                                                          imgur_link,
-                                                          today_link_clean)
-                                    screenshot_count += 1
-                                except HTTPError as e:
-                                    log.exception(e)
+                        for letter in letters:
+                            secret_link = today_link + f'?{letter}'
+                            self.start_session()
+                            s = self.session.get(secret_link, headers=self.headers)
+                            tree = html.fromstring(s.content)
+                            results = tree.find(X_NO_RESULT)
+                            result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link_clean)
+
+                            if results is None and not result_link_in_imgur_table:
+                                log.info(secret_link)
+                                mrs = MTGOResultsScraper(secret_link,
+                                                         OUTPUT_DIRECTORY,
+                                                         TAKE_SCREENSHOTS,
+                                                         CROP_SCREENSHOTS)
+                                mrs.take_decklist_screenshots()
+                                mrs.crop_images()
+                                number_of_decks = mrs.get_number_of_decks()
+                                folder_name = mrs.get_folder_name()
+
+                                self.db.add_wizards_row(today_link_clean,
+                                                        number_of_decks)
+                                im = Imgur()
+                                album_id = im.create_album(
+                                    title=folder_name)['data']['id']
+                                for screenshot in mrs.get_screenshots():
+                                    screenshot_file = screenshot['screenshot']['file']
+                                    player = screenshot['player']
+                                    log.info(f'Uploading {screenshot_file}')
+                                    try:
+                                        response = im.upload_image(image=screenshot_file,
+                                                                   album=album_id,
+                                                                   sleep=True)
+                                        imgur_link = response['data']['link']
+                                        self.db.add_imgur_row(screenshot_file,
+                                                              album_id,
+                                                              player,
+                                                              imgur_link,
+                                                              today_link_clean)
+                                        screenshot_count += 1
+                                    except HTTPError as e:
+                                        log.exception(e)
                 except KeyboardInterrupt:
                     pass
                 except ChunkedEncodingError as e:
