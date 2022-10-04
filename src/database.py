@@ -135,6 +135,21 @@ class Database():
         except IndexError:
             pass
 
+    def imgur_all_duplicate_pilots_with_link(self, link):
+        '''
+        Return a list of the players that have two decklist
+        screenshots
+        '''
+        sql = "\
+          SELECT {column}\
+          FROM {table}\
+          WHERE result_url = '{link}'\
+        ".format(column='player', table=self.imgur_table, link=link)
+        response = self.cursor.execute(sql).fetchall()
+        results = [x[0] for x in response]
+        duplicates = set([x for x in results if results.count(x) > 1])
+        return list(duplicates)
+
     def imgur_all_rows_with_link(self, link):
         sql = "\
           SELECT *\
@@ -221,7 +236,7 @@ class Database():
 if __name__ == "__main__":
     db = None
     try:
-        db_file = f""
+        db_file = f"scraper.sqlite3"
         db = Database(db_file)
         # db.add_imgur_row(r'C:\foo\smthing.png', 'xYfk29', 'Player_Name', 'https://something.com')
         # db.delete_file(r'C:\foo\smthing.png')

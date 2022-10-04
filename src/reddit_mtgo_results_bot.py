@@ -1,10 +1,10 @@
 import praw
 import re
 import time
-import warnings
 import logging
 from logging.config import fileConfig
 from datetime import datetime
+from datetime import timedelta
 from praw.exceptions import APIException, ClientException, PRAWException
 from prawcore.exceptions import PrawcoreException
 from requests.exceptions import ConnectionError
@@ -16,23 +16,34 @@ from zoneinfo import ZoneInfo
 SUBREDDIT = 'PioneerMTG'
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
+MARKDOWN_HEADER = (f'Here are the screenshots for the deck lists. '
+                   f'Highlighted are DMU cards.\n\n'
+                   '[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
+MARKDOWN_PLAYER = ('* [{archetype}]'
+                   '({imgur_link}): '
+                   '**{escaped_player}**\n')
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
-PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*)\*\*'
+PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*?)(\s)?(\(.*\))?\*\*'
 # PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*(.+?)(\s\(.+?\))?\*'
 DATE_FORMAT = "%Y-%m-%d"
-# TODAY = datetime.today().strftime(DATE_FORMAT)
+RE_DATE_PATTERN = r'\d{4}\-\d{2}\-\d{2}'
 TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
+YESTERDAY = (datetime.now(TIME_ZONE) - timedelta(days=1)).strftime(DATE_FORMAT)
 BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
-PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{TODAY}'
-PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{TODAY}'
-PIONEER_SHOWCASE_CHALLENGE = BASE_URL + f'pioneer-showcase-challenge-{TODAY}'
-PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{TODAY}'
-MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{TODAY}'
-MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{TODAY}'
+
+PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{RE_DATE_PATTERN}'
+PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{RE_DATE_PATTERN}'
+PIONEER_SHOWCASE_CHALLENGE = BASE_URL + f'pioneer-showcase-challenge-{RE_DATE_PATTERN}'
+PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{RE_DATE_PATTERN}'
+PIONEER_PREMIER = BASE_URL + f'pioneer-premier-{RE_DATE_PATTERN}'
+MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{RE_DATE_PATTERN}'
+MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{RE_DATE_PATTERN}'
+
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
          PIONEER_SUPER_QUALIFIER,
-         PIONEER_SHOWCASE_CHALLENGE]
+         PIONEER_SHOWCASE_CHALLENGE,
+         PIONEER_PREMIER]
 
 RECOVERABLE_EXC = (
     APIException,
@@ -44,8 +55,6 @@ RECOVERABLE_EXC = (
 
 fileConfig('logging_config.ini')
 log = logging.getLogger()
-
-warnings.simplefilter("ignore")  # Ignore ResourceWarnings (because screw them)
 
 
 class MTGOResultsPostFinder:
@@ -64,22 +73,26 @@ class MTGOResultsPostFinder:
         self.db = Database('scraper')
 
     def sanitize_for_markdown(self, text):
-        s = text.replace('\\', 1) if r'\\' in text else text
+        s = text.replace('_', r'\_') if r'_' in text else text
+        return s
+
+    def sanitize_name(self, text):
+        s = text.replace('\\', '') if '\\' in text else text
         return s
 
     def write_line_to_markdown(self, line, event):
-        output_file = f'{event}.md'
+        output_file = f'{event}.md'.replace(' ', '-')
         with open(output_file, 'a') as f:
             f.write(line + '\n')
 
     def build_markdown(self, submission_text, link):
         imgur_album_id = self.db.imgur_get_album_with_link(link)
-        markdown = (f'Here are the screenshots for the deck lists.'
-                    f'Highlighted are DMU cards.\n\n'
-                    f'[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
+        markdown = MARKDOWN_HEADER.format(imgur_album_id=imgur_album_id)
         total_decks = self.db.wizards_get_total_decklist_for_link(link)
+        names_seen = []
         counter = 0
         lines = submission_text.split('\n')
+        # rows = self.db.imgur_all_rows_with_link(link)
 
         for line in lines:
             if counter >= total_decks:
@@ -88,22 +101,33 @@ class MTGOResultsPostFinder:
             if matches:
                 counter += 1
                 for match in matches:
-                    try:
-                        archetype = match[0]
-                        escaped_player = match[1]
-                        player = match[1].replace('\\', '') if '\\' in match[1] else match[1]
-                        r = self.db.imgur_find_rows_matching_link(link, player)
-                        # This assumes there are no duplicate players
-                        imgur_link = r[0][4]
-                        line = f'* [{archetype}]({imgur_link}): **{escaped_player}**\n'
-                        markdown += line
-                    except IndexError:
-                        line = f'* [{archetype}](): **{escaped_player}**\n'
-                        markdown += line
+                    archetype = match[0]
+                    escaped_player = match[1]
+                    player = self.sanitize_name(match[1])
+                    # Keep track of players in case they appear in one event
+                    # more than once.
+                    names_seen.append(player)
+                    # What happens to index if not all images are uploaded
+                    # for a user that appears twice in one event?
+                    index = names_seen.count(player) - 1
+                    r = self.db.imgur_find_rows_matching_link(link, player)
+                    imgur_link = r[index][4]
+                    line = MARKDOWN_PLAYER.format(archetype=archetype,
+                                                  imgur_link=imgur_link,
+                                                  escaped_player=escaped_player)
+                    markdown += line
         return markdown
 
+    def find_first_matching_line(self, submission_text, link):
+        imgur_album_id = self.db.imgur_get_album_with_link(link)
+        total_decks = self.db.wizards_get_total_decklist_for_link(link)
+        lines = submission_text.split('\n')
+
+        for line in lines:
+            matches = re.findall(PATTERN, line)
+
     def write_to_markdown(self, submission_text, event, link):
-        output_file = f'{event}.md'
+        output_file = f'{event}.md'.replace(' ', '-')
         markdown = self.build_markdown(submission_text, link)
         with open(output_file, 'a') as f:
             f.write(markdown)
@@ -117,8 +141,8 @@ class MTGOResultsPostFinder:
 
     def all_checks_passed(self, results_url, markdown):
         '''
-            Perform checks that the data that is being posted
-            is correct.
+        Perform checks that the data being posted
+        is correct.
         '''
         is_true = False
         is_true = self.db.total_decks_match_for_link(results_url)
@@ -135,24 +159,28 @@ class MTGOResultsPostFinder:
         for row in rows:
             imgur_url = row[4]
             count = markdown.count(imgur_url)
-            if count > 1:
-                log.debug(f'{imgur_url} showed up twice!')
+            if count != 1:
+                log.debug(f'{imgur_url} showed up {count} times!')
                 return False
         return True
 
     def find_new_results(self):
+        subreddit = self.reddit.subreddit(SUBREDDIT)
         for link in LINKS:
-            parsed_link = link.split('?')[0]
             for submission in subreddit.new(limit=20):
             # for submission in subreddit.top(time_filter="hour"):
-                seen_url = self.db.reddit_url_in_table(submission.url)
-                if submission.is_self and parsed_link in submission.selftext and not seen_url:
-                    log.debug(f'Adding {submission.url} to DB.')
-                    self.db.add_reddit_row(
-                        submission.url,
-                        submission.selftext,
-                        parsed_link,
-                        0)
+                link_in_self_text = re.search(link, submission.selftext)
+                if submission.is_self and link_in_self_text:
+                    result_url = link_in_self_text.group()
+                    seen_result_url = self.db.reddit_result_url_in_table(result_url)
+                    seen_url = self.db.reddit_url_in_table(submission.url)
+                    if not seen_result_url:
+                        log.debug(f'Adding {submission.url} to DB.')
+                        self.db.add_reddit_row(
+                            submission.url,
+                            submission.selftext,
+                            result_url,
+                            0)
 
     def test_build_markdown(self, results_url):
         with open('reddit_test_input.txt', 'r') as f:
@@ -173,15 +201,16 @@ class MTGOResultsPostFinder:
                 log.debug(results_url)
                 submission = self.reddit.submission(url=reddit_url)
                 if self.db.total_decks_match_for_link(results_url):
-                    markdown = self.build_markdown(submission_text, results_url)
+                    markdown = self.build_markdown(submission_text,
+                                                   results_url)
                     self.write_to_markdown(
                         submission_text,
                         submission.title,
                         results_url)
-                    self.db.reddit_update_posted_screenshot(1, results_url)
                     if self.all_checks_passed(results_url, markdown):
+                        log.debug('Posting to reddit...')
                         # submission.reply(markdown)
-                        pass
+                        self.db.reddit_update_posted_screenshot(1, results_url)
         except Exception as e:
             log.exception(e)
 
@@ -231,8 +260,6 @@ if __name__ == "__main__":
             log.info("Done")
         except RECOVERABLE_EXC as e:
             log.exception(e)
-
-            time.sleep(wait)
     except KeyboardInterrupt:
         pass
     finally:
