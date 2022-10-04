@@ -3,11 +3,11 @@
 ## Description
 Scrape any of the results Wizards releases for MTGO.
 
-For reference here is what the page looks like for a single deck:
+For reference here is what the page looks like for a single deck with highlighting of cards:
 
 ![Screenshot](screenshot.PNG)
 
-Here's the corresponding output:
+Here's the an example of the output:
 
 ```
 {'Mainboard': {"Archmage's Charm": 3,
