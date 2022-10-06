@@ -16,6 +16,7 @@ class Database():
         self.imgur_table = 'imgur_uploads'
         self.reddit_table = 'reddit'
         self.wizards_table = 'wizards'
+        self.decklist_table = 'decklists'
         self.cursor = self.db.cursor()
         self._create_imgur_table()
         self._create_reddit_table()
@@ -54,6 +55,15 @@ class Database():
                             "url text,"
                             "total_decks integer)"
                             .format(self.wizards_table))
+
+    def _create_decklist_table(self):
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS "
+                            "{}("
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "date text,"
+                            "url text,"
+                            "decklist integer)"
+                            .format(self.decklist_table))
 
     def update_row(self):
         # https://www.sqlitetutorial.net/sqlite-update/

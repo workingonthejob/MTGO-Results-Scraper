@@ -89,7 +89,6 @@ class Checker():
 
                     yesterday_in_table = self.db.is_result_link_in_imgur_table(yesterday_link_clean)
                     today_in_table = self.db.is_result_link_in_imgur_table(today_link_clean)
-                    log.debug(today_link_clean)
 
                     if not yesterday_in_table and not today_in_table:
 

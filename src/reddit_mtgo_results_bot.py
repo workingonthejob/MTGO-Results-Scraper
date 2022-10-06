@@ -1,6 +1,5 @@
 import praw
 import re
-import time
 import logging
 from logging.config import fileConfig
 from datetime import datetime
@@ -82,7 +81,7 @@ class MTGOResultsPostFinder:
 
     def write_line_to_markdown(self, line, event):
         output_file = f'{event}.md'.replace(' ', '-')
-        with open(output_file, 'a') as f:
+        with open(output_file, 'w') as f:
             f.write(line + '\n')
 
     def build_markdown(self, submission_text, link):
@@ -92,12 +91,14 @@ class MTGOResultsPostFinder:
         names_seen = []
         counter = 0
         lines = submission_text.split('\n')
-        # rows = self.db.imgur_all_rows_with_link(link)
 
-        for line in lines:
+        for idx, line in enumerate(lines):
             if counter >= total_decks:
                 break
             matches = re.findall(PATTERN, line)
+            if not matches and counter <= total_decks:
+                counter = 0
+
             if matches:
                 counter += 1
                 for match in matches:
@@ -110,26 +111,21 @@ class MTGOResultsPostFinder:
                     # What happens to index if not all images are uploaded
                     # for a user that appears twice in one event?
                     index = names_seen.count(player) - 1
-                    r = self.db.imgur_find_rows_matching_link(link, player)
-                    imgur_link = r[index][4]
-                    line = MARKDOWN_PLAYER.format(archetype=archetype,
-                                                  imgur_link=imgur_link,
-                                                  escaped_player=escaped_player)
-                    markdown += line
+                    try:
+                        r = self.db.imgur_find_rows_matching_link(link, player)
+                        imgur_link = r[index][4]
+                        line = MARKDOWN_PLAYER.format(archetype=archetype,
+                                                      imgur_link=imgur_link,
+                                                      escaped_player=escaped_player)
+                        markdown += line
+                    except IndexError:
+                        pass
         return markdown
-
-    def find_first_matching_line(self, submission_text, link):
-        imgur_album_id = self.db.imgur_get_album_with_link(link)
-        total_decks = self.db.wizards_get_total_decklist_for_link(link)
-        lines = submission_text.split('\n')
-
-        for line in lines:
-            matches = re.findall(PATTERN, line)
 
     def write_to_markdown(self, submission_text, event, link):
         output_file = f'{event}.md'.replace(' ', '-')
         markdown = self.build_markdown(submission_text, link)
-        with open(output_file, 'a') as f:
+        with open(output_file, 'w') as f:
             f.write(markdown)
 
     def create_markdown_based_on_current_state(self):
@@ -167,14 +163,12 @@ class MTGOResultsPostFinder:
     def find_new_results(self):
         subreddit = self.reddit.subreddit(SUBREDDIT)
         for link in LINKS:
-            for submission in subreddit.new(limit=20):
-            # for submission in subreddit.top(time_filter="hour"):
+            for submission in subreddit.new(limit=30):
                 link_in_self_text = re.search(link, submission.selftext)
                 if submission.is_self and link_in_self_text:
                     result_url = link_in_self_text.group()
-                    seen_result_url = self.db.reddit_result_url_in_table(result_url)
-                    seen_url = self.db.reddit_url_in_table(submission.url)
-                    if not seen_result_url:
+                    url_in_db = self.db.reddit_result_url_in_table(result_url)
+                    if not url_in_db:
                         log.debug(f'Adding {submission.url} to DB.')
                         self.db.add_reddit_row(
                             submission.url,
@@ -184,7 +178,7 @@ class MTGOResultsPostFinder:
 
     def test_build_markdown(self, results_url):
         with open('reddit_test_input.txt', 'r') as f:
-            submission_text = f.readlines()
+            submission_text = f.read()
             return self.build_markdown(submission_text, results_url)
 
     def run(self):
@@ -198,6 +192,7 @@ class MTGOResultsPostFinder:
                 reddit_url = row[1]
                 submission_text = row[2]
                 results_url = row[3]
+                event = results_url.split('/')[-1]
                 log.debug(results_url)
                 submission = self.reddit.submission(url=reddit_url)
                 if self.db.total_decks_match_for_link(results_url):
@@ -205,7 +200,7 @@ class MTGOResultsPostFinder:
                                                    results_url)
                     self.write_to_markdown(
                         submission_text,
-                        submission.title,
+                        event,
                         results_url)
                     if self.all_checks_passed(results_url, markdown):
                         log.debug('Posting to reddit...')
@@ -244,6 +239,7 @@ if __name__ == "__main__":
     # limit = int(ip.get_reddit_properties('LIMIT'))
     wait = int(ip.get_reddit_properties('WAIT'))
     refresh = int(ip.get_reddit_properties('REFRESH'))
+    subreddits = ip.get_reddit_properties('SUBREDDITS')
     setup_has_been_run = False
 
     log.info("Starting...")
