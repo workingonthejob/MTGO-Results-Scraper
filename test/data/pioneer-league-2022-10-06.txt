@@ -1,0 +1,51 @@
+ 
+
+DISCLAIMER
+
+*Frequency of appearance for cards or archetypes on this list is not a direct indicator of power or meta standing. Wizards doesn't post lists that are less than 20 cards different from one another. This is not an accurate representation of meta shares, just some cool lists to look at.*
+
+Full Results: [https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06)
+
+&#x200B;
+
+* [Bant Humans](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#hollhis_-): **Hollhis**
+* [Mono-White Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#seventhprophet_-): **SeventhProphet**
+* [Azorius Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#guiyote_-): **guiyote**
+* [Izzet Phoenix](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#maxmedeiros_-): **MaxMedeiros**
+* [Gruul Cleave ](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#qbturtle_-): **qbturtle15**
+* [Esper Control](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#ignotus_-): **Ignotus97**
+* [Lotus FIeld](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#namelessyu_-): **NAMELESSYU**
+* [Mono-White Artifacts](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#ethanbird_-): **EthanBird**
+* [Rakdos Sacrifice ](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#delta_-): **delta.3000.**
+* [Boros Heroic](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#patxi_-): **Patxi**
+* [Mardu Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#arianne_-): **Arianne**
+* [Golgari Elves](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#samwise_-): **samwise88**
+* [Jeskai Prowess](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#hogpog__-): **hogpog\_98**
+* [Green Devotion](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#krafti_-): **Krafti**
+* [Jeskai Agent](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#cco_-): **cco**
+* [Mono Red Mid](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#bonkarooni_-): **Bonkarooni**
+* [Jeskai Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#mavignon_-): **mavignon**
+* [Gruul Atarka](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#deleon_-): **deleon91**
+* [Mono-White Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#keyzoo_-): **keyzoo**
+* [Golgari Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#smann_-): **sMann2.0**
+* [Mono-Red Obosh](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#oraoraoraoraora_-): **ORAORAORAORAORA**
+* [Gruul Bard Class](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#factorfictiongames_-): **factorfictiongames**
+* [Azorius Control](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#nesple_-): **nesple**
+* [Abzan Greasefang](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#cvalenti_-): **Cvalenti90**
+* [Bant Spirits](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#parrit_-): **Parrit**
+* [Boros Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#martijc_-): **Martijc**
+* [Mono-Blue Spirits](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#corzalan_-): **Corzalan**
+* [Mono-Red Goblins](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#cobra_-): **Cobra88**
+* [Mono-White Humans](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#luismj_-): **LuisMJ**
+* [Mono-Black Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#tarkanmag_-): **tarkanmag**
+* [Jund Sacrifice](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#danielpena_-): **Danielpena397**
+* [Rakdos Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#ld_-): **L3D91**
+
+# Spice Corner 
+
+* [Jeskai Prowess](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#hogpog__-): **hogpog\_98**
+* [Jeskai Midrange](https://magic.wizards.com/en/articles/archive/mtgo-standings/pioneer-league-2022-10-06#mavignon_-): **mavignon**
+
+Direct links courtesy of /u/FereMiyJeenyus and their [MTGO Results Scraper](https://feremiyjeenyus.github.io/mtgo-results-scraper/)
+
+ **You can check out the** [**Full Meta Game**](https://playingpioneer.com/meta-data/) **on** [**PlayingPioneer.com**](https://playingpioneer.com/)
