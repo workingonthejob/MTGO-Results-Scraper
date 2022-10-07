@@ -61,18 +61,20 @@ class MTGOResultsPostFinder:
                  username,
                  password,
                  client_id,
-                 client_secret):
+                 client_secret,
+                 limit):
         self.username = username
         self.password = password
         self.client_id = client_id
         self.client_secret = client_secret
+        self.limit = limit
         self.headers = {}
         self._setup = False
         self.reddit = None
         self.db = Database('scraper')
 
     def sanitize_for_markdown(self, text):
-        s = text.replace('_', r'\_') if r'_' in text else text
+        s = text.replace('_', r'\\_') if r'_' in text else text
         return s
 
     def sanitize_name(self, text):
@@ -144,7 +146,22 @@ class MTGOResultsPostFinder:
         is_true = self.db.total_decks_match_for_link(results_url)
         is_true = self._check_imgur_links_appear_only_once(results_url,
                                                            markdown)
+        is_true = self._check_all_markdown_exists(results_url,
+                                                  markdown)
         return is_true
+
+    def _check_all_markdown_exists(self, results_url, markdown):
+        rows = self.db.imgur_all_rows_with_link(results_url)
+        for row in rows:
+            imgur_link = row[4]
+            player = self.sanitize_for_markdown(row[3])
+            line = r'\({imgur_link}\): \*\*{player}\*\*'.format(
+                imgur_link=imgur_link, player=player)
+            line_in_md = re.search(line, markdown)
+            if not line_in_md:
+                log.warn(f'Did not find "{line}" in markdown.')
+                return False
+        return True
 
     def _check_imgur_links_appear_only_once(self, results_url, markdown):
         '''
@@ -163,7 +180,7 @@ class MTGOResultsPostFinder:
     def find_new_results(self):
         subreddit = self.reddit.subreddit(SUBREDDIT)
         for link in LINKS:
-            for submission in subreddit.new(limit=30):
+            for submission in subreddit.new(limit=self.limit):
                 link_in_self_text = re.search(link, submission.selftext)
                 if submission.is_self and link_in_self_text:
                     result_url = link_in_self_text.group()
@@ -176,8 +193,8 @@ class MTGOResultsPostFinder:
                             result_url,
                             0)
 
-    def test_build_markdown(self, results_url):
-        with open('reddit_test_input.txt', 'r') as f:
+    def test_build_markdown(self, file, results_url):
+        with open(file, 'r') as f:
             submission_text = f.read()
             return self.build_markdown(submission_text, results_url)
 
@@ -193,7 +210,7 @@ class MTGOResultsPostFinder:
                 submission_text = row[2]
                 results_url = row[3]
                 event = results_url.split('/')[-1]
-                log.debug(results_url)
+                log.info(results_url)
                 submission = self.reddit.submission(url=reddit_url)
                 if self.db.total_decks_match_for_link(results_url):
                     markdown = self.build_markdown(submission_text,
@@ -236,7 +253,7 @@ if __name__ == "__main__":
     password = ip.get_reddit_properties('REDDIT_PASS')
     client_id = ip.get_reddit_properties('REDDIT_CLIENT_ID')
     client_secret = ip.get_reddit_properties('REDDIT_CLIENT_SECRET')
-    # limit = int(ip.get_reddit_properties('LIMIT'))
+    limit = int(ip.get_reddit_properties('LIMIT'))
     wait = int(ip.get_reddit_properties('WAIT'))
     refresh = int(ip.get_reddit_properties('REFRESH'))
     subreddits = ip.get_reddit_properties('SUBREDDITS')
@@ -250,7 +267,8 @@ if __name__ == "__main__":
                 username,
                 password,
                 client_id,
-                client_secret)
+                client_secret,
+                limit)
             bot.setup() if not setup_has_been_run else None
             bot.run()
             log.info("Done")
