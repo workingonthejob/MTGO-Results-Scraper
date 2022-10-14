@@ -10,6 +10,7 @@ from requests.exceptions import ConnectionError
 from IniParser import IniParser
 from database import Database
 from zoneinfo import ZoneInfo
+from exceptions import MarkdownCheckErrors
 
 
 SUBREDDIT = 'PioneerMTG'
@@ -51,6 +52,7 @@ RECOVERABLE_EXC = (
     PrawcoreException,
     ConnectionError,
 )
+
 
 fileConfig('logging_config.ini')
 log = logging.getLogger()
@@ -143,11 +145,16 @@ class MTGOResultsPostFinder:
         is correct.
         '''
         is_true = False
-        is_true = self.db.total_decks_match_for_link(results_url)
-        is_true = self._check_imgur_links_appear_only_once(results_url,
-                                                           markdown)
-        is_true = self._check_all_markdown_exists(results_url,
-                                                  markdown)
+        try:
+            is_true = self.db.total_decks_match_for_link(results_url)
+            is_true = self._check_imgur_links_appear_only_once(results_url,
+                                                               markdown)
+            is_true = self._check_all_markdown_exists(results_url,
+                                                      markdown)
+        except MarkdownCheckErrors as e:
+            is_true = False
+            log.exception(e)
+
         return is_true
 
     def _check_all_markdown_exists(self, results_url, markdown):
@@ -159,8 +166,7 @@ class MTGOResultsPostFinder:
                 imgur_link=imgur_link, player=player)
             line_in_md = re.search(line, markdown)
             if not line_in_md:
-                log.warn(f'Did not find "{line}" in markdown.')
-                return False
+                raise MarkdownCheckErrors(f'Line "{line}" not in markdown.')
         return True
 
     def _check_imgur_links_appear_only_once(self, results_url, markdown):
@@ -173,8 +179,7 @@ class MTGOResultsPostFinder:
             imgur_url = row[4]
             count = markdown.count(imgur_url)
             if count != 1:
-                log.debug(f'{imgur_url} showed up {count} times!')
-                return False
+                raise MarkdownCheckErrors(f'{imgur_url} showed up {count} times!')
         return True
 
     def find_new_results(self):

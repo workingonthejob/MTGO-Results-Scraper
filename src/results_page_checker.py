@@ -87,20 +87,17 @@ class Checker():
                     # Always seems to be a page with no results
                     letters.remove('q')
 
-                    yesterday_in_table = self.db.is_result_link_in_imgur_table(yesterday_link_clean)
-                    today_in_table = self.db.is_result_link_in_imgur_table(today_link_clean)
+                    for letter in letters:
+                        yesterday = self.db.is_result_link_in_imgur_table(yesterday_link_clean)
+                        today = self.db.is_result_link_in_imgur_table(today_link_clean)
+                        secret_link = today_link + f'?{letter}'
+                        self.start_session()
+                        s = self.session.get(secret_link, headers=self.headers)
+                        tree = html.fromstring(s.content)
+                        results = tree.find(X_NO_RESULT)
 
-                    if not yesterday_in_table and not today_in_table:
-
-                        for letter in letters:
-                            secret_link = today_link + f'?{letter}'
-                            self.start_session()
-                            s = self.session.get(secret_link, headers=self.headers)
-                            tree = html.fromstring(s.content)
-                            results = tree.find(X_NO_RESULT)
-                            result_link_in_imgur_table = self.db.is_result_link_in_imgur_table(today_link_clean)
-
-                            if results is None and not result_link_in_imgur_table:
+                        if results is None:
+                            if not today and not yesterday:
                                 log.info(secret_link)
                                 mrs = MTGOResultsScraper(secret_link,
                                                          OUTPUT_DIRECTORY,
@@ -137,7 +134,6 @@ class Checker():
                     pass
                 except ChunkedEncodingError as e:
                     log.exception(e)
-            # 10 minutes
             log.debug('Sleeping for 10 minutes.')
             time.sleep(600)
 
