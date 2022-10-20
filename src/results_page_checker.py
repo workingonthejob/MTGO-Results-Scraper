@@ -18,7 +18,7 @@ from requests.exceptions import ChunkedEncodingError, HTTPError
 fileConfig('logging_config.ini')
 log = logging.getLogger()
 
-OUTPUT_DIRECTORY = r'.'
+OUTPUT_DIRECTORY = r'.screenshots'
 TAKE_SCREENSHOTS = True
 EXPORT_TO_MARKDOWN = False
 CROP_SCREENSHOTS = True
@@ -35,7 +35,6 @@ PIONEER_SUPER_QUALIFIER = BASE_URL + 'pioneer-super-qualifier-{}'
 PIONEER_SHOWCASE_CHALLENGE = BASE_URL + 'pioneer-showcase-challenge-{}'
 MODERN_LEAGUE_LINK = BASE_URL + 'modern-league-{}'
 MODERN_CHALLENGE_LINK = BASE_URL + 'modern-challenge-{}'
-TEST_LINK = BASE_URL + 'modern-league-{}'.format('2022-06-17')
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
          PIONEER_SUPER_QUALIFIER,

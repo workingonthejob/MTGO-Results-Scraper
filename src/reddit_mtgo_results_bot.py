@@ -226,7 +226,7 @@ class MTGOResultsPostFinder:
                         results_url)
                     if self.all_checks_passed(results_url, markdown):
                         log.debug('Posting to reddit...')
-                        # submission.reply(markdown)
+                        submission.reply(body=markdown)
                         self.db.reddit_update_posted_screenshot(1, results_url)
         except Exception as e:
             log.exception(e)
