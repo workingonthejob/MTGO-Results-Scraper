@@ -27,7 +27,7 @@ Scrape and/or screenshot the Magic: The Gathering match results.
 """
 TIMEOUT = 10
 REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
-MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{,2},\\s\\d{4}'
+MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{1,2},\\s\\d{4}'
 
 # Example Matches
 # The Chicken Cow (32nd Place)
@@ -51,23 +51,27 @@ class MTGOResultsScraper():
         self.screenshots = []
         self.driver = None
         self.number_of_decks = None
-        self.x_header = '//header'
-        self.x_deck_container = '//div[@class="deck-group"]'
-        self.x_player = './/h4'
-        self.x_card_name = './/span[@class="card-name"]/a[text()="{card}"] | .//span[@class="card-name" and text()="{card}"]'
+        self.x_header = '//nav[@id="siteNavDesktop"]'
+        self.x_deck_container = '//section[@class="decklist"]'
+        self.x_player = './/p[@class="decklist-player"]'
+        self.x_card_name = './/a[@data-card-title="{card}"]'
         self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
         self.x_main_card_counts = './/div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-count"]'
         self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
         self.x_side_card_counts = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-count"]'
         self.x_no_thanks_btn = '//button[@class="decline-button eu-cookie-compliance-default-button"]'
+        self.x_accept_all_cookies_btn = './/button[@id="tarteaucitronPersonalize2"]'
+        self.x_reject_all_cookies_btn = './/button[@id="tarteaucitronAllDenied2"]'
+        self.x_cookie_notification = '//div[@id="tarteaucitronAlertBig"]'
         self.x_league_type = './/h1'
-        self.x_posted_in = './/div[@id="main-content"]//p[@class="posted-in"]'
-        self.x_decklist_icons = './/span[@class="decklist-icons"]'
+        self.x_posted_on = './/p[@class="decklist-posted-on"]'
+        self.x_decklist_actions = './/div[@class="decklist-actions"]'
         self.headers = {'User-Agent':
                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                         'AppleWebKit/537.36 (KHTML, like Gecko) '
                         'Chrome/102.0.0.0 Safari/537.36',
-                        'accept': 'application/json'}
+                        'accept': 'application/json',
+                        'Accept-Language': 'en-US'}
         self.session = None
 
     def get_output_dir(self):
@@ -93,14 +97,17 @@ class MTGOResultsScraper():
         session.mount('https://', adapter)
         self.session = session.get(self.url, headers=self.headers)
 
-    def print_decklists(self):
+    def get_decklists(self):
         tree = html.fromstring(self.session.content)
         deck_containers = tree.xpath(self.x_deck_container)
+        decks = []
         for deck in deck_containers:
             mainboard = {}
             sideboard = {}
             container = {"Mainboard": mainboard,
-                         "Sideboard": sideboard}
+                         "Sideboard": sideboard,
+                         "Player": None,
+                         "Link": None}
             raw_name = deck.find(self.x_player).text
             player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
             container["Player"] = player
@@ -121,7 +128,8 @@ class MTGOResultsScraper():
                 card_name = side_card_names[i].text
                 total_cards_side += number_of_cards
                 sideboard[card_name] = number_of_cards
-            print(json.dumps(container))
+            decks.append(json.dumps(container))
+        return decks
 
     def find_elements_with_xpath(self, xpath):
         return self.driver.find_elements(by=By.XPATH, value=xpath)
@@ -150,37 +158,38 @@ class MTGOResultsScraper():
         self.initialize_web_driver() if not self.driver else None
 
         # Get the League type and the date to create the folder.
-        posted_in = self.find_elements_with_xpath(self.x_posted_in)[0]
+        posted_on = self.find_elements_with_xpath(self.x_posted_on)[0]
         self.league = self.find_elements_with_xpath(
             self.x_league_type)[0].text.title()
-        text = posted_in.text.strip()
+        text = posted_on.text.strip()
         self.date = re.search(MTGO_RESULTS_PAGE_DATE_RE, text).group()
 
         self.create_folder_for_screenshots(self.league, self.date)
         hide = self.driver.execute_script
         header = self.find_elements_with_xpath(self.x_header)[0]
         js_display_none = "arguments[0].style.display = 'none'"
+        js_visibility_hidden = "arguments[0].style.visibility = 'hidden'"
         wait = WebDriverWait(self.driver, TIMEOUT)
 
         try:
-            hide(js_display_none, header)
-            clickable = ec.element_to_be_clickable((By.XPATH, self.x_no_thanks_btn))
+            hide(js_visibility_hidden, header)
+            clickable = ec.element_to_be_clickable((By.XPATH, self.x_accept_all_cookies_btn))
             no_thanks_btn_elm = wait.until(clickable)
-            no_thanks_btn_elm.click()
+            cookie = self.find_elements_with_xpath(self.x_cookie_notification)[0]
+            hide(js_display_none, cookie)
             self.highlight_latest_cards()
-
             decks = self.find_elements_with_xpath(self.x_deck_container)
             names = self.find_elements_with_xpath(self.x_player)
-            icons = self.find_elements_with_xpath(self.x_decklist_icons)
+            icons = self.find_elements_with_xpath(self.x_decklist_actions)
             self.number_of_decks = len(decks)
-            inner_containers = self.find_elements_with_xpath('.//div[@class="deck-list-text"]')
+            inner_containers = self.find_elements_with_xpath('.//div[@class="decklist-card-preview hidden-xs"]')
 
             for i in range(self.number_of_decks):
                 screenshot_info = {}
                 size = decks[i].size
                 screenshot_info['width'] = int(size['width'])
                 screenshot_info['height'] = int(size['height'])
-                screenshot_info['crop_amount'] = int(inner_containers[i].value_of_css_property("margin-right").split("px")[0])
+                screenshot_info['crop_amount'] = inner_containers[i].size['width']
                 raw_name = names[i].get_attribute("textContent")
                 player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
                 screenshot_format = f'png'
@@ -262,7 +271,8 @@ class MTGOResultsScraper():
             self.take_decklist_screenshots()
             if self.crop_screenshots:
                 self.crop_images()
-        self.print_decklists()
+        decklists = self.get_decklists()
+        print(decklists)
 
 
 if __name__ == "__main__":
