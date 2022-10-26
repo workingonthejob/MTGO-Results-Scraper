@@ -2,11 +2,11 @@ import requests
 import time
 import logging
 import string
+import urllib.parse
 from imgur import Imgur
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from datetime import datetime
-from datetime import timedelta
 from lxml import html
 from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
@@ -18,7 +18,7 @@ from requests.exceptions import ChunkedEncodingError, HTTPError
 fileConfig('logging_config.ini')
 log = logging.getLogger()
 
-OUTPUT_DIRECTORY = r'.screenshots'
+OUTPUT_DIRECTORY = r'.\screenshots'
 TAKE_SCREENSHOTS = True
 EXPORT_TO_MARKDOWN = False
 CROP_SCREENSHOTS = True
@@ -28,19 +28,23 @@ TIME_ZONE = ZoneInfo('America/Los_Angeles')
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = None
 YESTERDAY = None
-BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
-PIONEER_LEAGUE_LINK = BASE_URL + 'pioneer-league-{}'
-PIONEER_CHALLENGE_LINK = BASE_URL + 'pioneer-challenge-{}'
-PIONEER_SUPER_QUALIFIER = BASE_URL + 'pioneer-super-qualifier-{}'
-PIONEER_SHOWCASE_CHALLENGE = BASE_URL + 'pioneer-showcase-challenge-{}'
-MODERN_LEAGUE_LINK = BASE_URL + 'modern-league-{}'
-MODERN_CHALLENGE_LINK = BASE_URL + 'modern-challenge-{}'
-LINKS = [PIONEER_LEAGUE_LINK,
-         PIONEER_CHALLENGE_LINK,
+BASE_URL = 'https://www.mtgo.com'
+QUERY_URL = 'https://www.mtgo.com/en/mtgo/decklists/search?query={query}'
+QUERY = QUERY_URL.format(query=urllib.parse.quote('pioneer challenge'))
+
+PIONEER_LEAGUE = 'pioneer league'
+PIONEER_CHALLENGE = 'pioneer challenge'
+PIONEER_SUPER_QUALIFIER = 'pioneer super qualifier'
+PIONEER_SHOWCASE_CHALLENGE = 'pioneer showcase challenge'
+LINKS = [PIONEER_LEAGUE,
+         PIONEER_CHALLENGE,
          PIONEER_SUPER_QUALIFIER,
          PIONEER_SHOWCASE_CHALLENGE]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
+X_EVENT_RESULTS = '//li[@class="decklists-item"]'
+# The maximum amount of events to parse
+MAX_EVENTS = 2
 
 
 class Checker():
@@ -48,6 +52,7 @@ class Checker():
     def __init__(self):
         self.session = None
         self.url = None
+        self.mtgo_scraper = None
         self.headers = {'User-Agent':
                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                         'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -69,72 +74,64 @@ class Checker():
         '''
         return url.split('?')[0]
 
+    def get_event_urls(self):
+        urls = []
+        self.start_session()
+        r = self.session.get(QUERY, headers=self.headers)
+        tree = html.fromstring(r.content)
+        results = tree.xpath(X_EVENT_RESULTS)
+        for result in results:
+            href = result.find('./a').attrib['href']
+            url = BASE_URL + href
+            urls.append(url)
+        return urls
+
+    def take_screenshots(self, url):
+        in_db = self.db.is_result_link_in_imgur_table(url)
+        if not in_db:
+            self.mtgo_scraper = MTGOResultsScraper(url,
+                                                   OUTPUT_DIRECTORY,
+                                                   TAKE_SCREENSHOTS,
+                                                   CROP_SCREENSHOTS)
+            self.mtgo_scraper.take_decklist_screenshots()
+            self.mtgo_scraper.crop_images()
+            number_of_decks = self.mtgo_scraper.get_number_of_decks()
+            folder_name = self.mtgo_scraper.get_folder_name()
+            self.db.add_wizards_row(url, number_of_decks)
+        return folder_name
+
+    def upload_screenshots(self, folder, url):
+        im = Imgur()
+        album_id = im.create_album(
+            title=folder)['data']['id']
+        for screenshot in self.mtgo_scraper.get_screenshots():
+            screenshot_file = screenshot['screenshot']['file']
+            player = screenshot['player']
+            log.info(f'Uploading {screenshot_file}')
+            try:
+                response = im.upload_image(image=screenshot_file,
+                                           album=album_id,
+                                           sleep=True)
+                imgur_link = response['data']['link']
+                self.db.add_imgur_row(screenshot_file,
+                                      album_id,
+                                      player,
+                                      imgur_link,
+                                      url)
+            except HTTPError as e:
+                log.exception(e)
+
     def run(self):
         log.info('Starting...')
-        while True:
-            for link in LINKS:
-                try:
-                    TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
-                    YESTERDAY = (datetime.now(TIME_ZONE) - timedelta(days=1)).strftime(DATE_FORMAT)
-                    today_link = link.format(TODAY)
-                    today_link_clean = self.clean_url(today_link)
-                    yesterday_link = link.format(YESTERDAY)
-                    yesterday_link_clean = self.clean_url(yesterday_link)
-                    secret_link = None
-                    screenshot_count = 0
-                    letters = list(string.ascii_lowercase)
-                    # Always seems to be a page with no results
-                    letters.remove('q')
-
-                    for letter in letters:
-                        yesterday = self.db.is_result_link_in_imgur_table(yesterday_link_clean)
-                        today = self.db.is_result_link_in_imgur_table(today_link_clean)
-                        secret_link = today_link + f'?{letter}'
-                        self.start_session()
-                        s = self.session.get(secret_link, headers=self.headers)
-                        tree = html.fromstring(s.content)
-                        results = tree.find(X_NO_RESULT)
-
-                        if results is None:
-                            if not today and not yesterday:
-                                log.info(secret_link)
-                                mrs = MTGOResultsScraper(secret_link,
-                                                         OUTPUT_DIRECTORY,
-                                                         TAKE_SCREENSHOTS,
-                                                         CROP_SCREENSHOTS)
-                                mrs.take_decklist_screenshots()
-                                mrs.crop_images()
-                                number_of_decks = mrs.get_number_of_decks()
-                                folder_name = mrs.get_folder_name()
-
-                                self.db.add_wizards_row(today_link_clean,
-                                                        number_of_decks)
-                                im = Imgur()
-                                album_id = im.create_album(
-                                    title=folder_name)['data']['id']
-                                for screenshot in mrs.get_screenshots():
-                                    screenshot_file = screenshot['screenshot']['file']
-                                    player = screenshot['player']
-                                    log.info(f'Uploading {screenshot_file}')
-                                    try:
-                                        response = im.upload_image(image=screenshot_file,
-                                                                   album=album_id,
-                                                                   sleep=True)
-                                        imgur_link = response['data']['link']
-                                        self.db.add_imgur_row(screenshot_file,
-                                                              album_id,
-                                                              player,
-                                                              imgur_link,
-                                                              today_link_clean)
-                                        screenshot_count += 1
-                                    except HTTPError as e:
-                                        log.exception(e)
-                except KeyboardInterrupt:
-                    pass
-                except ChunkedEncodingError as e:
-                    log.exception(e)
-            log.debug('Sleeping for 10 minutes.')
-            time.sleep(600)
+        urls = self.get_event_urls()
+        counter = 0
+        for url in urls:
+            if counter == MAX_EVENTS:
+                break
+            log.debug(url)
+            folder = self.take_screenshots(url)
+            self.upload_screenshots(folder, url)
+            counter += 1
 
 
 c = Checker()
