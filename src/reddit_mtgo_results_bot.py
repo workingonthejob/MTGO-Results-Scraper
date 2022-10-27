@@ -27,17 +27,18 @@ PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*?)(\s)?(\(.*\))?\*\*'
 # PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*(.+?)(\s\(.+?\))?\*'
 DATE_FORMAT = "%Y-%m-%d"
 RE_DATE_PATTERN = r'\d{4}\-\d{2}\-\d{2}'
+NUMBER_AT_THE_END = r'\d{1,}'
 TODAY = datetime.now(TIME_ZONE).strftime(DATE_FORMAT)
 YESTERDAY = (datetime.now(TIME_ZONE) - timedelta(days=1)).strftime(DATE_FORMAT)
-BASE_URL = 'https://magic.wizards.com/en/articles/archive/mtgo-standings/'
+BASE_URL = 'https://www.mtgo.com/en/mtgo/decklist/'
 
-PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{RE_DATE_PATTERN}'
-PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{RE_DATE_PATTERN}'
-PIONEER_SHOWCASE_CHALLENGE = BASE_URL + f'pioneer-showcase-challenge-{RE_DATE_PATTERN}'
-PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{RE_DATE_PATTERN}'
-PIONEER_PREMIER = BASE_URL + f'pioneer-premier-{RE_DATE_PATTERN}'
-MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{RE_DATE_PATTERN}'
-MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{RE_DATE_PATTERN}'
+PIONEER_LEAGUE_LINK = BASE_URL + f'pioneer-league-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+PIONEER_CHALLENGE_LINK = BASE_URL + f'pioneer-challenge-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+PIONEER_SHOWCASE_CHALLENGE = BASE_URL + f'pioneer-showcase-challenge-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+PIONEER_SUPER_QUALIFIER = BASE_URL + f'pioneer-super-qualifier-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+PIONEER_PREMIER = BASE_URL + f'pioneer-premier-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
+MODERN_CHALLENGE_LINK = BASE_URL + f'modern-challenge-{RE_DATE_PATTERN}{NUMBER_AT_THE_END}'
 
 LINKS = [PIONEER_LEAGUE_LINK,
          PIONEER_CHALLENGE_LINK,
