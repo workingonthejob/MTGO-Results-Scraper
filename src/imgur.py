@@ -89,11 +89,11 @@ class Imgur():
     def _post(self, url, data, headers, sleep=False):
         time_elapsed = 0
         r = self.SESSION.post(url, data=data, headers=headers)
-        headers = r.headers
+        hdrs = r.headers
 
-        self.POST_RATE_LIMIT_LIMIT = int(headers['X-Post-Rate-Limit-Limit'])
-        self.POST_RATE_LIMIT_REMAINING = int(headers['X-Post-Rate-Limit-Remaining'])
-        self.POST_RATE_LIMIT_RESET = int(headers['X-Post-Rate-Limit-Reset']) + 60
+        self.POST_RATE_LIMIT_LIMIT = int(hdrs['X-Post-Rate-Limit-Limit'])
+        self.POST_RATE_LIMIT_REMAINING = int(hdrs['X-Post-Rate-Limit-Remaining'])
+        self.POST_RATE_LIMIT_RESET = int(hdrs['X-Post-Rate-Limit-Reset'])
 
         if sleep and int(r.status_code) == 400:
             if r.json()['data']['error']['code'] == RATE_LIMITING_ERROR:
@@ -107,12 +107,11 @@ class Imgur():
                     log.info(
                         f'Slept for {time_elapsed_min}/{minutes_remaining} min.')
                 # Retry after waiting
+                self.refresh()
                 r = self.SESSION.post(url, data=data, headers=headers)
 
                 if r.status_code != 200:
-                    log.debug(r.status_code)
                     r.raise_for_status()
-                    # raise Exception(f'{r.status_code} status code returned.')
         return r
 
     def start_session(self):
