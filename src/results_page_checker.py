@@ -41,8 +41,6 @@ LINKS = [PIONEER_LEAGUE,
          PIONEER_CHALLENGE,
          PIONEER_SUPER_QUALIFIER,
          PIONEER_SHOWCASE_CHALLENGE]
-
-# LINKS = [PIONEER_LEAGUE]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
 X_EVENT_RESULTS = '//li[@class="decklists-item"]'
@@ -145,10 +143,38 @@ class Checker():
                                           url)
                 except HTTPError as e:
                     log.exception(e)
+                    # log.exception(f'Adding {screenshot_file} '
+                    #               f'to the retry queue!')
+                    # self.db.add_image_to_queue(screenshot_file, album_id, url)
+
+    def process_retry_queue(self):
+        log.info('Processing retry queue...')
+        im = Imgur()
+        images = self.db.get_all_retry_images()
+        for image in images:
+            file = image['file']
+            album = image['imgur_album']
+            url = image['url']
+            player = image['player']
+            log.info(f'Retrying {file}')
+            try:
+                response = im.upload_image(image=file,
+                                           album=album,
+                                           sleep=True)
+                imgur_link = response['data']['link']
+                self.db.add_imgur_row(file,
+                                      album,
+                                      player,
+                                      imgur_link,
+                                      url)
+                # self.db.remove_image_from_queue()
+            except Exception as e:
+                log.exception(e)
 
     def run(self):
         this_file = os.path.basename(__file__)
         log.info(f'Starting {this_file}...')
+        # self.process_retry_queue()
         urls = self.get_event_urls()
         for url in urls:
             ignore = self.db.url_in_ignore(url)

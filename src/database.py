@@ -84,6 +84,7 @@ class Database():
         """
         self.cursor.execute("CREATE TABLE IF NOT EXISTS "
                             "{}("
+                            "player text,"
                             "file text,"
                             "imgur_album text,"
                             "url text)"
@@ -93,15 +94,17 @@ class Database():
         # https://www.sqlitetutorial.net/sqlite-update/
         pass
 
-    def add_image_to_queue(self, file, imgur_album, url):
+    def add_image_to_queue(self, player, file, imgur_album, url):
         self.cursor.execute("INSERT INTO "
                             "{}("
+                            "player,"
                             "file,"
                             "imgur_album,"
                             "url) "
                             "VALUES (?, ?, ?)"
                             .format(self.image_upload_queue),
-                            (file,
+                            (player,
+                             file,
                              imgur_album,
                              url))
         self.commit()
