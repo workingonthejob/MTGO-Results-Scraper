@@ -17,10 +17,12 @@ class Database():
         self.reddit_table = 'reddit'
         self.wizards_table = 'wizards'
         self.decklist_table = 'decklists'
+        self.ignore_mtgo_links = 'ignore_mtgo_links'
         self.cursor = self.db.cursor()
         self._create_imgur_table()
         self._create_reddit_table()
         self._create_wizards_table()
+        self._create_ignore_table()
 
     def _create_imgur_table(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS "
@@ -64,6 +66,15 @@ class Database():
                             "url text,"
                             "decklist integer)"
                             .format(self.decklist_table))
+
+    def _create_ignore_table(self):
+        """
+            List of mtgo.com links to ignore. Useful for debugging.
+        """
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS "
+                            "{}("
+                            "url text)"
+                            .format(self.ignore_mtgo_links))
 
     def update_row(self):
         # https://www.sqlitetutorial.net/sqlite-update/
@@ -115,6 +126,9 @@ class Database():
     def delete_file(self, file):
         self.cursor.execute(f'DELETE FROM {self.imgur_table} WHERE file = \'{file}\'')
         self.commit()
+
+    def url_in_ignore(self, value):
+        return self.column_contains(self.ignore_mtgo_links, "url", value)
 
     def is_file_in_table(self, value):
         return self.column_contains(self.imgur_table, "file", value)

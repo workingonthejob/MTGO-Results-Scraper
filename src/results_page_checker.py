@@ -11,6 +11,7 @@ from logging.config import fileConfig
 from database import Database
 from zoneinfo import ZoneInfo
 from requests.exceptions import HTTPError
+import os
 
 
 fileConfig('logging_config.ini')
@@ -40,11 +41,13 @@ LINKS = [PIONEER_LEAGUE,
          PIONEER_CHALLENGE,
          PIONEER_SUPER_QUALIFIER,
          PIONEER_SHOWCASE_CHALLENGE]
+
+# LINKS = [PIONEER_LEAGUE]
 # xpath
 X_NO_RESULT = './/p[@class="no-result"]'
 X_EVENT_RESULTS = '//li[@class="decklists-item"]'
 # The maximum amount of events to capture screenshots
-MAX_EVENTS = 2
+MAX_EVENTS = 1
 
 
 class Checker():
@@ -118,32 +121,43 @@ class Checker():
         """
         Upload the screenshots to an imgur album.
         """
-        im = Imgur()
-        album_id = im.create_album(
-            title=self.folder)['data']['id']
-        for screenshot in self.screenshots:
-            screenshot_file = screenshot['screenshot']['file']
-            player = screenshot['player']
-            log.info(f'Uploading {screenshot_file}')
-            try:
-                response = im.upload_image(image=screenshot_file,
-                                           album=album_id,
-                                           sleep=True)
-                imgur_link = response['data']['link']
-                self.db.add_imgur_row(screenshot_file,
-                                      album_id,
-                                      player,
-                                      imgur_link,
-                                      url)
-            except HTTPError as e:
-                log.exception(e)
+        im = None
+        album_id = None
+
+        # Initialize only if there are screenshots.
+        if self.screenshots:
+            im = Imgur()
+            album_id = im.create_album(
+                title=self.folder)['data']['id']
+            for screenshot in self.screenshots:
+                screenshot_file = screenshot['screenshot']['file']
+                player = screenshot['player']
+                log.info(f'Uploading {screenshot_file}')
+                try:
+                    response = im.upload_image(image=screenshot_file,
+                                               album=album_id,
+                                               sleep=True)
+                    imgur_link = response['data']['link']
+                    self.db.add_imgur_row(screenshot_file,
+                                          album_id,
+                                          player,
+                                          imgur_link,
+                                          url)
+                except HTTPError as e:
+                    log.exception(e)
 
     def run(self):
-        log.info('Starting...')
+        this_file = os.path.basename(__file__)
+        log.info(f'Starting {this_file}...')
         urls = self.get_event_urls()
         for url in urls:
-            self.take_screenshots(url)
-            self.upload_screenshots(url)
+            ignore = self.db.url_in_ignore(url)
+            if ignore:
+                log.debug(f'{url} being ignored')
+            else:
+                log.info(url)
+                self.take_screenshots(url)
+                self.upload_screenshots(url)
 
 
 c = Checker()
