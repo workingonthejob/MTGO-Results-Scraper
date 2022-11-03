@@ -18,11 +18,13 @@ class Database():
         self.wizards_table = 'wizards'
         self.decklist_table = 'decklists'
         self.ignore_mtgo_links = 'ignore_mtgo_links'
+        self.image_upload_queue = 'image_upload_queue'
         self.cursor = self.db.cursor()
         self._create_imgur_table()
         self._create_reddit_table()
         self._create_wizards_table()
         self._create_ignore_table()
+        # self._create_image_upload_queue()
 
     def _create_imgur_table(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS "
@@ -76,9 +78,33 @@ class Database():
                             "url text)"
                             .format(self.ignore_mtgo_links))
 
+    def _create_image_upload_queue(self):
+        """
+            List of mtgo.com links to ignore. Useful for debugging.
+        """
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS "
+                            "{}("
+                            "file text,"
+                            "imgur_album text,"
+                            "url text)"
+                            .format(self.image_upload_queue))
+
     def update_row(self):
         # https://www.sqlitetutorial.net/sqlite-update/
         pass
+
+    def add_image_to_queue(self, file, imgur_album, url):
+        self.cursor.execute("INSERT INTO "
+                            "{}("
+                            "file,"
+                            "imgur_album,"
+                            "url) "
+                            "VALUES (?, ?, ?)"
+                            .format(self.image_upload_queue),
+                            (file,
+                             imgur_album,
+                             url))
+        self.commit()
 
     def add_imgur_row(self, file, album_id, player, url, result_url):
         self.cursor.execute("INSERT INTO "
