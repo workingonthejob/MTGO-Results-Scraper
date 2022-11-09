@@ -9,7 +9,6 @@ from lxml import html
 from mtgo_results_scraper import MTGOResultsScraper
 from logging.config import fileConfig
 from database import Database
-from zoneinfo import ZoneInfo
 from requests.exceptions import HTTPError
 import os
 
@@ -17,13 +16,10 @@ import os
 fileConfig('logging_config.ini')
 log = logging.getLogger()
 
-OUTPUT_DIRECTORY = r'.\screenshots'
+OUTPUT_DIRECTORY = r'screenshots'
 TAKE_SCREENSHOTS = True
-EXPORT_TO_MARKDOWN = False
 CROP_SCREENSHOTS = True
 
-# Wizards is west coast
-TIME_ZONE = ZoneInfo('America/Los_Angeles')
 DATE_FORMAT = "%Y-%m-%d"
 TODAY = None
 BASE_URL = 'https://www.mtgo.com'
@@ -42,7 +38,6 @@ LINKS = [PIONEER_LEAGUE,
          PIONEER_SUPER_QUALIFIER,
          PIONEER_SHOWCASE_CHALLENGE]
 # xpath
-X_NO_RESULT = './/p[@class="no-result"]'
 X_EVENT_RESULTS = '//li[@class="decklists-item"]'
 # The maximum amount of events to capture screenshots
 MAX_EVENTS = 1
@@ -98,7 +93,6 @@ class Checker():
         """
         Take screenshots of the decklists for the given url.
         """
-        log.debug(url)
         in_db = self.db.is_result_link_in_imgur_table(url)
         if not in_db:
             try:
@@ -121,9 +115,11 @@ class Checker():
         """
         im = None
         album_id = None
+        url_exists = self.db.is_result_link_in_imgur_table(url)
 
-        # Initialize only if there are screenshots.
-        if self.screenshots:
+        # Only upload if the mtgo url is not
+        # in the DB.
+        if not url_exists:
             im = Imgur()
             album_id = im.create_album(
                 title=self.folder)['data']['id']
@@ -141,22 +137,21 @@ class Checker():
                                           player,
                                           imgur_link,
                                           url)
-                except HTTPError as e:
-                    log.exception(e)
-                    # log.exception(f'Adding {screenshot_file} '
-                    #               f'to the retry queue!')
-                    # self.db.add_image_to_queue(screenshot_file, album_id, url)
+                except Exception:
+                    log.warn(f'Adding {screenshot_file} '
+                             f'to the retry queue!')
+                    self.db.add_image_to_queue(screenshot_file, album_id, url)
 
     def process_retry_queue(self):
         log.info('Processing retry queue...')
-        im = Imgur()
         images = self.db.get_all_retry_images()
+        im = Imgur() if images else None
         for image in images:
-            file = image['file']
-            album = image['imgur_album']
-            url = image['url']
-            player = image['player']
-            log.info(f'Retrying {file}')
+            file = image[1]
+            album = image[2]
+            url = image[3]
+            player = image[0]
+            log.info(f'Retrying {file}...')
             try:
                 response = im.upload_image(image=file,
                                            album=album,
@@ -167,19 +162,21 @@ class Checker():
                                       player,
                                       imgur_link,
                                       url)
-                # self.db.remove_image_from_queue()
+                self.db.remove_from_queue(file)
+                log.info('Success!')
             except Exception as e:
                 log.exception(e)
+        log.info('Done processing queue.')
 
     def run(self):
         this_file = os.path.basename(__file__)
         log.info(f'Starting {this_file}...')
-        # self.process_retry_queue()
+        self.process_retry_queue()
         urls = self.get_event_urls()
         for url in urls:
             ignore = self.db.url_in_ignore(url)
             if ignore:
-                log.debug(f'{url} being ignored')
+                log.debug(f'Ignoring {url}')
             else:
                 log.info(url)
                 self.take_screenshots(url)

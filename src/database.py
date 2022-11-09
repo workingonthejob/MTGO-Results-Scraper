@@ -24,7 +24,7 @@ class Database():
         self._create_reddit_table()
         self._create_wizards_table()
         self._create_ignore_table()
-        # self._create_image_upload_queue()
+        self._create_image_upload_queue()
 
     def _create_imgur_table(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS "
@@ -152,8 +152,20 @@ class Database():
                              total_decks))
         self.commit()
 
+    def get_all_retry_images(self):
+        sql = "\
+          SELECT *\
+          FROM {table}\
+        ".format(table=self.image_upload_queue)
+        response = self.cursor.execute(sql).fetchall()
+        return response
+
     def delete_file(self, file):
         self.cursor.execute(f'DELETE FROM {self.imgur_table} WHERE file = \'{file}\'')
+        self.commit()
+
+    def remove_from_queue(self, file):
+        self.cursor.execute(f'DELETE FROM {self.image_upload_queue} WHERE file = \'{file}\'')
         self.commit()
 
     def url_in_ignore(self, value):
