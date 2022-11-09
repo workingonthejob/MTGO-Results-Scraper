@@ -24,7 +24,6 @@ MARKDOWN_PLAYER = ('* [{archetype}]'
                    '**{escaped_player}**\n')
 # https://praw.readthedocs.io/en/latest/code_overview/models/submission.html
 PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*\*(.*?)(\s)?(\(.*\))?\*\*'
-# PATTERN = r'[\d{1}\.|\*]\s\[(.*)\]\(.*\):\s?\*(.+?)(\s\(.+?\))?\*'
 DATE_FORMAT = "%Y-%m-%d"
 RE_DATE_PATTERN = r'\d{4}\-\d{2}\-\d{2}'
 EVENT_ID = r'(\d{1,})?'
@@ -109,7 +108,7 @@ class MTGOResultsPostFinder:
                 for match in matches:
                     archetype = match[0]
                     escaped_player = match[1]
-                    player = self.sanitize_name(match[1])
+                    player = self.sanitize_name(escaped_player)
                     # Keep track of players in case they appear in one event
                     # more than once.
                     names_seen.append(player)
@@ -154,7 +153,7 @@ class MTGOResultsPostFinder:
                                                       markdown)
         except MarkdownCheckErrors as e:
             is_true = False
-            log.exception(e)
+            log.warn(e)
 
         return is_true
 

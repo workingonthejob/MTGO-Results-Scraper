@@ -28,12 +28,14 @@ Scrape and/or screenshot the Magic: The Gathering match results.
 TIMEOUT = 10
 REDDIT_PATTERN = r'(\d+\.|\-)\s(\[.*\]).*\*\*(.*)\*\*'
 MTGO_RESULTS_PAGE_DATE_RE = '\\w+\\s\\d{1,2},\\s\\d{4}'
+MTGO_RESULTS_PAGE_DATE_SP_RE = '(\\d{1,2}) de (\\w+) de (\\d{4})'
+MTGO_RESULTS_PAGE_DATE_GR_RE = '(\\d{1,2}) (\\w+) (\\d{4})'
 
 # Example Matches
 # The Chicken Cow (32nd Place)
 # Tree_for_all (31st Place)
 # UnstableVuDoo (5-0)
-WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\sPlace\)))$'
+WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\s(?i)Place\)))$'
 
 
 class MTGOResultsScraper():
@@ -55,9 +57,9 @@ class MTGOResultsScraper():
         self.x_deck_container = '//section[@class="decklist"]'
         self.x_player = './/p[@class="decklist-player"]'
         self.x_card_name = './/a[@data-card-title="{card}"]'
-        self.x_main_card_names ='.//div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-name"]/a'
+        self.x_main_card_names ='.//div[@class="decklist-sort-group decklist-sort-type"]//div[@class="decklist-category-columns"]//li[@class="decklist-category-card"]/a'
         self.x_main_card_counts = './/div[@class="sorted-by-overview-container sortedContainer"]//span[@class="card-count"]'
-        self.x_side_card_names = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-name"]/a'
+        self.x_side_card_names = './/div[@class="decklist-sort-group decklist-sort-type"]//ul[@class="decklist-category-list decklist-sideboard decklist-category-columns"]/li/a'
         self.x_side_card_counts = './/div[@class="sorted-by-sideboard-container  clearfix element"]//span[@class="card-count"]'
         self.x_no_thanks_btn = '//button[@class="decline-button eu-cookie-compliance-default-button"]'
         self.x_accept_all_cookies_btn = './/button[@id="tarteaucitronPersonalize2"]'
@@ -71,8 +73,9 @@ class MTGOResultsScraper():
                         'AppleWebKit/537.36 (KHTML, like Gecko) '
                         'Chrome/102.0.0.0 Safari/537.36',
                         'accept': 'application/json',
-                        'Accept-Language': 'en-US'}
+                        'Accept-Language': 'en_US'}
         self.session = None
+        # self.initialize_web_driver() if not self.driver else None
 
     def get_output_dir(self):
         return self.output_dir
@@ -98,54 +101,70 @@ class MTGOResultsScraper():
         self.session = session.get(self.url, headers=self.headers)
 
     def get_decklists(self):
-        tree = html.fromstring(self.session.content)
-        deck_containers = tree.xpath(self.x_deck_container)
-        decks = []
-        for deck in deck_containers:
-            mainboard = {}
-            sideboard = {}
-            container = {"Mainboard": mainboard,
-                         "Sideboard": sideboard,
-                         "Player": None,
-                         "Link": None}
-            raw_name = deck.find(self.x_player).text
-            player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
-            container["Player"] = player
-            main_card_names = deck.findall(self.x_main_card_names)
-            main_card_counts = deck.findall(self.x_main_card_counts)
-            side_card_names = deck.findall(self.x_side_card_names)
-            side_card_counts = deck.findall(self.x_side_card_counts)
-            total_cards_main = 0
-            total_cards_side = 0
-            for i in range(len(main_card_counts)):
-                number_of_cards = int(main_card_counts[i].text)
-                card_name = main_card_names[i].text
-                total_cards_main += number_of_cards
-                mainboard[card_name] = number_of_cards
 
-            for i in range(len(side_card_counts)):
-                number_of_cards = int(side_card_counts[i].text)
-                card_name = side_card_names[i].text
-                total_cards_side += number_of_cards
-                sideboard[card_name] = number_of_cards
-            decks.append(json.dumps(container))
+        decks = []
+        try:
+            self.initialize_web_driver() if not self.driver else None
+            wait = WebDriverWait(self.driver, TIMEOUT)
+            deck_containers = self.find_elements_with_xpath(self.x_deck_container)
+            clickable = ec.element_to_be_clickable((By.XPATH, self.x_accept_all_cookies_btn))
+            accept_all_btn = wait.until(clickable)
+            accept_all_btn.click()
+            for deck in deck_containers:
+                mainboard = {}
+                sideboard = {}
+                container = {"Mainboard": mainboard,
+                             "Sideboard": sideboard,
+                             "Player": None}
+                raw_name = deck.find_element(by=By.XPATH, value=self.x_player).text
+                player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
+                container["Player"] = player
+                main_card_names = deck.find_elements(by=By.XPATH, value=self.x_main_card_names)
+                main_card_counts = [re.search(r'^\w{1,}', card.text) for card in main_card_names]
+                side_card_names = deck.find_elements(by=By.XPATH, value=self.x_side_card_names)
+                side_card_counts = [re.search(r'^\w{1,}', card.text).group() for card in side_card_names]
+                total_cards_main = 0
+                total_cards_side = 0
+                for i in range(len(main_card_counts)):
+                    number_of_cards = int(main_card_counts[i].group())
+                    card_name = re.search(r'^\w{1,} (.*)$', main_card_names[i].text).group(1)
+                    total_cards_main += number_of_cards
+                    mainboard[card_name] = number_of_cards
+
+                for i in range(len(side_card_names)):
+                    number_of_cards = int(side_card_counts[i])
+                    card_name = re.search(r'^\w{1,} (.*)$', side_card_names[i].text).group(1)
+                    total_cards_side += number_of_cards
+                    sideboard[card_name] = number_of_cards
+                decks.append(json.dumps(container))
+        except Exception as e:
+            log.exception(e)
+        finally:
+            log.info('Quitting web driver')
+            self.driver.quit()
         return decks
 
     def find_elements_with_xpath(self, xpath):
         return self.driver.find_elements(by=By.XPATH, value=xpath)
 
     def initialize_web_driver(self):
-        log.debug("Starting web driver.")
+        log.info("Starting web driver.")
+        arguments = ['--headless',
+                     '--window-size=1920x1080',
+                     '--no-sandbox',
+                     '--disable-dev-shm-usage']
         # Define the options we want
         # More options here:
         # https://peter.sh/experiments/chromium-command-line-switches/
         options = Options()
-        options.add_argument("--headless")
-        # Starting maximized headless doesn't work correctly.
-        options.add_argument("--window-size=1920x1080")
-        # Ubuntu chrome will throw errors if these is not included.
-        options.add_argument("--no-sandbox")
-        options.add_argument('--disable-dev-shm-usage')
+        log.debug(f'Using options: {arguments}')
+        for arg in arguments:
+            options.add_argument(arg)
+        # # Starting maximized headless doesn't work correctly.
+        # options.add_argument("--window-size=1920x1080")
+        # # Ubuntu chrome will throw errors if these is not included.
+        # options.add_argument("--no-sandbox")
+        # options.add_argument('--disable-dev-shm-usage')
         # This downloads the correct one.
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options)
@@ -157,14 +176,10 @@ class MTGOResultsScraper():
 
         self.initialize_web_driver() if not self.driver else None
 
-        # Get the League type and the date to create the folder.
-        posted_on = self.find_elements_with_xpath(self.x_posted_on)[0]
         self.league = self.find_elements_with_xpath(
             self.x_league_type)[0].text.title()
-        text = posted_on.text.strip()
-        self.date = re.search(MTGO_RESULTS_PAGE_DATE_RE, text).group()
 
-        self.create_folder_for_screenshots(self.league, self.date)
+        self.create_folder_for_screenshots(self.league)
         hide = self.driver.execute_script
         header = self.find_elements_with_xpath(self.x_header)[0]
         js_display_none = "arguments[0].style.display = 'none'"
@@ -211,7 +226,9 @@ class MTGOResultsScraper():
         except Exception as e:
             log.exception(e)
         finally:
+            log.info('Quitting web driver')
             self.driver.quit()
+            self.driver = None
 
     def crop_images(self):
         '''
@@ -234,8 +251,8 @@ class MTGOResultsScraper():
                 im1 = im.crop((left, top, right, bottom))
                 im1.save(file)
 
-    def create_folder_for_screenshots(self, league, date):
-        self.folder_name = self.folder_name_template.format(league, date)
+    def create_folder_for_screenshots(self, league):
+        self.folder_name = self.url.split('/')[-1]
         self.mtgo_output_folder_dir = os.path.join(self.output_dir, self.folder_name)
         os.makedirs(self.mtgo_output_folder_dir, exist_ok=True)
 
@@ -271,8 +288,8 @@ class MTGOResultsScraper():
             self.take_decklist_screenshots()
             if self.crop_screenshots:
                 self.crop_images()
-        decklists = self.get_decklists()
-        print(decklists)
+        # decklists = self.get_decklists()
+        # print(decklists)
 
 
 if __name__ == "__main__":
