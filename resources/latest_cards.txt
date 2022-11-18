@@ -1,265 +1,275 @@
-Karn, Living Legacy
-Anointed Peacekeeper
-Archangel of Wrath
-Argivian Cavalier
-Argivian Phalanx
-Artillery Blast
-Benalish Faithbonder
-Benalish Sleeper
-Captain's Call
-Charismatic Vanguard
-Citizen's Arrest
-Cleaving Skyrider
-Clockwork Drawbridge
-Coalition Skyknight
-Danitha, Benalia's Hope
-Defiler of Faith
-Destroy Evil
-Griffin Protector
-Guardian of New Benalia
-Heroic Charge
-Join Forces
-Juniper Order Rootweaver
-Knight of Dawn's Light
-Leyline Binding
-Love Song of Night and Day
-Mesa Cavalier
-Phyrexian Missionary
-Prayer of Binding
-Resolute Reinforcements
-Runic Shot
-Samite Herbalist
-Serra Paragon
-Shalai's Acolyte
-Stall for Time
-Take Up the Shield
-Temporary Lockdown
-Urza Assembles the Titans
-Valiant Veteran
-Wingmantle Chaplain
-Academy Loremaster
-Academy Wall
-Aether Channeler
-Battlewing Mystic
-Combat Research
-Coral Colony
-Defiler of Dreams
-Djinn of the Fountain
-Ertai's Scorn
-Essence Scatter
-Founding the Third Path
-Frostfist Strider
-Haughty Djinn
-Haunting Figment
-Impede Momentum
-Impulse
-Joint Exploration
-Micromancer
-The Phasing of Zhalfir
-Phyrexian Espionage
-Pixie Illusionist
-Protect the Negotiators
-Rona's Vortex
-Shore Up
-Silver Scrutiny
-Soaring Drake
-Sphinx of Clear Skies
-Talas Lookout
-Tidepool Turtle
-Timely Interference
-Tolarian Geyser
-Tolarian Terror
-Vesuvan Duplimancy
-Voda Sea Scavenger
-Vodalian Hexcatcher
-Vodalian Mindsinger
-Volshe Tideturner
-Aggressive Sabotage
-Balduvian Atrocity
-Battle-Rage Blessing
-Battlefly Swarm
-Blight Pile
-Bone Splinters
-Braids, Arisen Nightmare
-Braids's Frightful Return
-Choking Miasma
-The Cruelty of Gix
-Cult Conscript
-Cut Down
-Defiler of Flesh
-Drag to the Bottom
-Eerie Soultender
-Evolved Sleeper
-Extinguish the Light
-Gibbering Barricade
-Knight of Dusk's Shadow
-Liliana of the Veil
-Monstrous War-Leech
-Phyrexian Rager
-Phyrexian Vivisector
-Phyrexian Warhorse
-Pilfer
-The Raven Man
-Sengir Connoisseur
-Shadow Prophecy
-Shadow-Rite Priest
-Sheoldred, the Apocalypse
-Sheoldred's Restoration
-Splatter Goblin
-Stronghold Arena
-Tattered Apparition
-Toxic Abomination
-Tribute to Urborg
-Urborg Repossession
-Writhing Necromass
-Balduvian Berserker
-Chaotic Transformation
-Coalition Warbrute
-Defiler of Instinct
-Dragon Whelp
-The Elder Dragon War
-Electrostatic Infantry
-Fires of Victory
-Flowstone Infusion
-Flowstone Kavu
-Furious Bellow
-Ghitu Amplifier
-Goblin Picker
-Hammerhand
-Hurler Cyclops
-Hurloon Battle Hymn
-In Thrall to the Pit
-Jaya, Fiery Negotiator
-Jaya's Firenado
-Keldon Flamesage
-Keldon Strike Team
-Lightning Strike
-Meria's Outrider
-Molten Monstrosity
-Phoenix Chick
-Radha's Firebrand
-Rundvelt Hordemaster
-Shivan Devastator
-Smash to Dust
-Sprouting Goblin
-Squee, Dubious Monarch
-Temporal Firestorm
-Thrill of Possibility
-Twinferno
-Viashino Branchrider
-Warhost's Frenzy
-Yavimaya Steelcrusher
-Yotia Declares War
-Barkweave Crusher
-Bite Down
-Bog Badger
-Broken Wings
-Colossal Growth
-Deathbloom Gardener
-Defiler of Vigor
-Elfhame Wurm
-Elvish Hydromancer
-Floriferous Vinewall
-Gaea's Might
-Herd Migration
-Hexbane Tortoise
-Leaf-Crowned Visionary
-Linebreaker Baloth
-Llanowar Greenwidow
-Llanowar Loamspeaker
-Llanowar Stalker
-Magnigoth Sentry
-Mossbeard Ancient
-Nishoba Brawler
-Quirion Beastcaller
-Scout the Wilderness
-Silverback Elder
-Slimefoot's Survey
-Snarespinner
-Strength of the Coalition
-Sunbathing Rootwalla
-Tail Swipe
-Tear Asunder
-Territorial Maro
-Threats Undetected
-Urborg Lhurgoyf
-Vineshaper Prodigy
-The Weatherseed Treaty
-The World Spell
-Yavimaya Iconoclast
-Yavimaya Sojourner
-Ajani, Sleeper Agent
-Aron, Benalia's Ruin
-Astor, Bearer of Blades
-Baird, Argivian Recruiter
-Balmor, Battlemage Captain
-Bortuk Bonerattle
-Elas il-Kor, Sadistic Pilgrim
-Ertai Resurrected
-Garna, Bloodfist of Keld
-Ivy, Gleeful Spellthief
-Jhoira, Ageless Innovator
-Jodah, the Unifier
-King Darien XLVIII
-Lagomos, Hand of Hatred
-Meria, Scholar of Antiquity
-Nael, Avizoa Aeronaut
-Najal, the Storm Runner
-Nemata, Primeval Warden
-Queen Allenal of Ruadach
-Radha, Coalition Warlord
-Raff, Weatherlight Stalwart
-Ratadrabik of Urborg
-Rith, Liberated Primeval
-Rivaz of the Claw
-Rona, Sheoldred's Faithful
-Rulik Mons, Warren Chief
-Shanna, Purifying Blade
-Sol'Kanar the Tainted
-Soul of Windgrace
-Stenn, Paranoid Partisan
-Tatyova, Steward of Tides
-Tori D'Avenant, Fury Rider
-Tura Kennerüd, Skyknight
-Uurg, Spawn of Turg
-Vohar, Vodalian Desecrator
-Zar Ojanen, Scion of Efrava
-Zur, Eternal Schemer
-Automatic Librarian
-Golden Argosy
-Hero's Heirloom
-Inscribed Tablet
-Jodah's Codex
-Karn's Sylex
-Meteorite
-Relic of Legends
-Salvaged Manaworker
-Shield-Wall Sentinel
-Timeless Lotus
-Vanquisher's Axe
-Walking Bulwark
-Weatherlight Compleated
-Adarkar Wastes
-Caves of Koilos
-Contaminated Aquifer
-Crystal Grotto
-Geothermal Bog
-Haunted Mire
-Idyllic Beachfront
-Karplusan Forest
-Molten Tributary
-Plaza of Heroes
-Radiant Grove
-Sacred Peaks
-Shivan Reef
-Sulfurous Springs
-Sunlit Marsh
-Tangled Islet
-Thran Portal
-Wooded Ridgeline
-Yavimaya Coast
-Serra Redeemer
-Cosmic Epiphany
-Tyrannical Pitlord
-Ragefire Hellkite
-Briar Hydra
+Aeronaut Cavalry
+Airlift Chaplain
+Ambush Paratrooper
+Calamity's Wake
+Deadly Riposte
+Disenchant
+Great Desert Prospector
+In the Trenches
+Kayla's Command
+Kayla's Reconstruction
+Lay Down Arms
+Loran of the Third Path
+Loran, Disciple of History
+Loran's Escape
+Mass Production
+Meticulous Excavation
+Military Discipline
+Myrel, Shield of Argive
+Phalanx Vanguard
+Powerstone Engineer
+Prison Sentence
+Recommission
+Recruitment Officer
+Repair and Recharge
+Siege Veteran
+Soul Partition
+Static Net
+Survivor of Korlis
+Thopter Architect
+Tocasia's Welcome
+Union of the Third Path
+Warlord's Elite
+Yotian Medic
+Autonomous Assembler
+Combat Thresher
+Platoon Dispenser
+Scrapwork Cohort
+Steel Seraph
+Tocasia's Onulet
+Urza's Sylex
+Veteran's Powerblade
+Yotian Frontliner
+Air Marshal
+Curate
+Defabricate
+Desynchronize
+Drafna, Founder of Lat-Nam
+Fallaji Archaeologist
+Flow of Knowledge
+Forging the Anchor
+Hurkyl, Master Wizard
+Hurkyl's Final Meditation
+Involuntary Cooldown
+Keeper of the Cadence
+Koilos Roc
+Lat-Nam Adept
+Machine Over Matter
+Mightstone's Animation
+One with the Multiverse
+Retrieval Agent
+Scatter Ray
+Skystrike Officer
+Splitting the Powerstone
+Stern Lesson
+Take Flight
+Teferi, Temporal Pilgrim
+Third Path Savant
+Thopter Mechanic
+Urza, Powerstone Prodigy
+Urza's Command
+Urza's Rebuff
+Weakstone's Subjugation
+Wing Commando
+Zephyr Sentinel
+Arcane Proxy
+Coastal Bulwark
+Combat Courier
+Depth Charge Colossus
+Hulking Metamorph
+Spotter Thopter
+Surge Engine
+The Temporal Anchor
+Terisian Mindbreaker
+Ashnod, Flesh Mechanist
+Ashnod's Intervention
+Battlefield Butcher
+Carrion Locust
+Corrupt
+Diabolic Intent
+Disciples of Gix
+Disfigure
+Dreams of Steel and Oil
+Emergency Weld
+Fateful Handoff
+Gix, Yawgmoth Praetor
+Gix's Caress
+Gix's Command
+Gixian Infiltrator
+Gixian Puppeteer
+Gixian Skullflayer
+Gnawing Vermin
+Go for the Throat
+Gruesome Realization
+Gurgling Anointer
+Hostile Negotiations
+Kill-Zone Acrobat
+Misery's Shadow
+Moment of Defiance
+No One Left Behind
+Overwhelming Remorse
+Painful Quandary
+Powerstone Fracture
+Ravenous Gigamole
+Thran Vigil
+Thraxodemon
+Trench Stalker
+Ashnod's Harvester
+Clay Revenant
+Dredging Claw
+Goring Warplow
+Phyrexian Fleshgorger
+Razorlash Transmogrant
+Scrapwork Rager
+Transmogrant Altar
+Transmogrant's Crown
+Arms Race
+Bitter Reunion
+Brotherhood's End
+Conscripted Infantry
+Draconic Destiny
+Dwarven Forge-Chanter
+Excavation Explosion
+The Fall of Kroog
+Fallaji Chaindancer
+Feldon, Ronom Excavator
+Giant Cindermaw
+Goblin Blast-Runner
+Horned Stoneseeker
+Mechanized Warfare
+Mishra, Excavation Prodigy
+Mishra's Command
+Mishra's Domination
+Mishra's Onslaught
+Monastery Swiftspear
+Obliterating Bolt
+Over the Top
+Penregon Strongbull
+Pyrrhic Blast
+Raze to the Ground
+Roc Hunter
+Sardian Cliffstomper
+Sibling Rivalry
+Tomakul Scrapsmith
+Tyrant of Kher Ridges
+Unleash Shell
+Visions of Phyrexia
+Whirling Strike
+Blitz Automaton
+Fallaji Dragon Engine
+Heavyweight Demolisher
+Mishra's Juggernaut
+Mishra's Research Desk
+Phyrexian Dragon Engine // Mishra, Lost to Phyrexia
+Mishra, Lost to Phyrexia
+Scrapwork Mutt
+Skitterbeam Battalion
+Alloy Animist
+Argothian Opportunist
+Argothian Sprite
+Audacity
+Awaken the Woods
+Blanchwood Armor
+Blanchwood Prowler
+Burrowing Razormaw
+Bushwhack
+Citanul Stalwart
+Epic Confrontation
+Fade from History
+Fallaji Excavation
+Fauna Shaman
+Fog of War
+Gaea's Courser
+Gaea's Gift
+Giant Growth
+Gnarlroot Pallbearer
+Gwenna, Eyes of Gaea
+Hoarding Recluse
+Obstinate Baloth
+Perimeter Patrol
+Sarinth Steelseeker
+Shoot Down
+Tawnos's Tinkering
+Teething Wurmlet
+Titania, Voice of Gaea // Titania, Gaea Incarnate
+Titania's Command
+Tomakul Honor Guard
+Wasteful Harvest
+Boulderbranch Golem
+Cradle Clearcutter
+Haywire Mite
+Iron-Craw Crusher
+Mask of the Jadecrafter
+Perennial Behemoth
+Rootwire Amalgam
+Rust Goliath
+Simian Simulacrum
+Arbalest Engineers
+Battery Bearer
+Deathbloom Ritualist
+Evangel of Synthesis
+Fallaji Vanguard
+Hajar, Loyal Bodyguard
+Harbin, Vanguard Aviator
+Hero of the Dunes
+Junkyard Genius
+Legions to Ashes
+Mishra, Claimed by Gix // Mishra, Lost to Phyrexia
+Mishra, Tamer of Mak Fawa
+Queen Kayla bin-Kroog
+Saheeli, Filigree Master
+Sarinth Greatwurm
+Skyfisher Spider
+Tawnos, the Toymaker
+Third Path Iconoclast
+Tocasia, Dig Site Mentor
+Urza, Lord Protector // Urza, Planeswalker
+Urza, Prince of Kroog
+Yotian Dissident
+Yotian Tactician
+Bladecoil Serpent
+Clay Champion
+Aeronaut's Wings
+Argivian Avenger
+Cityscape Leveler
+Energy Refractor
+Goblin Firebomb
+Levitating Statue
+Liberator, Urza's Battlethopter
+The Mightstone and Weakstone // Urza, Planeswalker
+Urza, Planeswalker
+Mine Worker
+Portal to Phyrexia
+Power Plant Worker
+Reconstructed Thopter
+Slagstone Refinery
+Spectrum Sentinel
+The Stasis Coffin
+Steel Exemplar
+The Stone Brain
+Stone Retrieval Unit
+Su-Chi Cave Guard
+Supply Drop
+Swiftgear Drake
+Symmetry Matrix
+Thran Power Suit
+Thran Spider
+Tower Worker
+Argoth, Sanctum of Nature // Titania, Gaea Incarnate
+Titania, Gaea Incarnate
+Battlefield Forge
+Blast Zone
+Brushland
+Demolition Field
+Evolving Wilds
+Fortified Beachhead
+Hall of Tagsin
+Llanowar Wastes
+Mishra's Foundry
+Tocasia's Dig Site
+Underground River
+Rescue Retriever
+Geology Enthusiast
+Terror Ballista
+Artificer's Dragon
+Woodcaller Automaton
