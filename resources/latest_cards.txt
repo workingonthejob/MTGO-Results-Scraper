@@ -157,7 +157,6 @@ Heavyweight Demolisher
 Mishra's Juggernaut
 Mishra's Research Desk
 Phyrexian Dragon Engine
-Phyrexian Dragon Engine // Mishra, Lost to Phyrexia
 Mishra, Lost to Phyrexia
 Scrapwork Mutt
 Skitterbeam Battalion
@@ -188,7 +187,6 @@ Shoot Down
 Tawnos's Tinkering
 Teething Wurmlet
 Titania, Voice of Gaea
-Titania, Voice of Gaea // Titania, Gaea Incarnate
 Titania's Command
 Tomakul Honor Guard
 Wasteful Harvest
@@ -212,7 +210,6 @@ Hero of the Dunes
 Junkyard Genius
 Legions to Ashes
 Mishra, Claimed by Gix
-Mishra, Claimed by Gix // Mishra, Lost to Phyrexia
 Mishra, Tamer of Mak Fawa
 Queen Kayla bin-Kroog
 Saheeli, Filigree Master
@@ -222,7 +219,6 @@ Tawnos, the Toymaker
 Third Path Iconoclast
 Tocasia, Dig Site Mentor
 Urza, Lord Protector
-Urza, Lord Protector // Urza, Planeswalker
 Urza, Prince of Kroog
 Yotian Dissident
 Yotian Tactician
@@ -236,7 +232,6 @@ Goblin Firebomb
 Levitating Statue
 Liberator, Urza's Battlethopter
 The Mightstone and Weakstone
-The Mightstone and Weakstone // Urza, Planeswalker
 Urza, Planeswalker
 Mine Worker
 Portal to Phyrexia
@@ -256,7 +251,6 @@ Thran Power Suit
 Thran Spider
 Tower Worker
 Argoth, Sanctum of Nature
-Argoth, Sanctum of Nature // Titania, Gaea Incarnate
 Titania, Gaea Incarnate
 Battlefield Forge
 Blast Zone

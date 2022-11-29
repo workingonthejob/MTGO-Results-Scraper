@@ -11,7 +11,10 @@ def parse_mtg_json_for_latest_cards():
         data = json.load(f)
         with open(r'..\resources\latest_cards.txt', 'w', encoding='utf-8') as handle:
             for card in data['data']['cards']:
-                card_name = card['name']
+                if 'faceName' in card:
+                    card_name = card['faceName']
+                else:
+                    card_name = card['name']
                 # Remove duplicates and exclude specific cards
                 if card_name not in card_tracker and card_name not in exclude:
                     handle.write(card_name + '\n')
