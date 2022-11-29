@@ -3,7 +3,6 @@ Airlift Chaplain
 Ambush Paratrooper
 Calamity's Wake
 Deadly Riposte
-Disenchant
 Great Desert Prospector
 In the Trenches
 Kayla's Command
@@ -41,7 +40,6 @@ Urza's Sylex
 Veteran's Powerblade
 Yotian Frontliner
 Air Marshal
-Curate
 Defabricate
 Desynchronize
 Drafna, Founder of Lat-Nam
@@ -88,7 +86,6 @@ Carrion Locust
 Corrupt
 Diabolic Intent
 Disciples of Gix
-Disfigure
 Dreams of Steel and Oil
 Emergency Weld
 Fateful Handoff
@@ -141,7 +138,6 @@ Mishra, Excavation Prodigy
 Mishra's Command
 Mishra's Domination
 Mishra's Onslaught
-Monastery Swiftspear
 Obliterating Bolt
 Over the Top
 Penregon Strongbull
@@ -160,6 +156,7 @@ Fallaji Dragon Engine
 Heavyweight Demolisher
 Mishra's Juggernaut
 Mishra's Research Desk
+Phyrexian Dragon Engine
 Phyrexian Dragon Engine // Mishra, Lost to Phyrexia
 Mishra, Lost to Phyrexia
 Scrapwork Mutt
@@ -169,7 +166,6 @@ Argothian Opportunist
 Argothian Sprite
 Audacity
 Awaken the Woods
-Blanchwood Armor
 Blanchwood Prowler
 Burrowing Razormaw
 Bushwhack
@@ -191,6 +187,7 @@ Sarinth Steelseeker
 Shoot Down
 Tawnos's Tinkering
 Teething Wurmlet
+Titania, Voice of Gaea
 Titania, Voice of Gaea // Titania, Gaea Incarnate
 Titania's Command
 Tomakul Honor Guard
@@ -214,6 +211,7 @@ Harbin, Vanguard Aviator
 Hero of the Dunes
 Junkyard Genius
 Legions to Ashes
+Mishra, Claimed by Gix
 Mishra, Claimed by Gix // Mishra, Lost to Phyrexia
 Mishra, Tamer of Mak Fawa
 Queen Kayla bin-Kroog
@@ -223,6 +221,7 @@ Skyfisher Spider
 Tawnos, the Toymaker
 Third Path Iconoclast
 Tocasia, Dig Site Mentor
+Urza, Lord Protector
 Urza, Lord Protector // Urza, Planeswalker
 Urza, Prince of Kroog
 Yotian Dissident
@@ -236,6 +235,7 @@ Energy Refractor
 Goblin Firebomb
 Levitating Statue
 Liberator, Urza's Battlethopter
+The Mightstone and Weakstone
 The Mightstone and Weakstone // Urza, Planeswalker
 Urza, Planeswalker
 Mine Worker
@@ -255,6 +255,7 @@ Symmetry Matrix
 Thran Power Suit
 Thran Spider
 Tower Worker
+Argoth, Sanctum of Nature
 Argoth, Sanctum of Nature // Titania, Gaea Incarnate
 Titania, Gaea Incarnate
 Battlefield Forge
@@ -264,7 +265,6 @@ Demolition Field
 Evolving Wilds
 Fortified Beachhead
 Hall of Tagsin
-Llanowar Wastes
 Mishra's Foundry
 Tocasia's Dig Site
 Underground River
