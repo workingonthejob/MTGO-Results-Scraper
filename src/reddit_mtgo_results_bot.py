@@ -17,7 +17,7 @@ SUBREDDIT = 'PioneerMTG'
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
 MARKDOWN_HEADER = (f'Here are the screenshots for the deck lists. '
-                   f'Highlighted are DMU cards.\n\n'
+                   f'Highlighted are BRO cards.\n\n'
                    '[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
 MARKDOWN_PLAYER = ('* [{archetype}]'
                    '({imgur_link}): '
@@ -153,7 +153,7 @@ class MTGOResultsPostFinder:
                                                       markdown)
         except MarkdownCheckErrors as e:
             is_true = False
-            log.warn(e)
+            log.warning(e)
 
         return is_true
 

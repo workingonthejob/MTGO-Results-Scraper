@@ -47,7 +47,6 @@ class MTGOResultsScraper():
         self.crop_screenshots = crop_screenshots
         self.mtgo_output_folder_dir = None
         self.folder_name = None
-        self.folder_name_template = "MTGO {} Results ({})"
         self.league = None
         self.date = None
         self.screenshots = []
@@ -66,7 +65,6 @@ class MTGOResultsScraper():
         self.x_reject_all_cookies_btn = './/button[@id="tarteaucitronAllDenied2"]'
         self.x_cookie_notification = '//div[@id="tarteaucitronAlertBig"]'
         self.x_league_type = './/h1'
-        self.x_posted_on = './/p[@class="decklist-posted-on"]'
         self.x_decklist_actions = './/div[@class="decklist-actions"]'
         self.headers = {'User-Agent':
                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
