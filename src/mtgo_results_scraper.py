@@ -6,7 +6,6 @@ import re
 import logging
 import json
 from PIL import Image
-from lxml import html
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from selenium.webdriver.chrome.options import Options
