@@ -1,269 +1,265 @@
-Aeronaut Cavalry
-Airlift Chaplain
-Ambush Paratrooper
-Calamity's Wake
-Deadly Riposte
-Great Desert Prospector
-In the Trenches
-Kayla's Command
-Kayla's Reconstruction
-Lay Down Arms
-Loran of the Third Path
-Loran, Disciple of History
-Loran's Escape
-Mass Production
-Meticulous Excavation
-Military Discipline
-Myrel, Shield of Argive
-Phalanx Vanguard
-Powerstone Engineer
-Prison Sentence
-Recommission
-Recruitment Officer
-Repair and Recharge
-Siege Veteran
-Soul Partition
-Static Net
-Survivor of Korlis
-Thopter Architect
-Tocasia's Welcome
-Union of the Third Path
-Warlord's Elite
-Yotian Medic
-Autonomous Assembler
-Combat Thresher
-Platoon Dispenser
-Scrapwork Cohort
-Steel Seraph
-Tocasia's Onulet
-Urza's Sylex
-Veteran's Powerblade
-Yotian Frontliner
-Air Marshal
-Defabricate
-Desynchronize
-Drafna, Founder of Lat-Nam
-Fallaji Archaeologist
-Flow of Knowledge
-Forging the Anchor
-Hurkyl, Master Wizard
-Hurkyl's Final Meditation
-Involuntary Cooldown
-Keeper of the Cadence
-Koilos Roc
-Lat-Nam Adept
-Machine Over Matter
-Mightstone's Animation
-One with the Multiverse
-Retrieval Agent
-Scatter Ray
-Skystrike Officer
-Splitting the Powerstone
-Stern Lesson
-Take Flight
-Teferi, Temporal Pilgrim
-Third Path Savant
-Thopter Mechanic
-Urza, Powerstone Prodigy
-Urza's Command
-Urza's Rebuff
-Weakstone's Subjugation
-Wing Commando
-Zephyr Sentinel
-Arcane Proxy
-Coastal Bulwark
-Combat Courier
-Depth Charge Colossus
-Hulking Metamorph
-Spotter Thopter
-Surge Engine
-The Temporal Anchor
-Terisian Mindbreaker
-Ashnod, Flesh Mechanist
-Ashnod's Intervention
-Battlefield Butcher
-Carrion Locust
-Corrupt
-Diabolic Intent
-Disciples of Gix
-Dreams of Steel and Oil
-Emergency Weld
-Fateful Handoff
-Gix, Yawgmoth Praetor
-Gix's Caress
-Gix's Command
-Gixian Infiltrator
-Gixian Puppeteer
-Gixian Skullflayer
-Gnawing Vermin
-Go for the Throat
-Gruesome Realization
-Gurgling Anointer
-Hostile Negotiations
-Kill-Zone Acrobat
-Misery's Shadow
-Moment of Defiance
-No One Left Behind
-Overwhelming Remorse
-Painful Quandary
-Powerstone Fracture
-Ravenous Gigamole
-Thran Vigil
-Thraxodemon
-Trench Stalker
-Ashnod's Harvester
-Clay Revenant
-Dredging Claw
-Goring Warplow
-Phyrexian Fleshgorger
-Razorlash Transmogrant
-Scrapwork Rager
-Transmogrant Altar
-Transmogrant's Crown
-Arms Race
-Bitter Reunion
-Brotherhood's End
-Conscripted Infantry
-Draconic Destiny
-Dwarven Forge-Chanter
-Excavation Explosion
-The Fall of Kroog
-Fallaji Chaindancer
-Feldon, Ronom Excavator
-Giant Cindermaw
-Goblin Blast-Runner
-Horned Stoneseeker
-Mechanized Warfare
-Mishra, Excavation Prodigy
-Mishra's Command
-Mishra's Domination
-Mishra's Onslaught
-Obliterating Bolt
-Over the Top
-Penregon Strongbull
-Pyrrhic Blast
-Raze to the Ground
-Roc Hunter
-Sardian Cliffstomper
-Sibling Rivalry
-Tomakul Scrapsmith
-Tyrant of Kher Ridges
-Unleash Shell
-Visions of Phyrexia
-Whirling Strike
-Blitz Automaton
-Fallaji Dragon Engine
-Heavyweight Demolisher
-Mishra's Juggernaut
-Mishra's Research Desk
-Phyrexian Dragon Engine
-Mishra, Lost to Phyrexia
-Scrapwork Mutt
-Skitterbeam Battalion
-Alloy Animist
-Argothian Opportunist
-Argothian Sprite
-Audacity
-Awaken the Woods
-Blanchwood Prowler
-Burrowing Razormaw
-Bushwhack
-Citanul Stalwart
-Epic Confrontation
-Fade from History
-Fallaji Excavation
-Fauna Shaman
-Fog of War
-Gaea's Courser
-Gaea's Gift
-Giant Growth
-Gnarlroot Pallbearer
-Gwenna, Eyes of Gaea
-Hoarding Recluse
-Obstinate Baloth
-Perimeter Patrol
-Sarinth Steelseeker
-Shoot Down
-Tawnos's Tinkering
-Teething Wurmlet
-Titania, Voice of Gaea
-Titania's Command
-Tomakul Honor Guard
-Wasteful Harvest
-Boulderbranch Golem
-Cradle Clearcutter
-Haywire Mite
-Iron-Craw Crusher
-Mask of the Jadecrafter
-Perennial Behemoth
-Rootwire Amalgam
-Rust Goliath
-Simian Simulacrum
-Arbalest Engineers
-Battery Bearer
-Deathbloom Ritualist
-Evangel of Synthesis
-Fallaji Vanguard
-Hajar, Loyal Bodyguard
-Harbin, Vanguard Aviator
-Hero of the Dunes
-Junkyard Genius
-Legions to Ashes
-Mishra, Claimed by Gix
-Mishra, Tamer of Mak Fawa
-Queen Kayla bin-Kroog
-Saheeli, Filigree Master
-Sarinth Greatwurm
-Skyfisher Spider
-Tawnos, the Toymaker
-Third Path Iconoclast
-Tocasia, Dig Site Mentor
-Urza, Lord Protector
-Urza, Prince of Kroog
-Yotian Dissident
-Yotian Tactician
-Bladecoil Serpent
-Clay Champion
-Aeronaut's Wings
-Argivian Avenger
-Cityscape Leveler
-Energy Refractor
-Goblin Firebomb
-Levitating Statue
-Liberator, Urza's Battlethopter
-The Mightstone and Weakstone
-Urza, Planeswalker
-Mine Worker
-Portal to Phyrexia
-Power Plant Worker
-Reconstructed Thopter
-Slagstone Refinery
-Spectrum Sentinel
-The Stasis Coffin
-Steel Exemplar
-The Stone Brain
-Stone Retrieval Unit
-Su-Chi Cave Guard
-Supply Drop
-Swiftgear Drake
-Symmetry Matrix
-Thran Power Suit
-Thran Spider
-Tower Worker
-Argoth, Sanctum of Nature
-Titania, Gaea Incarnate
-Battlefield Forge
-Blast Zone
-Brushland
-Demolition Field
-Evolving Wilds
-Fortified Beachhead
-Hall of Tagsin
-Mishra's Foundry
-Tocasia's Dig Site
-Underground River
-Rescue Retriever
-Geology Enthusiast
-Terror Ballista
-Artificer's Dragon
-Woodcaller Automaton
+Against All Odds
+Annex Sentry
+Apostle of Invasion
+Basilica Shepherd
+Bladed Ambassador
+Charge of the Mites
+Compleat Devotion
+Crawling Chorus
+Duelist of Deep Faith
+Elesh Norn, Mother of Machines
+The Eternal Wanderer
+Flensing Raptor
+Goldwarden's Helm
+Hexgold Hoverwings
+Incisor Glider
+Indoctrination Attendant
+Infested Fleshcutter
+Jawbone Duelist
+Kemba, Kha Enduring
+Leonin Lightbringer
+Mandible Justiciar
+Mirran Bardiche
+Mondrak, Glory Dominus
+Norn's Wellspring
+Orthodoxy Enforcer
+Ossification
+Phyrexian Vindicator
+Planar Disruption
+Plated Onslaught
+Porcelain Zealot
+Resistance Reunited
+Sinew Dancer
+Skrelv, Defector Mite
+Skrelv's Hive
+Swooping Lookout
+Vanish into Eternity
+Veil of Assimilation
+White Sun's Twilight
+Zealot's Conviction
+Aspirant's Ascent
+Atmosphere Surgeon
+Blade of Shared Souls
+Blue Sun's Twilight
+Bring the Ending
+Chrome Prowler
+Distorted Curiosity
+Encroaching Mycosynth
+Escaped Experiment
+Experimental Augury
+Eye of Malcator
+Font of Progress
+Gitaxian Anatomist
+Gitaxian Raptor
+Glistener Seer
+Ichor Synthesizer
+Ichormoon Gauntlet
+Jace, the Perfected Mind
+Malcator's Watcher
+Meldweb Curator
+Meldweb Strider
+Mercurial Spelldancer
+Mesmerizing Dose
+Mindsplice Apparatus
+Minor Misstep
+Prologue to Phyresis
+Quicksilver Fisher
+Reject Imperfection
+Serum Snare
+Tamiyo's Immobilizer
+Tamiyo's Logbook
+Tekuthal, Inquiry Dominus
+Thrummingbird
+Transplant Theorist
+Trawler Drake
+Unctus, Grand Metatect
+Unctus's Retrofitter
+Vivisurgeon's Insight
+Watchful Blisterzoa
+Ambulatory Edifice
+Annihilating Glare
+Anoint with Affliction
+Archfiend of the Dross
+Bilious Skulldweller
+Black Sun's Twilight
+Blightbelly Rat
+Bonepicker Skirge
+Chittering Skitterling
+Cruel Grimnarch
+Cutthroat Centurion
+Drivnod, Carnage Dominus
+Drown in Ichor
+Feed the Infection
+Fleshless Gladiator
+Geth, Thane of Contracts
+Gulping Scraptrap
+Infectious Inquiry
+Karumonix, the Rat King
+Necrogen Communion
+Necrosquito
+Nimraiser Paladin
+Offer Immortality
+Pestilent Syphoner
+Phyrexian Arena
+Phyrexian Obliterator
+Ravenous Necrotitan
+Scheming Aspirant
+Sheoldred's Edict
+Sheoldred's Headcleaver
+Stinging Hivemaster
+Testament Bearer
+Vat Emergence
+Vat of Rebirth
+Vraan, Executioner Thane
+Vraska, Betrayal's Sting
+Vraska's Fall
+Whisper of the Dross
+All Will Be One
+Awaken the Sleeper
+Axiom Engraver
+Barbed Batterfist
+Bladegraft Aspirant
+Blazing Crescendo
+Cacophony Scamp
+Capricious Hellraiser
+Chimney Rabble
+Churning Reservoir
+Dragonwing Glider
+Exuberant Fuseling
+Forgehammer Centurion
+Free from Flesh
+Furnace Punisher
+Furnace Strider
+Gleeful Demolition
+Hazardous Blast
+Hexgold Halberd
+Hexgold Slash
+Koth, Fire of Resistance
+Kuldotha Cackler
+Magmatic Sprinter
+Molten Rebuke
+Nahiri's Sacrifice
+Oxidda Finisher
+Rebel Salvo
+Red Sun's Twilight
+Resistance Skywarden
+Sawblade Scamp
+Shrapnel Slinger
+Slobad, Iron Goblin
+Solphim, Mayhem Dominus
+Thrill of Possibility
+Urabrask's Anointer
+Urabrask's Forge
+Vindictive Flamestoker
+Volt Charge
+Vulshok Splitter
+Adaptive Sporesinger
+Armored Scrapgorger
+Bloated Contaminator
+Branchblight Stalker
+Cankerbloom
+Carnivorous Canopy
+Conduit of Worlds
+Contagious Vorrac
+Copper Longlegs
+Evolved Spinoderm
+Evolving Adaptive
+Expand the Sphere
+Green Sun's Twilight
+Ichorspit Basilisk
+Incubation Sac
+Infectious Bite
+Lattice-Blade Mantis
+Maze's Mantle
+Nissa, Ascended Animist
+Noxious Assault
+Oil-Gorger Troll
+Paladin of Predation
+Plague Nurse
+Predation Steward
+Rustvine Cultivator
+Ruthless Predation
+Skyscythe Engulfer
+Sylvok Battle-Chair
+Thirsting Roots
+Thrun, Breaker of Silence
+Titanic Growth
+Tyrranax Atrocity
+Tyrranax Rex
+Tyvar's Stand
+Unnatural Restoration
+Venerated Rotpriest
+Venomous Brutalizer
+Viral Spawning
+Zopandrel, Hunger Dominus
+Atraxa, Grand Unifier
+Bladehold War-Whip
+Cephalopod Sentry
+Charforger
+Cinderslash Ravager
+Ezuri, Stalker of Spheres
+Glissa Sunslayer
+Jor Kadeen, First Goldwarden
+Kaito, Dancing Shadow
+Kaya, Intangible Slayer
+Kethek, Crucible Goliath
+Lukka, Bound to Ruin
+Malcator, Purity Overseer
+Melira, the Living Cure
+Migloz, Maze Crusher
+Nahiri, the Unforgiving
+Necrogen Rotpriest
+Ovika, Enigma Goliath
+Ria Ivor, Bane of Bladehold
+Serum-Core Chimera
+Slaughter Singer
+Tainted Observer
+Tyvar, Jubilant Brawler
+Venser, Corpse Puppet
+Vivisection Evangelist
+Voidwing Hybrid
+Argentum Masticore
+Atraxa's Skitterfang
+Basilica Skullbomb
+Dross Skullbomb
+Dune Mover
+The Filigree Sylex
+Furnace Skullbomb
+Graaz, Unstoppable Juggernaut
+Ichorplate Golem
+Maze Skullbomb
+Mirran Safehouse
+Monument to Perfection
+Myr Convert
+Myr Custodian
+Myr Kinsmith
+Phyrexian Atlas
+Prophetic Prism
+Prosthetic Injector
+Ribskiff
+Soulless Jailer
+Staff of Compleation
+Surgical Skullbomb
+Sword of Forge and Frontier
+Tablet of Compleation
+Zenith Chronicler
+The Autonomous Furnace
+Blackcleave Cliffs
+Copperline Gorge
+Darkslick Shores
+The Dross Pits
+The Fair Basilica
+The Hunter Maze
+Mirrex
+The Monumental Facade
+The Mycosynth Gardens
+Razorverge Thicket
+Seachrome Coast
+The Seedcore
+The Surgical Bay
+Terramorphic Expanse
+Mite Overseer
+Serum Sovereign
+Kinzu of the Bleak Coven
+Rhuk, Hexgold Nabber
+Goliath Hatchery
