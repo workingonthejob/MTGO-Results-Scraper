@@ -33,7 +33,7 @@ BASE_URL = 'https://www.mtgo.com/en/mtgo/decklist/'
 
 PIONEER_LEAGUE_LINK = '(' + BASE_URL + fr'pioneer-league-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_CHALLENGE_LINK = '(' + BASE_URL + fr'pioneer-challenge-{RE_DATE_PATTERN}{EVENT_ID})'
-PIONEER_SHOWCASE_CHALLENGE = '(' + BASE_URL + fr'(pioneer-showcase-challenge-{RE_DATE_PATTERN}{EVENT_ID})'
+PIONEER_SHOWCASE_CHALLENGE = '(' + BASE_URL + fr'pioneer-showcase-challenge-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_SUPER_QUALIFIER = '(' + BASE_URL + fr'pioneer-super-qualifier-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_PREMIER = '(' + BASE_URL + fr'pioneer-premier-{RE_DATE_PATTERN}{EVENT_ID})'
 # MODERN_LEAGUE_LINK = BASE_URL + f'modern-league-{RE_DATE_PATTERN}{EVENT_ID}'
