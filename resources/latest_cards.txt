@@ -1,265 +1,351 @@
-Against All Odds
-Annex Sentry
-Apostle of Invasion
-Basilica Shepherd
-Bladed Ambassador
-Charge of the Mites
-Compleat Devotion
-Crawling Chorus
-Duelist of Deep Faith
-Elesh Norn, Mother of Machines
-The Eternal Wanderer
-Flensing Raptor
-Goldwarden's Helm
-Hexgold Hoverwings
-Incisor Glider
-Indoctrination Attendant
-Infested Fleshcutter
-Jawbone Duelist
-Kemba, Kha Enduring
-Leonin Lightbringer
-Mandible Justiciar
-Mirran Bardiche
-Mondrak, Glory Dominus
-Norn's Wellspring
-Orthodoxy Enforcer
-Ossification
-Phyrexian Vindicator
-Planar Disruption
-Plated Onslaught
-Porcelain Zealot
-Resistance Reunited
-Sinew Dancer
-Skrelv, Defector Mite
-Skrelv's Hive
-Swooping Lookout
-Vanish into Eternity
-Veil of Assimilation
-White Sun's Twilight
-Zealot's Conviction
-Aspirant's Ascent
-Atmosphere Surgeon
-Blade of Shared Souls
-Blue Sun's Twilight
-Bring the Ending
-Chrome Prowler
-Distorted Curiosity
-Encroaching Mycosynth
-Escaped Experiment
-Experimental Augury
-Eye of Malcator
-Font of Progress
-Gitaxian Anatomist
-Gitaxian Raptor
-Glistener Seer
-Ichor Synthesizer
-Ichormoon Gauntlet
-Jace, the Perfected Mind
-Malcator's Watcher
-Meldweb Curator
-Meldweb Strider
-Mercurial Spelldancer
-Mesmerizing Dose
-Mindsplice Apparatus
-Minor Misstep
-Prologue to Phyresis
-Quicksilver Fisher
-Reject Imperfection
-Serum Snare
-Tamiyo's Immobilizer
-Tamiyo's Logbook
-Tekuthal, Inquiry Dominus
-Thrummingbird
-Transplant Theorist
-Trawler Drake
-Unctus, Grand Metatect
-Unctus's Retrofitter
-Vivisurgeon's Insight
-Watchful Blisterzoa
-Ambulatory Edifice
-Annihilating Glare
-Anoint with Affliction
-Archfiend of the Dross
-Bilious Skulldweller
-Black Sun's Twilight
-Blightbelly Rat
-Bonepicker Skirge
-Chittering Skitterling
-Cruel Grimnarch
-Cutthroat Centurion
-Drivnod, Carnage Dominus
-Drown in Ichor
-Feed the Infection
-Fleshless Gladiator
-Geth, Thane of Contracts
-Gulping Scraptrap
-Infectious Inquiry
-Karumonix, the Rat King
-Necrogen Communion
-Necrosquito
-Nimraiser Paladin
-Offer Immortality
-Pestilent Syphoner
-Phyrexian Arena
-Phyrexian Obliterator
-Ravenous Necrotitan
-Scheming Aspirant
-Sheoldred's Edict
-Sheoldred's Headcleaver
-Stinging Hivemaster
-Testament Bearer
-Vat Emergence
-Vat of Rebirth
-Vraan, Executioner Thane
-Vraska, Betrayal's Sting
-Vraska's Fall
-Whisper of the Dross
-All Will Be One
-Awaken the Sleeper
-Axiom Engraver
-Barbed Batterfist
-Bladegraft Aspirant
-Blazing Crescendo
-Cacophony Scamp
-Capricious Hellraiser
-Chimney Rabble
-Churning Reservoir
-Dragonwing Glider
-Exuberant Fuseling
-Forgehammer Centurion
-Free from Flesh
-Furnace Punisher
-Furnace Strider
-Gleeful Demolition
-Hazardous Blast
-Hexgold Halberd
-Hexgold Slash
-Koth, Fire of Resistance
-Kuldotha Cackler
-Magmatic Sprinter
-Molten Rebuke
-Nahiri's Sacrifice
-Oxidda Finisher
-Rebel Salvo
-Red Sun's Twilight
-Resistance Skywarden
-Sawblade Scamp
-Shrapnel Slinger
-Slobad, Iron Goblin
-Solphim, Mayhem Dominus
-Thrill of Possibility
-Urabrask's Anointer
-Urabrask's Forge
-Vindictive Flamestoker
-Volt Charge
-Vulshok Splitter
-Adaptive Sporesinger
-Armored Scrapgorger
-Bloated Contaminator
-Branchblight Stalker
-Cankerbloom
-Carnivorous Canopy
-Conduit of Worlds
-Contagious Vorrac
-Copper Longlegs
-Evolved Spinoderm
-Evolving Adaptive
-Expand the Sphere
-Green Sun's Twilight
-Ichorspit Basilisk
-Incubation Sac
-Infectious Bite
-Lattice-Blade Mantis
-Maze's Mantle
-Nissa, Ascended Animist
-Noxious Assault
-Oil-Gorger Troll
-Paladin of Predation
-Plague Nurse
-Predation Steward
-Rustvine Cultivator
-Ruthless Predation
-Skyscythe Engulfer
-Sylvok Battle-Chair
-Thirsting Roots
-Thrun, Breaker of Silence
-Titanic Growth
-Tyrranax Atrocity
-Tyrranax Rex
-Tyvar's Stand
-Unnatural Restoration
-Venerated Rotpriest
-Venomous Brutalizer
-Viral Spawning
-Zopandrel, Hunger Dominus
-Atraxa, Grand Unifier
-Bladehold War-Whip
-Cephalopod Sentry
-Charforger
-Cinderslash Ravager
-Ezuri, Stalker of Spheres
-Glissa Sunslayer
-Jor Kadeen, First Goldwarden
-Kaito, Dancing Shadow
-Kaya, Intangible Slayer
-Kethek, Crucible Goliath
-Lukka, Bound to Ruin
-Malcator, Purity Overseer
-Melira, the Living Cure
-Migloz, Maze Crusher
-Nahiri, the Unforgiving
-Necrogen Rotpriest
-Ovika, Enigma Goliath
-Ria Ivor, Bane of Bladehold
-Serum-Core Chimera
-Slaughter Singer
-Tainted Observer
-Tyvar, Jubilant Brawler
-Venser, Corpse Puppet
-Vivisection Evangelist
-Voidwing Hybrid
-Argentum Masticore
-Atraxa's Skitterfang
-Basilica Skullbomb
-Dross Skullbomb
-Dune Mover
-The Filigree Sylex
-Furnace Skullbomb
-Graaz, Unstoppable Juggernaut
-Ichorplate Golem
-Maze Skullbomb
-Mirran Safehouse
-Monument to Perfection
-Myr Convert
-Myr Custodian
-Myr Kinsmith
-Phyrexian Atlas
-Prophetic Prism
-Prosthetic Injector
-Ribskiff
-Soulless Jailer
-Staff of Compleation
-Surgical Skullbomb
-Sword of Forge and Frontier
-Tablet of Compleation
-Zenith Chronicler
-The Autonomous Furnace
-Blackcleave Cliffs
-Copperline Gorge
-Darkslick Shores
-The Dross Pits
-The Fair Basilica
-The Hunter Maze
-Mirrex
-The Monumental Facade
-The Mycosynth Gardens
-Razorverge Thicket
-Seachrome Coast
-The Seedcore
-The Surgical Bay
-Terramorphic Expanse
-Mite Overseer
-Serum Sovereign
-Kinzu of the Bleak Coven
-Rhuk, Hexgold Nabber
-Goliath Hatchery
+Invasion of Ravnica
+Guildpact Paragon
+Aerial Boost
+Alabaster Host Intercessor
+Alabaster Host Sanctifier
+Angelic Intervention
+Archangel Elspeth
+Attentive Skywarden
+Bola Slinger
+Boon-Bringer Valkyrie
+Cut Short
+Dusk Legion Duelist
+Elesh Norn
+The Argent Etchings
+Elspeth's Smite
+Enduring Bondwarden
+Golden-Scale Aeronaut
+Guardian of Ghirapur
+Heliod, the Radiant Dawn
+Heliod, the Warped Eclipse
+Infected Defector
+Inspired Charge
+Invasion of Belenon
+Belenon War Anthem
+Invasion of Dominaria
+Serra Faithkeeper
+Invasion of Gobakhan
+Lightshield Array
+Invasion of Theros
+Ephara, Ever-Sheltering
+Kithkin Billyrider
+Knight of the New Coalition
+Knight-Errant of Eos
+Kor Halberd
+Monastery Mentor
+Norn's Inquisitor
+Phyrexian Awakening
+Phyrexian Censor
+Progenitor Exarch
+Realmbreaker's Grasp
+Scrollshift
+Seal from Existence
+Seraph of New Capenna
+Seraph of New Phyrexia
+Sigiled Sentinel
+Sun-Blessed Guardian
+Furnace-Blessed Conqueror
+Sunder the Gateway
+Sunfall
+Surge of Salvation
+Swordsworn Cavalier
+Tarkir Duneshaper
+Burnished Dunestomper
+Tiller of Flesh
+Zhalfirin Lancer
+Artistic Refusal
+Assimilate Essence
+Astral Wingspan
+Captive Weird
+Compleated Conjurer
+Change the Equation
+Chrome Host Seedshark
+Complete the Circuit
+Corruption of Towashi
+Disturbing Conversion
+Ephara's Dispersal
+Expedition Lookout
+Eyes of Gitaxias
+Faerie Mastermind
+Furtive Analyst
+Halo-Charged Skaab
+Invasion of Arcavios
+Invocation of the Founders
+Invasion of Kamigawa
+Rooftop Saboteurs
+Invasion of Segovia
+Caetus, Sea Tyrant of Segovia
+Invasion of Vryn
+Overloaded Mage-Ring
+Jin-Gitaxias
+The Great Synthesis
+Meeting of Minds
+Moment of Truth
+Oculus Whelp
+Omen Hawker
+Oracle of Tragedy
+Order of the Mirror
+Order of the Alabaster Host
+Preening Champion
+Protocol Knight
+Rona, Herald of Invasion
+Rona, Tolarian Obliterator
+Saiba Cryptomancer
+See Double
+Skyclave Aerialist
+Skyclave Invader
+Stasis Field
+Temporal Cleansing
+Thunderhead Squadron
+Tidal Terror
+Transcendent Message
+Wicked Slumber
+Xerex Strobe-Knight
+Zephyr Singer
+Zhalfirin Shapecraft
+Aetherblade Agent
+Gitaxian Mindstinger
+Archpriest of Shadows
+Ayara, Widow of the Realm
+Ayara, Furnace Queen
+Bladed Battle-Fan
+Blightreaper Thallid
+Blightsower Thallid
+Bloated Processor
+Breach the Multiverse
+Collective Nightmare
+Compleated Huntmaster
+Consuming Aetherborn
+Corrupted Conviction
+Deadly Derision
+Dreg Recycler
+Etched Familiar
+Etched Host Doombringer
+Failed Conversion
+Final Flourish
+Flitting Guerrilla
+Gift of Compleation
+Glistening Deluge
+Gloomfang Mauler
+Grafted Butcher
+Hoarding Broodlord
+Ichor Drinker
+Ichor Shade
+Invasion of Eldraine
+Prickle Faeries
+Invasion of Fiora
+Marchesa, Resolute Monarch
+Invasion of Innistrad
+Deluge of the Dead
+Invasion of Ulgrotha
+Grandmother Ravi Sengir
+Merciless Repurposing
+Mirrodin Avenged
+Nezumi Freewheeler
+Hideous Fleshwheeler
+Nezumi Informant
+Phyrexian Gargantua
+Pile On
+Render Inert
+Scorn-Blade Berserker
+Sheoldred
+The True Scriptures
+Tenured Oilcaster
+Traumatic Revelation
+Unseal the Necropolis
+Vanquish the Weak
+Akki Scrapchomper
+Beamtown Beatstick
+Bloodfeather Phoenix
+Burning Sun's Fury
+Chandra, Hope's Beacon
+City on Fire
+Coming In Hot
+Etali, Primal Conqueror
+Etali, Primal Sickness
+Fearless Skald
+Furnace Gremlin
+Furnace Host Charger
+Furnace Reins
+Hangar Scrounger
+Harried Artisan
+Phyrexian Skyflayer
+Into the Fire
+Invasion of Kaldheim
+Pyre of the World Tree
+Invasion of Karsus
+Refraction Elemental
+Invasion of Mercadia
+Kyren Flamewright
+Invasion of Regatha
+Disciples of the Inferno
+Invasion of Tarkir
+Defiant Thundermaw
+Karsus Depthguard
+Khenra Spellspear
+Gitaxian Spellstalker
+Lithomantic Barrage
+Marauding Dreadship
+Mirran Banesplitter
+Nahiri's Warcrafting
+Onakke Javelineer
+Pyretic Prankster
+Glistening Goremonger
+Ral's Reinforcements
+Ramosian Greatsword
+Rampaging Raptor
+Redcap Heelslasher
+Scrappy Bruiser
+Searing Barb
+Shatter the Source
+Shivan Branch-Burner
+Stoke the Flames
+Thrashing Frontliner
+Trailblazing Historian
+Urabrask
+The Great Work
+Volcanic Spite
+Voldaren Thrillseeker
+War-Trained Slasher
+Wrenn's Resolve
+Ancient Imperiosaur
+Arachnoid Adaptation
+Atraxa's Fall
+Blighted Burgeoning
+Bonded Herdbeast
+Plated Kilnbeast
+Chomping Kavu
+Converter Beast
+Copper Host Crusher
+Cosmic Hunger
+Crystal Carapace
+Deeproot Wayfinder
+Doomskar Warrior
+Fertilid's Favor
+Glistening Dawn
+Gnottvold Hermit
+Chrome Host Hulk
+Herbology Instructor
+Malady Invoker
+Invasion of Ikoria
+Zilortha, Apex of Ikoria
+Invasion of Ixalan
+Belligerent Regisaur
+Invasion of Muraganda
+Primordial Plasm
+Invasion of Shandalar
+Leyline Surge
+Invasion of Zendikar
+Awakened Skyclave
+Iridescent Blademaster
+Kami of Whispered Hopes
+Overgrown Pest
+Ozolith, the Shattered Spire
+Placid Rottentail
+Polukranos Reborn
+Polukranos, Engine of Ruin
+Portent Tracker
+Ravenous Sailback
+Sandstalker Moloch
+Seed of Hope
+Serpent-Blade Assailant
+Storm the Seedcore
+Streetwise Negotiator
+Tandem Takedown
+Tangled Skyline
+Timberland Ancient
+Tribute to the World Tree
+Vengeant Earth
+Vorinclex
+The Grand Evolution
+War Historian
+Wary Thespian
+Wildwood Escort
+Wrenn and Realmbreaker
+Baral and Kari Zev
+Borborygmos and Fblthp
+Botanical Brawler
+Djeru and Hazoret
+Drana and Linvala
+Elvish Vatkeeper
+Errant and Giada
+Ghalta and Mavren
+Glissa, Herald of Predation
+Halo Forager
+Hidetsugu and Kairi
+Inga and Esika
+Invasion of Alara
+Awaken the Maelstrom
+Invasion of Amonkhet
+Lazotep Convert
+Invasion of Azgol
+Ashen Reaper
+Invasion of Ergamon
+Truga Cliffcharger
+Invasion of Kaladesh
+Aetherwing, Golden-Scale Flagship
+Invasion of Kylem
+Valor's Reach Tag Team
+Invasion of Lorwyn
+Winnowing Forces
+Invasion of Moag
+Bloomwielder Dryads
+Invasion of New Capenna
+Holy Frazzle-Cannon
+Invasion of New Phyrexia
+Teferi Akosa of Zhalfir
+Invasion of Pyrulea
+Gargantuan Slabhorn
+Invasion of Tolvada
+The Broken Sky
+Invasion of Xerex
+Vertex Paladin
+Joyful Stormsculptor
+Kogla and Yidaro
+Kroxa and Kunoros
+Marshal of Zhalfir
+Mirror-Shield Hoplite
+Mutagen Connoisseur
+Omnath, Locus of All
+Quintorius, Loremaster
+Rampaging Geoderm
+Rankle and Torbran
+Sculpted Perfection
+Stormclaw Rager
+Thalia and The Gitrog Monster
+Yargle and Multani
+Zimone and Dina
+Zurgo and Ojutai
+Flywheel Racer
+Halo Hopper
+Kitesail
+Phyrexian Archivist
+Realmbreaker, the Invasion Tree
+Skittering Surveyor
+Sword of Once and Future
+Urn of Godfire
+Bloodfell Caves
+Blossoming Sands
+Dismal Backwater
+Jungle Hollow
+Rugged Highlands
+Scoured Barrens
+Swiftwater Cliffs
+Thornwood Falls
+Tranquil Cove
+Wind-Scarred Crag
+Essence of Orthodoxy
+Phyrexian Pegasus
+Seedpod Caretaker
+Interdisciplinary Mascot
+Referee Squad
+Zephyr Winder
+Injector Crocodile
+Seer of Stolen Sight
+Terror of Towashi
+Axgard Artisan
+Cragsmasher Yeti
+Orthion, Hero of Lavabrink
+Fairgrounds Trumpeter
+Ruins Recluse
+Surrak and Goreclaw
