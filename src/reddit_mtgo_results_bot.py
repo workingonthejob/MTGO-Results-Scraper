@@ -17,7 +17,7 @@ SUBREDDIT = 'PioneerMTG'
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Archives data to local storage."
 MARKDOWN_HEADER = (f'Here are the screenshots for the deck lists. '
-                   f'Highlighted are ONE cards.\n\n'
+                   f'Highlighted are MOM cards.\n\n'
                    '[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
 MARKDOWN_PLAYER = ('* [{archetype}]'
                    '({imgur_link}): '
