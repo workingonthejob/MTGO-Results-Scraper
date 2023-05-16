@@ -183,6 +183,9 @@ class Database():
     def is_result_link_in_imgur_table(self, value):
         return self.column_contains(self.imgur_table, "result_url", value)
 
+    def is_result_link_wizards_table(self, value):
+        return self.column_contains(self.wizards_table, "url", value)
+
     def total_decks_match_for_link(self, link):
         wizards = self.wizards_get_total_decklist_for_link(link)
         imgur = self.imgur_get_total_decklist_for_link(link)
