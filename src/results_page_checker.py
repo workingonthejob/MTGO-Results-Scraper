@@ -93,8 +93,14 @@ class Checker():
         """
         Take screenshots of the decklists for the given url.
         """
-        in_db = self.db.is_result_link_in_imgur_table(url)
-        if not in_db:
+        in_imgur_table = self.db.is_result_link_in_imgur_table(url)
+        in_wizards_table = self.db.is_result_link_wizards_table(url)
+
+        # Make sure the url is not in both tables
+        # Imgur could have problems with uploads and meaning and if
+        # the check in the wizards table is not done it will keep taking
+        # screenshots and adding an entry into the table.
+        if not in_imgur_table and not in_wizards_table:
             try:
                 self.mtgo_scraper = MTGOResultsScraper(url,
                                                        OUTPUT_DIRECTORY,
