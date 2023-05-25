@@ -299,8 +299,8 @@ class Imgur():
         if r.status_code == 401:
             log.debug("access_token was invalid. Updating it.")
             self.refresh()
-        else:
-            log.debug("access_token is still valid.")
+        elif r.status_code != 200:
+            r.raise_for_status()
 
     def get_credits(self):
         url = "/".join([self.API_URL, "3", "credits"])
