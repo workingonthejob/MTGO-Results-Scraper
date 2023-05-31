@@ -31,9 +31,11 @@ EVENTS = ['league', 'challenge', 'super qualifier', 'showcase challenge']
 
 PIONEER_LEAGUE = 'pioneer league'
 PIONEER_CHALLENGE = 'pioneer challenge'
+PIONEER_QUALIFIER = 'pioneer qualifier'
 PIONEER_SUPER_QUALIFIER = 'pioneer super qualifier'
 PIONEER_SHOWCASE_CHALLENGE = 'pioneer showcase challenge'
 LINKS = [PIONEER_LEAGUE,
+         PIONEER_QUALIFIER,
          PIONEER_CHALLENGE,
          PIONEER_SUPER_QUALIFIER,
          PIONEER_SHOWCASE_CHALLENGE]
