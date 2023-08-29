@@ -1,351 +1,326 @@
-Invasion of Ravnica
-Guildpact Paragon
-Aerial Boost
-Alabaster Host Intercessor
-Alabaster Host Sanctifier
-Angelic Intervention
-Archangel Elspeth
-Attentive Skywarden
-Bola Slinger
-Boon-Bringer Valkyrie
-Cut Short
-Dusk Legion Duelist
-Elesh Norn
-The Argent Etchings
-Elspeth's Smite
-Enduring Bondwarden
-Golden-Scale Aeronaut
-Guardian of Ghirapur
-Heliod, the Radiant Dawn
-Heliod, the Warped Eclipse
-Infected Defector
-Inspired Charge
-Invasion of Belenon
-Belenon War Anthem
-Invasion of Dominaria
-Serra Faithkeeper
-Invasion of Gobakhan
-Lightshield Array
-Invasion of Theros
-Ephara, Ever-Sheltering
-Kithkin Billyrider
-Knight of the New Coalition
-Knight-Errant of Eos
-Kor Halberd
-Monastery Mentor
-Norn's Inquisitor
-Phyrexian Awakening
-Phyrexian Censor
-Progenitor Exarch
-Realmbreaker's Grasp
-Scrollshift
-Seal from Existence
-Seraph of New Capenna
-Seraph of New Phyrexia
-Sigiled Sentinel
-Sun-Blessed Guardian
-Furnace-Blessed Conqueror
-Sunder the Gateway
-Sunfall
-Surge of Salvation
-Swordsworn Cavalier
-Tarkir Duneshaper
-Burnished Dunestomper
-Tiller of Flesh
-Zhalfirin Lancer
-Artistic Refusal
-Assimilate Essence
-Astral Wingspan
-Captive Weird
-Compleated Conjurer
-Change the Equation
-Chrome Host Seedshark
-Complete the Circuit
-Corruption of Towashi
-Disturbing Conversion
-Ephara's Dispersal
-Expedition Lookout
-Eyes of Gitaxias
-Faerie Mastermind
-Furtive Analyst
-Halo-Charged Skaab
-Invasion of Arcavios
-Invocation of the Founders
-Invasion of Kamigawa
-Rooftop Saboteurs
-Invasion of Segovia
-Caetus, Sea Tyrant of Segovia
-Invasion of Vryn
-Overloaded Mage-Ring
-Jin-Gitaxias
-The Great Synthesis
-Meeting of Minds
-Moment of Truth
-Oculus Whelp
-Omen Hawker
-Oracle of Tragedy
-Order of the Mirror
-Order of the Alabaster Host
-Preening Champion
-Protocol Knight
-Rona, Herald of Invasion
-Rona, Tolarian Obliterator
-Saiba Cryptomancer
-See Double
-Skyclave Aerialist
-Skyclave Invader
-Stasis Field
-Temporal Cleansing
-Thunderhead Squadron
-Tidal Terror
-Transcendent Message
-Wicked Slumber
-Xerex Strobe-Knight
-Zephyr Singer
-Zhalfirin Shapecraft
-Aetherblade Agent
-Gitaxian Mindstinger
-Archpriest of Shadows
-Ayara, Widow of the Realm
-Ayara, Furnace Queen
-Bladed Battle-Fan
-Blightreaper Thallid
-Blightsower Thallid
-Bloated Processor
-Breach the Multiverse
-Collective Nightmare
-Compleated Huntmaster
-Consuming Aetherborn
-Corrupted Conviction
-Deadly Derision
-Dreg Recycler
-Etched Familiar
-Etched Host Doombringer
-Failed Conversion
-Final Flourish
-Flitting Guerrilla
-Gift of Compleation
-Glistening Deluge
-Gloomfang Mauler
-Grafted Butcher
-Hoarding Broodlord
-Ichor Drinker
-Ichor Shade
-Invasion of Eldraine
-Prickle Faeries
-Invasion of Fiora
-Marchesa, Resolute Monarch
-Invasion of Innistrad
-Deluge of the Dead
-Invasion of Ulgrotha
-Grandmother Ravi Sengir
-Merciless Repurposing
-Mirrodin Avenged
-Nezumi Freewheeler
-Hideous Fleshwheeler
-Nezumi Informant
-Phyrexian Gargantua
-Pile On
-Render Inert
-Scorn-Blade Berserker
-Sheoldred
-The True Scriptures
-Tenured Oilcaster
-Traumatic Revelation
-Unseal the Necropolis
-Vanquish the Weak
-Akki Scrapchomper
-Beamtown Beatstick
-Bloodfeather Phoenix
-Burning Sun's Fury
-Chandra, Hope's Beacon
-City on Fire
-Coming In Hot
-Etali, Primal Conqueror
-Etali, Primal Sickness
-Fearless Skald
-Furnace Gremlin
-Furnace Host Charger
-Furnace Reins
-Hangar Scrounger
-Harried Artisan
-Phyrexian Skyflayer
-Into the Fire
-Invasion of Kaldheim
-Pyre of the World Tree
-Invasion of Karsus
-Refraction Elemental
-Invasion of Mercadia
-Kyren Flamewright
-Invasion of Regatha
-Disciples of the Inferno
-Invasion of Tarkir
-Defiant Thundermaw
-Karsus Depthguard
-Khenra Spellspear
-Gitaxian Spellstalker
-Lithomantic Barrage
-Marauding Dreadship
-Mirran Banesplitter
-Nahiri's Warcrafting
-Onakke Javelineer
-Pyretic Prankster
-Glistening Goremonger
-Ral's Reinforcements
-Ramosian Greatsword
-Rampaging Raptor
-Redcap Heelslasher
-Scrappy Bruiser
-Searing Barb
-Shatter the Source
-Shivan Branch-Burner
-Stoke the Flames
-Thrashing Frontliner
-Trailblazing Historian
-Urabrask
-The Great Work
-Volcanic Spite
-Voldaren Thrillseeker
-War-Trained Slasher
-Wrenn's Resolve
-Ancient Imperiosaur
-Arachnoid Adaptation
-Atraxa's Fall
-Blighted Burgeoning
-Bonded Herdbeast
-Plated Kilnbeast
-Chomping Kavu
-Converter Beast
-Copper Host Crusher
-Cosmic Hunger
-Crystal Carapace
-Deeproot Wayfinder
-Doomskar Warrior
-Fertilid's Favor
-Glistening Dawn
-Gnottvold Hermit
-Chrome Host Hulk
-Herbology Instructor
-Malady Invoker
-Invasion of Ikoria
-Zilortha, Apex of Ikoria
-Invasion of Ixalan
-Belligerent Regisaur
-Invasion of Muraganda
-Primordial Plasm
-Invasion of Shandalar
-Leyline Surge
-Invasion of Zendikar
-Awakened Skyclave
-Iridescent Blademaster
-Kami of Whispered Hopes
-Overgrown Pest
-Ozolith, the Shattered Spire
-Placid Rottentail
-Polukranos Reborn
-Polukranos, Engine of Ruin
-Portent Tracker
-Ravenous Sailback
-Sandstalker Moloch
-Seed of Hope
-Serpent-Blade Assailant
-Storm the Seedcore
-Streetwise Negotiator
-Tandem Takedown
-Tangled Skyline
-Timberland Ancient
-Tribute to the World Tree
-Vengeant Earth
-Vorinclex
-The Grand Evolution
-War Historian
-Wary Thespian
-Wildwood Escort
-Wrenn and Realmbreaker
-Baral and Kari Zev
-Borborygmos and Fblthp
-Botanical Brawler
-Djeru and Hazoret
-Drana and Linvala
-Elvish Vatkeeper
-Errant and Giada
-Ghalta and Mavren
-Glissa, Herald of Predation
-Halo Forager
-Hidetsugu and Kairi
-Inga and Esika
-Invasion of Alara
-Awaken the Maelstrom
-Invasion of Amonkhet
-Lazotep Convert
-Invasion of Azgol
-Ashen Reaper
-Invasion of Ergamon
-Truga Cliffcharger
-Invasion of Kaladesh
-Aetherwing, Golden-Scale Flagship
-Invasion of Kylem
-Valor's Reach Tag Team
-Invasion of Lorwyn
-Winnowing Forces
-Invasion of Moag
-Bloomwielder Dryads
-Invasion of New Capenna
-Holy Frazzle-Cannon
-Invasion of New Phyrexia
-Teferi Akosa of Zhalfir
-Invasion of Pyrulea
-Gargantuan Slabhorn
-Invasion of Tolvada
-The Broken Sky
-Invasion of Xerex
-Vertex Paladin
-Joyful Stormsculptor
-Kogla and Yidaro
-Kroxa and Kunoros
-Marshal of Zhalfir
-Mirror-Shield Hoplite
-Mutagen Connoisseur
-Omnath, Locus of All
-Quintorius, Loremaster
-Rampaging Geoderm
-Rankle and Torbran
-Sculpted Perfection
-Stormclaw Rager
-Thalia and The Gitrog Monster
-Yargle and Multani
-Zimone and Dina
-Zurgo and Ojutai
-Flywheel Racer
-Halo Hopper
-Kitesail
-Phyrexian Archivist
-Realmbreaker, the Invasion Tree
-Skittering Surveyor
-Sword of Once and Future
-Urn of Godfire
-Bloodfell Caves
-Blossoming Sands
-Dismal Backwater
-Jungle Hollow
-Rugged Highlands
-Scoured Barrens
-Swiftwater Cliffs
-Thornwood Falls
-Tranquil Cove
-Wind-Scarred Crag
-Essence of Orthodoxy
-Phyrexian Pegasus
-Seedpod Caretaker
-Interdisciplinary Mascot
-Referee Squad
-Zephyr Winder
-Injector Crocodile
-Seer of Stolen Sight
-Terror of Towashi
-Axgard Artisan
-Cragsmasher Yeti
-Orthion, Hero of Lavabrink
-Fairgrounds Trumpeter
-Ruins Recluse
-Surrak and Goreclaw
+Archon of the Wild Rose
+Archon's Glory
+Armory Mice
+Besotted Knight
+Betroth the Beast
+Break the Spell
+Charmed Clothier
+Cheeky House-Mouse
+Squeak By
+Cooped Up
+Cursed Courtier
+Discerning Financier
+Dutiful Griffin
+Eerie Interference
+Expel the Interlopers
+Frostbridge Guard
+Gallant Pie-Wielder
+Glass Casket
+Hopeful Vigil
+Kellan's Lightblades
+Knight of Doves
+Moment of Valor
+Moonshaker Cavalry
+Plunge into Winter
+The Princess Takes Flight
+Protective Parents
+Regal Bunnicorn
+Return Triumphant
+Rimefur Reindeer
+Savior of the Sleeping
+Slumbering Keepguard
+Solitary Sanctuary
+Spellbook Vendor
+Stockpiling Celebrant
+Stroke of Midnight
+A Tale for the Ages
+Three Blind Mice
+Tuinvale Guide
+Unassuming Sage
+Virtue of Loyalty
+Ardenvale Fealty
+Werefox Bodyguard
+Aquatic Alchemist
+Bubble Up
+Archive Dragon
+Asinine Antics
+Beluna's Gatekeeper
+Entry Denied
+Bitter Chill
+Chancellor of Tales
+Diminisher Witch
+Extraordinary Journey
+Farsight Ritual
+Freeze in Place
+Gadwick's First Duel
+Galvanic Giant
+Storm Reading
+Horned Loch-Whale
+Lagoon Breach
+Ice Out
+Icewrought Sentry
+Ingenious Prodigy
+Into the Fae Court
+Johann's Stopgap
+Living Lectern
+Merfolk Coralsmith
+Misleading Motes
+Mocking Sprite
+Obyra's Attendants
+Desperate Parry
+Picklock Prankster
+Free the Fae
+Quick Study
+Sleep-Cursed Faerie
+Sleight of Hand
+Snaremaster Sprite
+Spell Stutter
+Splashy Spellcaster
+Stormkeld Prowler
+Succumb to the Cold
+Talion's Messenger
+Tenacious Tomeseeker
+Vantress Transmuter
+Croaking Curse
+Virtue of Knowledge
+Vantress Visions
+Water Wings
+Ashiok, Wicked Manipulator
+Ashiok's Reaper
+Back for Seconds
+Barrow Naughty
+Beseech the Mirror
+Candy Grapple
+Conceited Witch
+Price of Beauty
+Dream Spoilers
+Ego Drain
+The End
+Eriette's Whisper
+Faerie Dreamthief
+Faerie Fencing
+Feed the Cauldron
+Fell Horseman
+Deathly Ride
+Gumdrop Poisoner
+Tempt with Treats
+High Fae Negotiator
+Hopeless Nightmare
+Lich-Knights' Conquest
+Lord Skitter, Sewer King
+Lord Skitter's Blessing
+Lord Skitter's Butcher
+Mintstrosity
+Not Dead After All
+Rankle's Prank
+Rat Out
+Rowan's Grim Search
+Scream Puff
+Shatter the Oath
+Specter of Mortality
+Spiteful Hexmage
+Stingblade Assassin
+Sugar Rush
+Sweettooth Witch
+Taken by Nightmares
+Tangled Colony
+Twisted Sewer-Witch
+Virtue of Persistence
+Locthwain Scorn
+Voracious Vermin
+Warehouse Tabby
+Wicked Visitor
+The Witch's Vanity
+Belligerent of the Ball
+Bellowing Bruiser
+Beat a Path
+Bespoke Battlegarb
+Boundary Lands Ranger
+Charming Scoundrel
+Cut In
+Edgewall Pack
+Embereth Veteran
+Flick a Coin
+Food Fight
+Frantic Firebolt
+Gnawing Crescendo
+Goddric, Cloaked Reveler
+Grabby Giant
+That's Mine
+Grand Ball Guest
+Harried Spearguard
+Hearth Elemental
+Stoke Genius
+Imodane, the Pyrohammer
+Kindled Heroism
+Korvold and the Noble Thief
+Merry Bards
+Minecart Daredevil
+Ride the Rails
+Monstrous Rage
+Raging Battle Mouse
+Ratcatcher Trainee
+Pest Problem
+Realm-Scorcher Hellkite
+Redcap Gutter-Dweller
+Redcap Thief
+Rotisserie Elemental
+Skewer Slinger
+Song of Totentanz
+Stonesplitter Bolt
+Tattered Ratter
+Torch the Tower
+Twisted Fealty
+Two-Headed Hunter
+Twice the Rage
+Unruly Catapult
+Virtue of Courage
+Embereth Blaze
+Witch's Mark
+Witchstalker Frenzy
+Agatha's Champion
+Beanstalk Wurm
+Plant Beans
+Bestial Bloodline
+Blossoming Tortoise
+Bramble Familiar
+Fetch Quest
+Brave the Wilds
+Commune with Nature
+Curse of the Werefox
+Elvish Archivist
+Feral Encounter
+Ferocious Werefox
+Guard Change
+Graceful Takedown
+Gruff Triplets
+Hamlet Glutton
+Hollow Scavenger
+Bakery Raid
+Howling Galefang
+The Huntsman's Redemption
+Leaping Ambush
+Night of the Sweets' Revenge
+Redtooth Genealogist
+Redtooth Vanguard
+Return from the Wilds
+Rootrider Faun
+Royal Treatment
+Sentinel of Lost Lore
+Skybeast Tracker
+Spider Food
+Stormkeld Vanguard
+Bear Down
+Tanglespan Lookout
+Territorial Witchstalker
+Thunderous Debut
+Titanic Growth
+Toadstool Admirer
+Tough Cookie
+Troublemaker Ouphe
+Up the Beanstalk
+Verdant Outrider
+Virtue of Strength
+Garenbrig Growth
+Welcome to Sweettooth
+Agatha of the Vile Cauldron
+The Apprentice's Folly
+Ash, Party Crasher
+Eriette of the Charmed Apple
+Faunsbane Troll
+The Goose Mother
+Greta, Sweettooth Scourge
+Hylda of the Icy Crown
+Johann, Apprentice Sorcerer
+Likeness Looter
+Neva, Stalked by Nightmares
+Obyra, Dreaming Duelist
+Rowan, Scion of War
+Ruby, Daring Tracker
+Sharae of Numbing Depths
+Syr Armont, the Redeemer
+Talion, the Kindly Lord
+Totentanz, Swarm Piper
+Troyan, Gutsy Explorer
+Will, Scion of Peace
+Yenna, Redtooth Regent
+Beluna Grandsquall
+Seek Thrills
+Callous Sell-Sword
+Burn Together
+Cruel Somnophage
+Can't Wake Up
+Decadent Dragon
+Expensive Taste
+Devouring Sugarmaw
+Have for Dinner
+Elusive Otter
+Grove's Bounty
+Frolicking Familiar
+Blow Off Steam
+Gingerbread Hunter
+Puny Snack
+Heartflame Duelist
+Heartflame Slash
+Imodane's Recruiter
+Train Troops
+Kellan, the Fae-Blooded
+Birthright Boon
+Mosswood Dreadknight
+Dread Whispers
+Picnic Ruiner
+Stolen Goodies
+Pollen-Shield Hare
+Hare Raising
+Questing Druid
+Seek the Beast
+Scalding Viper
+Steam Clean
+Shrouded Shepherd
+Cleave Shadows
+Spellscorn Coven
+Take It Back
+Tempest Hart
+Scan the Clouds
+Threadbind Clique
+Rip the Seams
+Twining Twins
+Swift Spiral
+Woodland Acolyte
+Mend the Wilds
+Agatha's Soul Cauldron
+Candy Trail
+Collector's Vault
+Eriette's Tempting Apple
+Gingerbrute
+Hylda's Crown of Winter
+The Irencrag
+Prophetic Prism
+Scarecrow Guide
+Soul-Guide Lantern
+Syr Ginger, the Meal Ender
+Three Bowls of Porridge
+Crystal Grotto
+Edgewall Inn
+Evolving Wilds
+Restless Bivouac
+Restless Cottage
+Restless Fortress
+Restless Spire
+Restless Vinestalk
+Food Coma
+Lady of Laughter
+Pests of Honor
+Faerie Slumber Party
+Rowdy Research
+Storyteller Pixie
+Experimental Confectioner
+Malevolent Witchkite
+Old Flitterfang
+Become Brutes
+Charging Hooligan
+Ogre Chitterlord
+Intrepid Trufflesnout
+Go Hog Wild
+Provisions Merchant
+Wildwood Mentor
