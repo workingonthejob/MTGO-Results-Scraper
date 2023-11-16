@@ -1,326 +1,322 @@
-Archon of the Wild Rose
-Archon's Glory
-Armory Mice
-Besotted Knight
-Betroth the Beast
-Break the Spell
-Charmed Clothier
-Cheeky House-Mouse
-Squeak By
-Cooped Up
-Cursed Courtier
-Discerning Financier
-Dutiful Griffin
-Eerie Interference
-Expel the Interlopers
-Frostbridge Guard
-Gallant Pie-Wielder
-Glass Casket
-Hopeful Vigil
-Kellan's Lightblades
-Knight of Doves
-Moment of Valor
-Moonshaker Cavalry
-Plunge into Winter
-The Princess Takes Flight
-Protective Parents
-Regal Bunnicorn
-Return Triumphant
-Rimefur Reindeer
-Savior of the Sleeping
-Slumbering Keepguard
-Solitary Sanctuary
-Spellbook Vendor
-Stockpiling Celebrant
-Stroke of Midnight
-A Tale for the Ages
-Three Blind Mice
-Tuinvale Guide
-Unassuming Sage
-Virtue of Loyalty
-Ardenvale Fealty
-Werefox Bodyguard
-Aquatic Alchemist
-Bubble Up
-Archive Dragon
-Asinine Antics
-Beluna's Gatekeeper
-Entry Denied
-Bitter Chill
-Chancellor of Tales
-Diminisher Witch
-Extraordinary Journey
-Farsight Ritual
-Freeze in Place
-Gadwick's First Duel
-Galvanic Giant
-Storm Reading
-Horned Loch-Whale
-Lagoon Breach
-Ice Out
-Icewrought Sentry
-Ingenious Prodigy
-Into the Fae Court
-Johann's Stopgap
-Living Lectern
-Merfolk Coralsmith
-Misleading Motes
-Mocking Sprite
-Obyra's Attendants
-Desperate Parry
-Picklock Prankster
-Free the Fae
-Quick Study
-Sleep-Cursed Faerie
-Sleight of Hand
-Snaremaster Sprite
-Spell Stutter
-Splashy Spellcaster
-Stormkeld Prowler
-Succumb to the Cold
-Talion's Messenger
-Tenacious Tomeseeker
-Vantress Transmuter
-Croaking Curse
-Virtue of Knowledge
-Vantress Visions
-Water Wings
-Ashiok, Wicked Manipulator
-Ashiok's Reaper
-Back for Seconds
-Barrow Naughty
-Beseech the Mirror
-Candy Grapple
-Conceited Witch
-Price of Beauty
-Dream Spoilers
-Ego Drain
-The End
-Eriette's Whisper
-Faerie Dreamthief
-Faerie Fencing
-Feed the Cauldron
-Fell Horseman
-Deathly Ride
-Gumdrop Poisoner
-Tempt with Treats
-High Fae Negotiator
-Hopeless Nightmare
-Lich-Knights' Conquest
-Lord Skitter, Sewer King
-Lord Skitter's Blessing
-Lord Skitter's Butcher
-Mintstrosity
-Not Dead After All
-Rankle's Prank
-Rat Out
-Rowan's Grim Search
-Scream Puff
-Shatter the Oath
-Specter of Mortality
-Spiteful Hexmage
-Stingblade Assassin
-Sugar Rush
-Sweettooth Witch
-Taken by Nightmares
-Tangled Colony
-Twisted Sewer-Witch
-Virtue of Persistence
-Locthwain Scorn
-Voracious Vermin
-Warehouse Tabby
-Wicked Visitor
-The Witch's Vanity
-Belligerent of the Ball
-Bellowing Bruiser
-Beat a Path
-Bespoke Battlegarb
-Boundary Lands Ranger
-Charming Scoundrel
-Cut In
-Edgewall Pack
-Embereth Veteran
-Flick a Coin
-Food Fight
-Frantic Firebolt
-Gnawing Crescendo
-Goddric, Cloaked Reveler
-Grabby Giant
-That's Mine
-Grand Ball Guest
-Harried Spearguard
-Hearth Elemental
-Stoke Genius
-Imodane, the Pyrohammer
-Kindled Heroism
-Korvold and the Noble Thief
-Merry Bards
-Minecart Daredevil
-Ride the Rails
-Monstrous Rage
-Raging Battle Mouse
-Ratcatcher Trainee
-Pest Problem
-Realm-Scorcher Hellkite
-Redcap Gutter-Dweller
-Redcap Thief
-Rotisserie Elemental
-Skewer Slinger
-Song of Totentanz
-Stonesplitter Bolt
-Tattered Ratter
-Torch the Tower
-Twisted Fealty
-Two-Headed Hunter
-Twice the Rage
-Unruly Catapult
-Virtue of Courage
-Embereth Blaze
-Witch's Mark
-Witchstalker Frenzy
-Agatha's Champion
-Beanstalk Wurm
-Plant Beans
-Bestial Bloodline
-Blossoming Tortoise
-Bramble Familiar
-Fetch Quest
-Brave the Wilds
-Commune with Nature
-Curse of the Werefox
-Elvish Archivist
-Feral Encounter
-Ferocious Werefox
-Guard Change
-Graceful Takedown
-Gruff Triplets
-Hamlet Glutton
-Hollow Scavenger
-Bakery Raid
-Howling Galefang
-The Huntsman's Redemption
-Leaping Ambush
-Night of the Sweets' Revenge
-Redtooth Genealogist
-Redtooth Vanguard
-Return from the Wilds
-Rootrider Faun
-Royal Treatment
-Sentinel of Lost Lore
-Skybeast Tracker
-Spider Food
-Stormkeld Vanguard
-Bear Down
-Tanglespan Lookout
-Territorial Witchstalker
-Thunderous Debut
-Titanic Growth
-Toadstool Admirer
-Tough Cookie
-Troublemaker Ouphe
-Up the Beanstalk
-Verdant Outrider
-Virtue of Strength
-Garenbrig Growth
-Welcome to Sweettooth
-Agatha of the Vile Cauldron
-The Apprentice's Folly
-Ash, Party Crasher
-Eriette of the Charmed Apple
-Faunsbane Troll
-The Goose Mother
-Greta, Sweettooth Scourge
-Hylda of the Icy Crown
-Johann, Apprentice Sorcerer
-Likeness Looter
-Neva, Stalked by Nightmares
-Obyra, Dreaming Duelist
-Rowan, Scion of War
-Ruby, Daring Tracker
-Sharae of Numbing Depths
-Syr Armont, the Redeemer
-Talion, the Kindly Lord
-Totentanz, Swarm Piper
-Troyan, Gutsy Explorer
-Will, Scion of Peace
-Yenna, Redtooth Regent
-Beluna Grandsquall
-Seek Thrills
-Callous Sell-Sword
-Burn Together
-Cruel Somnophage
-Can't Wake Up
-Decadent Dragon
-Expensive Taste
-Devouring Sugarmaw
-Have for Dinner
-Elusive Otter
-Grove's Bounty
-Frolicking Familiar
-Blow Off Steam
-Gingerbread Hunter
-Puny Snack
-Heartflame Duelist
-Heartflame Slash
-Imodane's Recruiter
-Train Troops
-Kellan, the Fae-Blooded
-Birthright Boon
-Mosswood Dreadknight
-Dread Whispers
-Picnic Ruiner
-Stolen Goodies
-Pollen-Shield Hare
-Hare Raising
-Questing Druid
-Seek the Beast
-Scalding Viper
-Steam Clean
-Shrouded Shepherd
-Cleave Shadows
-Spellscorn Coven
-Take It Back
-Tempest Hart
-Scan the Clouds
-Threadbind Clique
-Rip the Seams
-Twining Twins
-Swift Spiral
-Woodland Acolyte
-Mend the Wilds
-Agatha's Soul Cauldron
-Candy Trail
-Collector's Vault
-Eriette's Tempting Apple
-Gingerbrute
-Hylda's Crown of Winter
-The Irencrag
-Prophetic Prism
-Scarecrow Guide
-Soul-Guide Lantern
-Syr Ginger, the Meal Ender
-Three Bowls of Porridge
-Crystal Grotto
-Edgewall Inn
-Evolving Wilds
-Restless Bivouac
-Restless Cottage
-Restless Fortress
-Restless Spire
-Restless Vinestalk
-Food Coma
-Lady of Laughter
-Pests of Honor
-Faerie Slumber Party
-Rowdy Research
-Storyteller Pixie
-Experimental Confectioner
-Malevolent Witchkite
-Old Flitterfang
-Become Brutes
-Charging Hooligan
-Ogre Chitterlord
-Intrepid Trufflesnout
-Go Hog Wild
-Provisions Merchant
-Wildwood Mentor
+Abuelo's Awakening
+Acrobatic Leap
+Adaptive Gemguard
+Attentive Sunscribe
+Bat Colony
+Clay-Fired Bricks
+Cosmium Kiln
+Cosmium Blast
+Dauntless Dismantler
+Deconstruction Hammer
+Dusk Rose Reliquary
+Envoy of Okinec Ahau
+Fabrication Foundry
+Family Reunion
+Get Lost
+Glorifier of Suffering
+Guardian of the Great Door
+Helping Hand
+Ironpaw Aspirant
+Kinjalli's Dawnrunner
+Kutzil's Flanker
+Malamet War Scribe
+Market Gnome
+Might of the Ancestors
+Miner's Guidewing
+Mischievous Pup
+Ojer Taq, Deepest Foundation
+Temple of Civilization
+Oltec Archaeologists
+Oltec Cloud Guard
+Oteclan Landmark
+Oteclan Levitator
+Petrify
+Quicksand Whirlpool
+Resplendent Angel
+Ruin-Lurker Bat
+Sanguine Evangelist
+Soaring Sandwing
+Spring-Loaded Sawblades
+Bladewheel Chariot
+Thousand Moons Crackshot
+Thousand Moons Infantry
+Thousand Moons Smithy
+Barracks of the Thousand
+Tinker's Tote
+Unstable Glyphbridge
+Sandswirl Wanderglyph
+Vanguard of the Rose
+Warden of the Inner Sky
+Akal Pakal, First Among Equals
+Ancestral Reminiscence
+Brackish Blunder
+Braided Net
+Braided Quipu
+Chart a Course
+Cogwork Wrestler
+Confounding Riddle
+Council of Echoes
+Deeproot Pilgrimage
+Didact Echo
+Eaten by Piranhas
+The Enigma Jewel
+Locus of Enlightenment
+The Everflowing Well
+The Myriad Pools
+Frilled Cave-Wurm
+Hermitic Nautilus
+Hurl into History
+Inverted Iceberg
+Iceberg Titan
+Kitesail Larcenist
+Lodestone Needle
+Guidestone Compass
+Malcolm, Alluring Scoundrel
+Marauding Brinefang
+Merfolk Cave-Diver
+Oaken Siren
+Ojer Pakpatiq, Deepest Epoch
+Temple of Cyclical Time
+Orazca Puzzle-Door
+Out of Air
+Pirate Hat
+Relic's Roar
+River Herald Scout
+Sage of Days
+Self-Reflection
+Shipwreck Sentry
+Sinuous Benthisaur
+Song of Stupefaction
+Spyglass Siren
+Staunch Crewmate
+Subterranean Schooner
+Tishana's Tidebinder
+Unlucky Drop
+Waterlogged Hulk
+Watertight Gondola
+Waterwind Scout
+Waylaying Pirates
+Zoetic Glyph
+Abyssal Gorestalker
+Aclazotz, Deepest Betrayal
+Temple of the Dead
+Acolyte of Aclazotz
+Another Chance
+Bitter Triumph
+Bloodletter of Aclazotz
+Bloodthorn Flail
+Bringer of the Last Gift
+Broodrage Mycoid
+Canonized in Blood
+Chupacabra Echo
+Corpses of the Lost
+Dead Weight
+Deathcap Marionette
+Deep Goblin Skulltaker
+Deep-Cavern Bat
+Defossilize
+Echo of Dusk
+Fanatical Offering
+Fungal Fortitude
+Gargantuan Leech
+Grasping Shadows
+Shadows' Lair
+Greedy Freebooter
+Join the Dead
+Malicious Eclipse
+Mephitic Draught
+Preacher of the Schism
+Primordial Gnawer
+Queen's Bay Paladin
+Rampaging Spiketail
+Ray of Ruin
+Screaming Phantom
+Skullcap Snail
+Soulcoil Viper
+Souls of the Lost
+Stalactite Stalker
+Starving Revenant
+Stinging Cave Crawler
+Synapse Necromage
+Tarrian's Journal
+The Tomb of Aclazotz
+Terror Tide
+Tithing Blade
+Consuming Sepulcher
+Visage of Dread
+Dread Osseosaur
+Vito's Inquisitor
+Abrade
+Ancestors' Aid
+Belligerent Yearling
+Bonehoard Dracosaur
+Brass's Tunnel-Grinder
+Tecutlan, the Searing Rift
+Brazen Blademaster
+Breeches, Eager Pillager
+Burning Sun Cavalry
+Calamitous Cave-In
+Child of the Volcano
+Curator of Sun's Creation
+Daring Discovery
+Diamond Pick-Axe
+Dinotomaton
+Dire Flail
+Dire Blunderbuss
+Dowsing Device
+Geode Grotto
+Dreadmaw's Ire
+Enterprising Scallywag
+Etali's Favor
+Geological Appraiser
+Goblin Tomb Raider
+Goldfury Strider
+Hit the Mother Lode
+Hotfoot Gnome
+Idol of the Deep King
+Sovereign's Macuahuitl
+Inti, Seneschal of the Sun
+Magmatic Galleon
+Ojer Axonil, Deepest Might
+Temple of Power
+Panicked Altisaur
+Plundering Pirate
+Poetic Ingenuity
+Rampaging Ceratops
+Rumbling Rockslide
+Saheeli's Lattice
+Mastercraft Raptor
+Scytheclaw Raptor
+Seismic Monstrosaur
+Sunfire Torch
+Sunshot Militia
+Tectonic Hazard
+Triumphant Chomp
+Trumpeting Carnosaur
+Volatile Wanderglyph
+Zoyowa's Justice
+Armored Kincaller
+Basking Capybara
+Bedrock Tortoise
+Cavern Stomper
+Cenote Scout
+Coati Scavenger
+Colossadactyl
+Cosmium Confluence
+Disturbed Slumber
+Earthshaker Dreadmaw
+Explorer's Cache
+Ghalta, Stampede Tyrant
+Glimpse the Core
+Glowcap Lantern
+Growing Rites of Itlimoc
+Itlimoc, Cradle of the Sun
+Huatli, Poet of Unity
+Roar of the Fifth People
+Huatli's Final Strike
+Hulking Raptor
+In the Presence of Ages
+Intrepid Paleontologist
+Ixalli's Lorekeeper
+Jade Seedstones
+Jadeheart Attendant
+Jadelight Spelunker
+Kaslem's Stonetree
+Kaslem's Strider
+Malamet Battle Glyph
+Malamet Brawler
+Malamet Scythe
+Malamet Veteran
+Mineshaft Spider
+Nurturing Bristleback
+Ojer Kaslem, Deepest Growth
+Temple of Cultivation
+Over the Edge
+Pathfinding Axejaw
+Poison Dart Frog
+Pugnacious Hammerskull
+River Herald Guide
+Seeker of Sunlight
+Sentinel of the Nameless City
+The Skullspore Nexus
+Spelunking
+Staggering Size
+Tendril of the Mycotyrant
+Thrashing Brontodon
+Twists and Turns
+Mycoid Maze
+Walk with the Ancestors
+Abuelo, Ancestral Echo
+Akawalli, the Seething Tower
+Amalia Benavides Aguirre
+The Ancient One
+Anim Pakal, Thousandth Moon
+Bartolomé del Presidio
+The Belligerent
+Caparocti Sunborn
+Captain Storm, Cosmium Raider
+Deepfathom Echo
+Gishath, Sun's Avatar
+Itzquinth, Firstborn of Gishath
+Kellan, Daring Traveler
+Journey On
+Kutzil, Malamet Exemplar
+Master's Guide-Mural
+Master's Manufactory
+Molten Collapse
+The Mycotyrant
+Nicanzil, Current Conductor
+Palani's Hatcher
+Quintorius Kand
+Saheeli, the Sun's Brilliance
+Sovereign Okinec Ahau
+Squirming Emergence
+Uchbenbak, the Great Mistake
+Vito, Fanatic of Aclazotz
+Wail of the Forgotten
+Zoyowa Lava-Tongue
+Buried Treasure
+Careening Mine Cart
+Cartographer's Companion
+Chimil, the Inner Sun
+Compass Gnome
+Contested Game Ball
+Digsite Conservator
+Disruptor Wanderglyph
+Hoverstone Pilgrim
+Hunter's Blowgun
+Matzalantli, the Great Door
+The Core
+The Millennium Calendar
+Roaming Throne
+Runaway Boulder
+Scampering Surveyor
+Sorcerous Spyglass
+Sunbird Standard
+Sunbird Effigy
+Swashbuckler's Whip
+Tarrian's Soulcleaver
+Threefold Thunderhulk
+Throne of the Grim Captain
+The Grim Captain
+Treasure Map
+Treasure Cove
+Captivating Cave
+Cavern of Souls
+Cavernous Maw
+Echoing Deeps
+Forgotten Monument
+Hidden Cataract
+Hidden Courtyard
+Hidden Necropolis
+Hidden Nursery
+Hidden Volcano
+Pit of Offerings
+Promising Vein
+Restless Anchorage
+Restless Prairie
+Restless Reef
+Restless Ridgeline
+Restless Vents
+Sunken Citadel
+Volatile Fault
