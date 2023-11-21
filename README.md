@@ -87,3 +87,20 @@ optional arguments:
                         Take screenshots of the decks.
   -u URL, --url URL     The page to start at or create screenshots of.
   ```
+
+
+**Miscellaneous**
+
+If forking/cloning the repo use this to ignore changes to the .ini files so they aren't accidentaly checked in with sensitive information.
+
+to leave the file in the repo but ignore future changes to it:
+
+`git update-index --assume-unchanged <file>`
+
+and to undo this:
+
+`git update-index --no-assume-unchanged <file>`
+
+to find out which files have been set this way:
+
+`git ls-files -v|grep '^h'`

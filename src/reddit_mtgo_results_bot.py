@@ -1,5 +1,6 @@
 import praw
 import re
+import os
 import logging
 from logging.config import fileConfig
 from datetime import datetime
@@ -13,11 +14,25 @@ from zoneinfo import ZoneInfo
 from exceptions import MarkdownCheckErrors
 
 
+def get_set_from_resources():
+    """
+    Since I always forget to change the set code and I always
+    upload the latest .json file of the new set just pull it
+    from that directory and use that to automatically change
+    the set code in the string.
+    """
+    files = os.listdir("../resources")
+    for file in files:
+        if file.endswith('.json'):
+            return file.split('.')[0]
+
+
+CURRENT_SET = get_set_from_resources()
 SUBREDDIT = 'PioneerMTG'
 TIME_ZONE = ZoneInfo('America/Los_Angeles')
 USER_AGENT = "Post Screenshots to the PioneerMTG sub."
 MARKDOWN_HEADER = (f'Here are the screenshots for the deck lists. '
-                   f'Highlighted are LCI cards.\n\n'
+                   f'Highlighted are {CURRENT_SET} cards.\n\n'
                    '[Imgur Album](https://imgur.com/a/{imgur_album_id})\n\n')
 MARKDOWN_PLAYER = ('* [{archetype}]'
                    '({imgur_link}): '
@@ -32,7 +47,7 @@ YESTERDAY = (datetime.now(TIME_ZONE) - timedelta(days=1)).strftime(DATE_FORMAT)
 BASE_URL = 'https://www.mtgo.com/en/mtgo/decklist/'
 
 PIONEER_LEAGUE_LINK = '(' + BASE_URL + fr'pioneer-league-{RE_DATE_PATTERN}{EVENT_ID})'
-PIONEER_CHALLENGE_LINK = '(' + BASE_URL + fr'pioneer-challenge-{RE_DATE_PATTERN}{EVENT_ID})'
+PIONEER_CHALLENGE_LINK = '(' + BASE_URL + fr'pioneer-challenge-\d+-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_SHOWCASE_CHALLENGE = '(' + BASE_URL + fr'pioneer-showcase-challenge-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_SUPER_QUALIFIER = '(' + BASE_URL + fr'pioneer-super-qualifier-{RE_DATE_PATTERN}{EVENT_ID})'
 PIONEER_PREMIER = '(' + BASE_URL + fr'pioneer-premier-{RE_DATE_PATTERN}{EVENT_ID})'
