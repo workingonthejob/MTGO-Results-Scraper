@@ -34,7 +34,7 @@ MTGO_RESULTS_PAGE_DATE_GR_RE = '(\\d{1,2}) (\\w+) (\\d{4})'
 # The Chicken Cow (32nd Place)
 # Tree_for_all (31st Place)
 # UnstableVuDoo (5-0)
-WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\s(?i)Place\)))$'
+WIZARDS_NAME_PATTERN = r'^(.*)(((\s\(\d{0,}\-\d{0,}\)))|(\s\(.*\sPlace\)))$'
 
 
 class MTGOResultsScraper():
@@ -114,7 +114,7 @@ class MTGOResultsScraper():
                              "Sideboard": sideboard,
                              "Player": None}
                 raw_name = deck.find_element(by=By.XPATH, value=self.x_player).text
-                player = re.search(WIZARDS_NAME_PATTERN, raw_name).group(1)
+                player = re.search(WIZARDS_NAME_PATTERN, raw_name, flags=re.I).group(1)
                 container["Player"] = player
                 main_card_names = deck.find_elements(by=By.XPATH, value=self.x_main_card_names)
                 main_card_counts = [re.search(r'^\w{1,}', card.text) for card in main_card_names]

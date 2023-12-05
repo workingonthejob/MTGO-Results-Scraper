@@ -56,7 +56,7 @@ class Checker():
         self.headers = {'User-Agent':
                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                         'AppleWebKit/537.36 (KHTML, like Gecko) '
-                        'Chrome/102.0.0.0 Safari/537.36',
+                        'Chrome/116.0.0.0 Safari/537.36',
                         'accept': 'application/json'}
         self.db = Database('scraper')
 
@@ -143,7 +143,7 @@ class Checker():
                 except Exception:
                     log.warn(f'Adding {screenshot_file} '
                              f'to the retry queue!')
-                    self.db.add_image_to_queue(screenshot_file, album_id, url)
+                    self.db.add_image_to_queue(player, screenshot_file, album_id, url)
 
     def process_retry_queue(self):
         log.info('Processing retry queue...')
