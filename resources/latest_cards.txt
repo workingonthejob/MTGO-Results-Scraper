@@ -32,7 +32,6 @@ Oteclan Landmark
 Oteclan Levitator
 Petrify
 Quicksand Whirlpool
-Resplendent Angel
 Ruin-Lurker Bat
 Sanguine Evangelist
 Soaring Sandwing
@@ -52,7 +51,6 @@ Ancestral Reminiscence
 Brackish Blunder
 Braided Net
 Braided Quipu
-Chart a Course
 Cogwork Wrestler
 Confounding Riddle
 Council of Echoes
@@ -110,7 +108,6 @@ Broodrage Mycoid
 Canonized in Blood
 Chupacabra Echo
 Corpses of the Lost
-Dead Weight
 Deathcap Marionette
 Deep Goblin Skulltaker
 Deep-Cavern Bat
@@ -182,7 +179,6 @@ Panicked Altisaur
 Plundering Pirate
 Poetic Ingenuity
 Rampaging Ceratops
-Rumbling Rockslide
 Saheeli's Lattice
 Mastercraft Raptor
 Scytheclaw Raptor
@@ -208,7 +204,6 @@ Explorer's Cache
 Ghalta, Stampede Tyrant
 Glimpse the Core
 Glowcap Lantern
-Growing Rites of Itlimoc
 Itlimoc, Cradle of the Sun
 Huatli, Poet of Unity
 Roar of the Fifth People
@@ -241,7 +236,6 @@ The Skullspore Nexus
 Spelunking
 Staggering Size
 Tendril of the Mycotyrant
-Thrashing Brontodon
 Twists and Turns
 Mycoid Maze
 Walk with the Ancestors
@@ -255,7 +249,6 @@ The Belligerent
 Caparocti Sunborn
 Captain Storm, Cosmium Raider
 Deepfathom Echo
-Gishath, Sun's Avatar
 Itzquinth, Firstborn of Gishath
 Kellan, Daring Traveler
 Journey On
@@ -290,7 +283,6 @@ The Millennium Calendar
 Roaming Throne
 Runaway Boulder
 Scampering Surveyor
-Sorcerous Spyglass
 Sunbird Standard
 Sunbird Effigy
 Swashbuckler's Whip
@@ -298,7 +290,6 @@ Tarrian's Soulcleaver
 Threefold Thunderhulk
 Throne of the Grim Captain
 The Grim Captain
-Treasure Map
 Treasure Cove
 Captivating Cave
 Cavern of Souls
